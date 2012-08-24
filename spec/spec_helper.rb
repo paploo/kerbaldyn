@@ -1,3 +1,4 @@
 require 'rubygems'
 require 'bundler/setup'
-Bundle.load(:test)
+Bundler.require(:test)
+require 'kerbaldyn'
