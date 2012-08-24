@@ -1,0 +1,3 @@
+A library for Kerbal Space Program (KSP) calculation and simulation tools.
+
+All units are mks SI.

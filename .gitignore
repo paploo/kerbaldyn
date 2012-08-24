@@ -1,0 +1,8 @@
+.rbenv-version
+
+Gemfile.lock
+*.gem
+
+.DS_Store
+*.swp
+*.swo
