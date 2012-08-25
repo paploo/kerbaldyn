@@ -156,6 +156,42 @@ describe KerbalDyn::Planetoid do
         end
       end
 
+      describe 'Kerbin' do
+
+        {
+          :radius => 600e3,
+          :mass => 5.29e22,
+          :density => 58467,
+          :surface_gravity => 9.8068,
+          :gravitational_parameter => 3530.461e9,
+          :escape_velocity => 3430.45,
+          :rotational_period => 6.0 * 3600.0,
+          :geostationary_orbit_altitude => 2868.4e3,
+          :geostationary_orbit_velocity => 1008.9
+        }.each do |param, value|
+          it "should have a #{param} of #{value}" do
+            KerbalDyn::Planetoid::KERBIN.send(param).should be_within_three_sigma_of(value)
+          end
+        end
+
+      end
+
+      describe 'Kerbol' do
+
+        {
+          :radius => 65400e3,
+          :mass => 1.75e28,
+          :surface_gravity => 273.06,
+          :gravitational_parameter => 1.167922e18,
+          :escape_velocity => 188.9e3
+        }.each do |param, value|
+          it "should have a #{param} of #{value}" do
+            KerbalDyn::Planetoid::KERBOL.send(param).should be_within_three_sigma_of(value)
+          end
+        end
+
+      end
+
     end
 
   end

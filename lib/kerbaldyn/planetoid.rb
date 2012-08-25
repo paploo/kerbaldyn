@@ -5,6 +5,14 @@ module KerbalDyn
   # characteristics around the planetoid.
   class Planetoid
 
+    def self.kerbin
+      return @kerbin ||= self.new('Kerbin', 5.29e22, 600e3, :rotational_period => 6.0*3600.0)
+    end
+
+    def self.kerbol
+      return @kerbol ||= self.new('Kerbol', 1.75e28, 65400e3)
+    end
+
     # Metaprogramming method for setting physical parameters, which are
     # always of float type.
     def self.attr_param(*params)
@@ -182,6 +190,10 @@ module KerbalDyn
     alias_method :g, :surface_gravity
     alias_method :rho, :density
     alias_method :mu, :gravitational_parameter
+
+
+    KERBIN = self.kerbin
+    KERBOL = self.kerbol
 
   end
 end
