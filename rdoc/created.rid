@@ -1,3 +1,7 @@
-Fri, 24 Aug 2012 16:09:39 -0700
+Fri, 24 Aug 2012 20:52:33 -0700
 README.rdoc	Fri, 24 Aug 2012 15:20:01 -0700
 LICENSE.txt	Fri, 24 Aug 2012 15:20:01 -0700
+lib/kerbaldyn/constants.rb	Fri, 24 Aug 2012 15:31:09 -0700
+lib/kerbaldyn/planetoid.rb	Fri, 24 Aug 2012 20:49:19 -0700
+lib/kerbaldyn/version.rb	Fri, 24 Aug 2012 15:20:01 -0700
+lib/kerbaldyn.rb	Fri, 24 Aug 2012 15:38:48 -0700

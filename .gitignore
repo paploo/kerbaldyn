@@ -2,6 +2,7 @@
 
 Gemfile.lock
 *.gem
+rdoc
 
 .DS_Store
 *.swp
