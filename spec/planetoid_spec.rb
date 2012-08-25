@@ -158,6 +158,33 @@ describe KerbalDyn::Planetoid do
 
       describe 'Kerbin' do
 
+        before(:all) do
+          @planet_const = KerbalDyn::Planetoid::KERBIN
+          @planet_fact  = KerbalDyn::Planetoid.kerbin
+          @expected_name = 'Kerbin'
+        end
+
+        it 'should be available via constant' do
+          @planet_const.should be_kind_of(KerbalDyn::Planetoid)
+          @planet_const.name.should == @expected_name
+        end
+
+        it 'should be available via a factory method' do
+          @planet_fact.should be_kind_of(KerbalDyn::Planetoid)
+          @planet_fact.name.should == @expected_name
+        end
+
+        it 'should be a memoized' do
+          # We fetch the constant and the factory method value twice, to be sure they are all the same.
+          unique_ids = [@planet_const, @planet_fact, @planet_fact].map {|obj| obj.object_id}.uniq
+          unique_ids.length.should == 1
+        end
+
+        it 'should be frozen' do
+          @planet_fact.should be_frozen
+          @planet_const.should be_frozen
+        end
+
         {
           :radius => 600e3,
           :mass => 5.29e22,
@@ -178,6 +205,33 @@ describe KerbalDyn::Planetoid do
 
       describe 'Kerbol' do
 
+        before(:all) do
+          @planet_const = KerbalDyn::Planetoid::KERBOL
+          @planet_fact  = KerbalDyn::Planetoid.kerbol
+          @expected_name = 'Kerbol'
+        end
+
+        it 'should be available via constant' do
+          @planet_const.should be_kind_of(KerbalDyn::Planetoid)
+          @planet_const.name.should == @expected_name
+        end
+
+        it 'should be available via a factory method' do
+          @planet_fact.should be_kind_of(KerbalDyn::Planetoid)
+          @planet_fact.name.should == @expected_name
+        end
+
+        it 'should be a memoized' do
+          # We fetch the constant and the factory method value twice, to be sure they are all the same.
+          unique_ids = [@planet_const, @planet_fact, @planet_fact].map {|obj| obj.object_id}.uniq
+          unique_ids.length.should == 1
+        end
+
+        it 'should be frozen' do
+          @planet_fact.should be_frozen
+          @planet_const.should be_frozen
+        end
+
         {
           :radius => 65400e3,
           :mass => 1.75e28,
@@ -193,6 +247,33 @@ describe KerbalDyn::Planetoid do
       end
 
       describe 'Mun' do
+
+        before(:all) do
+          @planet_const = KerbalDyn::Planetoid::MUN
+          @planet_fact  = KerbalDyn::Planetoid.mun
+          @expected_name = 'Mun'
+        end
+
+        it 'should be available via constant' do
+          @planet_const.should be_kind_of(KerbalDyn::Planetoid)
+          @planet_const.name.should == @expected_name
+        end
+
+        it 'should be available via a factory method' do
+          @planet_fact.should be_kind_of(KerbalDyn::Planetoid)
+          @planet_fact.name.should == @expected_name
+        end
+
+        it 'should be a memoized' do
+          # We fetch the constant and the factory method value twice, to be sure they are all the same.
+          unique_ids = [@planet_const, @planet_fact, @planet_fact].map {|obj| obj.object_id}.uniq
+          unique_ids.length.should == 1
+        end
+
+        it 'should be frozen' do
+          @planet_fact.should be_frozen
+          @planet_const.should be_frozen
+        end
 
         {
           :radius => 200e3,
@@ -212,6 +293,33 @@ describe KerbalDyn::Planetoid do
       end
 
       describe 'Minmus' do
+
+        before(:all) do
+          @planet_const = KerbalDyn::Planetoid::MINMUS
+          @planet_fact  = KerbalDyn::Planetoid.minmus
+          @expected_name = 'Minmus'
+        end
+
+        it 'should be available via constant' do
+          @planet_const.should be_kind_of(KerbalDyn::Planetoid)
+          @planet_const.name.should == @expected_name
+        end
+
+        it 'should be available via a factory method' do
+          @planet_fact.should be_kind_of(KerbalDyn::Planetoid)
+          @planet_fact.name.should == @expected_name
+        end
+
+        it 'should be a memoized' do
+          # We fetch the constant and the factory method value twice, to be sure they are all the same.
+          unique_ids = [@planet_const, @planet_fact, @planet_fact].map {|obj| obj.object_id}.uniq
+          unique_ids.length.should == 1
+        end
+
+        it 'should be frozen' do
+          @planet_fact.should be_frozen
+          @planet_const.should be_frozen
+        end
 
         {
           :radius => 60e3,
