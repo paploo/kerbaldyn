@@ -7,4 +7,5 @@ gem 'rdoc'
 
 group :test do
   gem 'rspec'
+  gem 'ruby-debug19', :require => 'ruby-debug'
 end
