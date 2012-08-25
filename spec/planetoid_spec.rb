@@ -211,6 +211,26 @@ describe KerbalDyn::Planetoid do
 
       end
 
+      describe 'Minmus' do
+
+        {
+          :radius => 60e3,
+          :mass => 4.234e19,
+          :density => 46790,
+          :surface_gravity => 0.785,
+          :gravitational_parameter => 2.825505e9,
+          :escape_velocity => 306.89,
+          :rotational_period => 299.272 * 3600.0,
+          :geostationary_orbit_altitude => 4303.59e3,
+          :geostationary_orbit_velocity => 25.4
+        }.each do |param, value|
+          it "should have a #{param} of #{value}" do
+            KerbalDyn::Planetoid::MINMUS.send(param).should be_within_three_sigma_of(value)
+          end
+        end
+
+      end
+
     end
 
   end

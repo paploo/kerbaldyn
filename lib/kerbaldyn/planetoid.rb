@@ -17,6 +17,10 @@ module KerbalDyn
       return @mun ||= self.new('Mun', 9.76e20, 200e3, :rotational_period => 41.0*3600.0).freeze
     end
 
+    def self.minmus
+      return @minmus ||= self.new('Minmus', 4.234e19, 60e3, :rotational_period => 299.272*3600.0).freeze
+    end
+
     # Metaprogramming method for setting physical parameters, which are
     # always of float type.
     def self.attr_param(*params)
@@ -199,6 +203,7 @@ module KerbalDyn
     KERBIN = self.kerbin
     KERBOL = self.kerbol
     MUN = self.mun
+    MINMUS = self.minmus
 
   end
 end
