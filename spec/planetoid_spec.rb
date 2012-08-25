@@ -192,6 +192,25 @@ describe KerbalDyn::Planetoid do
 
       end
 
+      describe 'Mun' do
+
+        {
+          :radius => 200e3,
+          :mass => 9.76e20,
+          :surface_gravity => 1.628,
+          :gravitational_parameter => 65.135e9,
+          :escape_velocity => 806,
+          :rotational_period => 41.0 * 3600.0,
+          #:geostationary_orbit_altitude => 2970876.0, # The wiki seems wrong!
+          #:geostationary_orbit_velocity => 143 # The wiki seems wrong!
+        }.each do |param, value|
+          it "should have a #{param} of #{value}" do
+            KerbalDyn::Planetoid::MUN.send(param).should be_within_three_sigma_of(value)
+          end
+        end
+
+      end
+
     end
 
   end

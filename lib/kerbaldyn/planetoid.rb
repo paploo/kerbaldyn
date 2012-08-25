@@ -6,11 +6,15 @@ module KerbalDyn
   class Planetoid
 
     def self.kerbin
-      return @kerbin ||= self.new('Kerbin', 5.29e22, 600e3, :rotational_period => 6.0*3600.0)
+      return @kerbin ||= self.new('Kerbin', 5.29e22, 600e3, :rotational_period => 6.0*3600.0).freeze
     end
 
     def self.kerbol
-      return @kerbol ||= self.new('Kerbol', 1.75e28, 65400e3)
+      return @kerbol ||= self.new('Kerbol', 1.75e28, 65400e3).freeze
+    end
+
+    def self.mun
+      return @mun ||= self.new('Mun', 9.76e20, 200e3, :rotational_period => 41.0*3600.0).freeze
     end
 
     # Metaprogramming method for setting physical parameters, which are
@@ -194,6 +198,7 @@ module KerbalDyn
 
     KERBIN = self.kerbin
     KERBOL = self.kerbol
+    MUN = self.mun
 
   end
 end
