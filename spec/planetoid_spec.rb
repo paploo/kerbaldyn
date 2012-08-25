@@ -100,6 +100,62 @@ describe KerbalDyn::Planetoid do
         end
       end
 
+
+      describe 'hohmann transfer orbit' do
+
+        before(:each) do
+          @r1 = 6678e3
+          @r2 = 42164e3
+          @h1 = 300e3
+          @h2 = 35786e3
+
+          @burn_params = @planetoid.hohmann_transfer_orbit(@r1, @r2)
+        end
+
+        it 'should calculate burn one from velocity' do
+          @burn_params[:burn_one][:from_velocity].should be_within_two_sigma_of(7.73e3)
+        end
+
+        it 'should calculate burn two from velocity' do
+          @burn_params[:burn_two][:from_velocity].should be_within_two_sigma_of(1.61e3)
+        end
+
+
+        it 'should calculate burn one to velocity' do
+          @burn_params[:burn_one][:to_velocity].should be_within_two_sigma_of(10.15e3)
+        end
+
+        it 'should calculate burn two to velocity' do
+          @burn_params[:burn_two][:to_velocity].should be_within_two_sigma_of(3.07e3)
+        end
+
+
+        it 'should calculate burn one delta velocity' do
+          @burn_params[:burn_one][:delta_velocity].should be_within_two_sigma_of(2.42e3)
+        end
+
+        it 'should calculate burn two delta velocity' do
+          @burn_params[:burn_two][:delta_velocity].should be_within_two_sigma_of(1.46e3)
+        end
+
+
+        it 'should calculate burn one radius' do
+          @burn_params[:burn_one][:radius].should be_within_two_sigma_of(@r1)
+        end
+
+        it 'should calculate burn two radius' do
+          @burn_params[:burn_two][:radius].should be_within_two_sigma_of(@r2)
+        end
+
+        it 'should calculate burn one altitude' do
+          @burn_params[:burn_one][:altitude].should be_within_two_sigma_of(@h1)
+        end
+
+        it 'should calculate burn two altitude' do
+          @burn_params[:burn_two][:altitude].should be_within_two_sigma_of(@h2)
+        end
+      end
+
     end
 
   end
