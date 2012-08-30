@@ -1,8 +1,8 @@
 module KerbalDyn
   class Version
     MAJOR = 0
-    MINOR = 0
-    TINY  = 1
+    MINOR = 1
+    TINY  = 0
 
     def self.to_s
       return [MAJOR, MINOR, TINY].join('.')

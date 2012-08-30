@@ -9,22 +9,8 @@ module KerbalDyn
   #
   # Most interesting parameters are included through the DerivedParameters module.
   class Planetoid
+    include ParameterAttributeHelper
 
-    # Metaprogramming method for setting physical parameters, which are
-    # always of float type.
-    def self.attr_param(*params)
-      params.each do |param|
-        attr_reader param
-
-        setter_line = __LINE__ + 1
-        setter = <<-METHOD
-          def #{param}=(value)
-            @#{param} = value && value.to_f
-          end
-        METHOD
-        class_eval(setter, __FILE__, setter_line)
-      end
-    end
 
     def initialize(name, mass, radius, opts={})
       self.name = name
@@ -39,7 +25,7 @@ module KerbalDyn
 
     attr_param :mass, :radius, :rotational_period
 
-    attr_reader :name
+    attr_accessor :name
 
     def name=(name)
       @name = name && name.to_s

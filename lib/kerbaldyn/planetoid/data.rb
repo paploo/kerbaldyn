@@ -25,7 +25,7 @@ module KerbalDyn
         end
 
         def minmus
-          return @minmus ||= self.new('Minmus', 4.234e19, 60e3, :rotational_period => 299.272*3600.0).freeze
+          return @minmus ||= self.new('Minmus', 4.234e19, 60e3, :rotational_period => 1077379).freeze
         end
 
       end

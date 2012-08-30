@@ -1,3 +1,22 @@
 A library for Kerbal Space Program (KSP) calculation and simulation tools.
 
 All units are mks SI.
+
+The primary objects are Planetoid, which stores information about a planetary
+body itself (e.g. Mass, Radius, and Rotation Period), and Orbit, which calculates
+orbital parameters for a given system.
+
+
+Notes:
+
+Orbit: There are really two kinds of orbit classes: one treats the secondary
+body like a test particle no matter its mass (uses small mass approximations),
+and the other calculates around the center of mass.
+
+Orbit: Should be able to instantiate with (among other parameters like primary body):
+* semi-major, eccentricity,
+* periapsis, apoapsis,
+* periapsis-vel, apoapsis-vel,
+* periapsis, periapsis-vel,
+* apoapsis, apoapsis-vel
+Internally, these should all be reduced down to semi-major axis and eccentricity.
