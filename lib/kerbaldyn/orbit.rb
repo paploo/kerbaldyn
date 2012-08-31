@@ -1,6 +1,6 @@
 module KerbalDyn
   class Orbit
-    include ParameterAttributeHelper
+    include Mixin::ParameterAttributeHelper
 
     BASE_PARAMETERS = [:semimajor_axis, :eccentricity, :inclination, :longitude_of_ascending_node, :argument_of_periapsis, :mean_anomaly, :epoch]
 
@@ -17,7 +17,7 @@ module KerbalDyn
       self.secondary_planetoid = opts[:secondary_planetoid]
     end
 
-    attr_param *BASE_PARAMETERS
+    attr_parameter *BASE_PARAMETERS
 
 
     # The body being orbited (required)

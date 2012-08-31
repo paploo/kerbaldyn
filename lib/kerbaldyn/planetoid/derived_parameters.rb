@@ -1,5 +1,5 @@
 module KerbalDyn
-  class Planetoid
+  class Planetoid < Body
     # A module of derived parameters.  These depend on mass, radius,
     # and rotational period.
     module DerivedParameters

@@ -8,27 +8,20 @@ module KerbalDyn
   # characteristics around the planetoid.
   #
   # Most interesting parameters are included through the DerivedParameters module.
-  class Planetoid
-    include ParameterAttributeHelper
+  class Planetoid < Body
 
-
-    def initialize(name, mass, radius, opts={})
-      self.name = name
-
-      self.mass = mass
-      self.radius = radius
-
-      opts.each do |k,v|
-        self.send("#{k}=", v)
-      end
+    def initialize(name, options={})
+      super
     end
 
-    attr_param :mass, :radius, :rotational_period
+    alias_parameter :radius, :bounding_sphere_radius
 
-    attr_accessor :name
+    def rotational_period
+      return 2.0 * Math::PI / self.angular_velocity
+    end
 
-    def name=(name)
-      @name = name && name.to_s
+    def rotational_period=(period)
+      self.angular_velocity = period && (2.0 * Math::PI / period)
     end
 
     # Convert the given radius to an altitude.

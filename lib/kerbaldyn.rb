@@ -1,5 +1,8 @@
 require 'kerbaldyn/version'
-require 'kerbaldyn/parameter_attribute_helper'
+
 require 'kerbaldyn/constants'
+require 'kerbaldyn/mixin'
+
 require 'kerbaldyn/orbit'
+require 'kerbaldyn/body'
 require 'kerbaldyn/planetoid'

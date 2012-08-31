@@ -21,9 +21,11 @@ describe KerbalDyn::Planetoid do
     @geostationary_orbit_velocity = 3074.6
 
     @options = {
+      :mass => @mass,
+      :radius => @radius,
       :rotational_period => @rotational_period
     }
-    @planetoid = KerbalDyn::Planetoid.new(@name, @mass, @radius, @options)
+    @planetoid = KerbalDyn::Planetoid.new(@name, @options)
   end
 
   describe 'Basic Properties' do
@@ -33,6 +35,7 @@ describe KerbalDyn::Planetoid do
       end
 
       it 'should have mass' do
+        debugger
         @planetoid.mass.should be_within_six_sigma_of(@mass) 
       end
 
