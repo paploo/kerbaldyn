@@ -73,7 +73,15 @@ module KerbalDyn
     # If a value is gien, then this is used as the height above the surface for
     # the calculation.
     def equitorial_velocity(h=0.0)
-      return self.rotational_velocity * (self.radius + h)
+      return self.angular_velocity * (self.radius + h)
+    end
+
+    # Equitorial linear velocity of the planetoid.
+    #
+    # If a value is gien, then this is used as the height above the surface for
+    # the calculation.
+    def equitorial_velocity(h=0.0)
+      return self.angular_velocity * (self.radius + h)
     end
 
     # Calculates the escape velocity of the planetoid.

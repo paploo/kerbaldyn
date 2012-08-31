@@ -1,45 +1,49 @@
 module KerbalDyn
   class Orbit
-    include Mixin::ParameterAttributeHelper
+    include Mixin::ParameterAttributes
     include Mixin::OptionsProcessor
 
     BASE_PARAMETERS = [:periapsis, :periapsis_velocity, :inclination, :longitude_of_ascending_node, :argument_of_periapsis, :mean_anomaly, :epoch]
-    DEFAULT_OPTIONS = BASE_PARAMETERS.inject({}) {|opts,param| opts[param] = 0.0; opts}
+    DEFAULT_OPTIONS = BASE_PARAMETERS.inject({}) {|opts,param| opts[param] = 0.0; opts}.merge(:secondary_body => Body::TEST_PARTICLE)
 
-    def self.circular_orbit(primary_planetoid, radius)
-      return self.new(primary_planetoid, :radius => radius)
+    # This is redundant to calling new with the option of :radius.
+    def self.circular_orbit(primary_body, radius)
+      return self.new(primary_body, :radius => radius)
     end
 
-    def self.circular_orbit_of_period(primary_planetoid, period)
-      planetoid_rotational_velocity = 2.0 * Math::PI / period
-      radius = (primary_planetoid.gravetational_parameter / planetoid_rotational_velocity**2)**(1.0/3.0)
-      return seld.new(primary_planetoid, radius)
+    def self.circular_orbit_of_period(primary_body, period)
+      planetoid_angular_velocity = 2.0 * Math::PI / period
+      radius = (primary_body.gravitational_parameter / planetoid_angular_velocity**2)**(1.0/3.0)
+      return self.circular_orbit(primary_body, radius)
     end
 
-    def self.geostationary_orbit(primary_planetoid)
-      return self.circular_orbit_of_period(primary_planetoid, primary_planetoid.rotational_period)
+    def self.geostationary_orbit(primary_body)
+      return self.circular_orbit_of_period(primary_body, primary_body.rotational_period)
     end
 
-    def self.escape_orbit(primary_planetoid, periapsis)
-      periapsis_escape_velocity = Math.sqrt(2.0 * primary_planetoid.gravitational_parameter / periapsis)
+    def self.escape_orbit(primary_body, periapsis)
+      periapsis_escape_velocity = Math.sqrt(2.0 * primary_body.gravitational_parameter / periapsis)
       return self.new(:periapsis => periapsis, :periapsis_velocity => periapsis_escape_velocity)
     end
 
-    def self.hohmann_transfer(starting_orbit, ending_orbit)
+    def self.hohmann_transfer_parameters(initial_orbit, target_orbit)
     end
 
-    def self.bielliptic_transfer(starting_orbit, ending_orbit)
+    def self.bielliptic_transfer_parameters(initial_orbit, target_orbit)
     end
 
-    def initialize(primary_planetoid, options={})
+    def self.inclination_change_parameters(initial_orbit, target_orbit)
+    end
+
+    def initialize(primary_body, options={})
       # Set the primary planetoid
-      self.primary_planetoid = primary_planetoid
+      self.primary_body = primary_body
 
       # Set the periapsis and periapsis_velocity from the options
       replaced_options = replace_orbital_parameters(options)
 
       # Default all the base parameters to zero if not given.
-      process_options(replaced_options)
+      process_options(replaced_options, DEFAULT_OPTIONS)
     end
 
     attr_parameter *BASE_PARAMETERS
@@ -47,17 +51,17 @@ module KerbalDyn
 
     # The body being orbited (required)
     # Expected to be an instance of Planetoid.
-    attr_accessor :primary_planetoid
+    attr_accessor :primary_body
 
     # The body in orbit (optional)
     # Expected to be an instance of Planetoid.
-    attr_accessor :secondary_planetoid
+    attr_accessor :secondary_body
 
     def kind
-      e = self.eccintricity
+      e = self.eccentricity
       if( e < 0.0 )
       elsif( e == 0.0 )
-        return :circlular
+        return :circular
       elsif( e > 0.0 && e < 1.0 )
         return :elliptical
       elsif( e == 1.0 )
@@ -67,12 +71,16 @@ module KerbalDyn
       end
     end
 
-    def self.closed_orbit?
-      return self.eccintricity < 1.0
+    def closed?
+      return self.eccentricity < 1.0
+    end
+
+    def open?
+      return !self.closed?
     end
 
     def gravitational_parameter
-      return self.primary_planetoid.gravitational_parameter
+      return self.primary_body.gravitational_parameter
     end
 
     def potential_energy(r)
@@ -104,6 +112,7 @@ module KerbalDyn
         return self.periapsis / (1.0 - self.eccentricity)
       else
         return self.periapsis / (self.eccentricity - 1.0)
+      end
     end
 
     def semiminor_axis
@@ -115,7 +124,7 @@ module KerbalDyn
     end
 
     def period
-      if self.type.closed?
+      if self.closed?
         return 2.0 * Math::PI * Math.sqrt( self.semimajor_axis**3 / self.gravitational_parameter )
       else
         return nil
@@ -123,7 +132,7 @@ module KerbalDyn
     end
 
     def apoapsis
-      if self.type.closed?
+      if self.closed?
         return self.semimajor_axis * (1 + self.eccentricity)
       else
         return nil
@@ -131,7 +140,7 @@ module KerbalDyn
     end
 
     def apoapsis_velocity
-      if self.type.closed?
+      if self.closed?
         e = self.eccentricity
         k = self.gravitational_parameter / self.semimajor_axis
         return Math.sqrt( (1-e)/(1+e) * k )

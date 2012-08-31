@@ -1,7 +1,7 @@
 module KerbalDyn
   module Mixin
     # See ClassMethods for methods added by this module.
-    module ParameterAttributeHelper
+    module ParameterAttributes
 
       def self.included(mod)
         mod.extend(ClassMethods)

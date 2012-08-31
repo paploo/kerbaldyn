@@ -2,33 +2,93 @@ require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe KerbalDyn::Orbit do
 
-  describe 'Properties' do
-    before(:each, &BeforeFactory.lunar_orbit)
+  describe 'Orbit Types' do
 
-    [
-      :semimajor_axis,
-      :eccentricity,
-      :inclination,
-      :longitude_of_ascending_node,
-      :argument_of_periapsis,
-      :mean_anomaly,
-      :epoch
-    ].each do |method|
-      it "should calculate #{method}" do
-        value = self.instance_variable_get("@#{method}")
-        # Two sigma let's rough calculations (like those that assume a sphere instead of a spheroid) pass.
-        @orbit.send(method).should be_within_two_sigma_of(value)
+    describe 'Circular Orbit' do
+      before(:all, &BeforeFactory.earth)
+      before(:all) do
+        @orbital_radius = @geostationary_orbit_radius
+        @orbital_period = @rotational_period
+        @orbital_velocity = @geostationary_orbit_velocity
+        @orbit = KerbalDyn::Orbit.new(@planetoid, :radius => @orbital_radius)
       end
+
+      it 'should be closed' do
+        @orbit.closed?.should be_true
+        @orbit.open?.should be_false
+      end
+
+      it 'should be circular' do
+        @orbit.kind.should == :circular
+      end
+
+      it 'should have zero eccentricity' do
+        @orbit.eccentricity.should be_within(0.000001).of(0.0)
+      end
+
+      it 'should have the parent body gravitational parameter' do
+        @orbit.gravitational_parameter.should be_within_four_sigma_of(@gravitational_parameter)
+      end
+
+      it 'should have a semimajor_axis equal to the radius' do
+        @orbit.semimajor_axis.should be_within_six_sigma_of(@orbital_radius)
+      end
+
+      it 'should have a semiminor_axis equal to the radius' do
+        @orbit.semiminor_axis.should be_within_six_sigma_of(@orbital_radius)
+      end
+
+      it 'should have a periapsis equal to the radius' do
+        @orbit.periapsis.should be_within_six_sigma_of(@orbital_radius)
+      end
+
+      it 'should have an apoapsis equal to the radius' do
+        @orbit.apoapsis.should be_within_six_sigma_of(@orbital_radius)
+      end
+
+      it 'should have the expected period' do
+        @orbit.period.should be_within_four_sigma_of(@orbital_period)
+      end
+
+      it 'should have the correct periapsis_velocity' do
+        @orbit.periapsis_velocity.should be_within_four_sigma_of(@orbital_velocity)
+      end
+
+      it 'should have the correct apoapsis_velocity' do
+        @orbit.apoapsis_velocity.should be_within_four_sigma_of(@orbital_velocity)
+      end
+
     end
 
-    [
-    ].each do |method, expected_var, *args_vars|
-      it "should calculate #{method}" do
-        expected = self.instance_variable_get("@#{expected_var}")
-        args = args_vars.map {|var| self.instance_variable_get("@#{var}")}
-        @orbit.send(method, *args).should be_within_two_sigma_of(expected)
-      end
-    end
+    describe 'Elliptical Orbit'
+
+    describe 'Parabolic Orbit'
+
+    describe 'Hyperbolic Orbit'
 
   end
+
+  describe 'Orbit Factory Methods' do
+    before(:all, &BeforeFactory.earth)
+
+    it 'should construct orbits from periapsis and periapsis velocity'
+
+    it 'should construct orbits from periapsis and apoapsis'
+
+    it 'should construct orbits from semimajor_axis and eccentricity'
+
+    it 'should construct cicular orbits from a radius'
+
+    it 'should construct geostationary orbits' do
+      orbit = KerbalDyn::Orbit.geostationary_orbit(@planetoid)
+      puts orbit.inspect
+      orbit.eccentricity.should be_within(0.000001).of(0.0)
+      orbit.periapsis.should be_within_four_sigma_of(@geostationary_orbit_radius)
+      orbit.periapsis_velocity.should be_within_four_sigma_of(@geostationary_orbit_velocity)
+    end
+
+    it 'should construct a escape orbits'
+
+  end
+
 end

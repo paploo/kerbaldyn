@@ -1,7 +1,7 @@
 module KerbalDyn
   # The superclass for all Planetoid and Satellite instances.
   class Body
-    include Mixin::ParameterAttributeHelper
+    include Mixin::ParameterAttributes
     include Mixin::OptionsProcessor
     
     # Options default.  (Unlisted options will be nil)
@@ -10,6 +10,10 @@ module KerbalDyn
       :bounding_sphere_radius => 0.0,
       :angular_velocity => 0.0
     }
+
+    def self.test_particle
+      return self.new("Test Particle", :mass => 0.0, :bounding_sphere_radius => 0.0)
+    end
 
     # Initialize this body with the given name and options.
     def initialize(name, options={})
@@ -34,5 +38,6 @@ module KerbalDyn
       @name = name && name.to_s
     end
 
+    TEST_PARTICLE = self.test_particle
   end
 end

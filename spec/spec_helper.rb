@@ -30,11 +30,11 @@ class BeforeFactory
       @name = 'Earth'
       @mass = 5.9736e24
       @radius = 6378.1e3
-      @rotational_period = 88533.6
+      @rotational_period = 86164.091
       @angular_velocity = 7.2921150e-5
       @volume = 1.08321e21
       @density = 5515.0
-      @gravitational_parameter = 398600.4418e9
+      @gravitational_parameter = 398600.4418e9 # 398600.4418e9 is on some tables, but other tables vary starting in the 4th digit!
       @surface_gravity = 9.780327
       @escape_velocity = 11.186e3
       @equitorial_velocity = 465.1

@@ -5,8 +5,11 @@ describe KerbalDyn::Planetoid do
   describe 'Properties' do
     before(:each, &BeforeFactory.earth)
 
+    it "should have a name" do
+      @planetoid.name.should == @name
+    end
+
     [
-      :name,
       :mass,
       :radius,
       :rotational_period,
@@ -17,9 +20,6 @@ describe KerbalDyn::Planetoid do
       :angular_velocity,
       :equitorial_velocity,
       :escape_velocity,
-      :geostationary_orbit_radius,
-      :geostationary_orbit_altitude,
-      :geostationary_orbit_velocity
     ].each do |method|
       it "should calculate #{method}" do
         value = self.instance_variable_get("@#{method}")
@@ -30,11 +30,6 @@ describe KerbalDyn::Planetoid do
 
     [
       [:gravitational_acceleration, :surface_gravity, :radius],
-      [:circular_orbit_velocity, :geostationary_orbit_velocity, :geostationary_orbit_radius],
-      [:circular_orbit_angular_velocity, :geostationary_orbit_angular_velocity, :geostationary_orbit_radius],
-      [:circular_orbit_period, :rotational_period, :geostationary_orbit_radius],
-      [:circular_orbit_velocity_with_period, :geostationary_orbit_velocity, :rotational_period],
-      [:circular_orbit_radius_with_period, :geostationary_orbit_radius, :rotational_period]
     ].each do |method, expected_var, *args_vars|
       it "should calculate #{method}" do
         expected = self.instance_variable_get("@#{expected_var}")

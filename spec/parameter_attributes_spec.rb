@@ -1,9 +1,9 @@
 require File.join(File.dirname(__FILE__), 'spec_helper')
 
-describe KerbalDyn::Mixin::ParameterAttributeHelper do
+describe KerbalDyn::Mixin::ParameterAttributes do
 
-  class DerivedParametersTestClass
-    include KerbalDyn::Mixin::ParameterAttributeHelper
+  class ParameterAttributesTestClass
+    include KerbalDyn::Mixin::ParameterAttributes
 
     def initialize(foo)
       self.foo = foo
@@ -18,7 +18,7 @@ describe KerbalDyn::Mixin::ParameterAttributeHelper do
   describe 'attr_parameter' do
 
     before(:each) do
-      @obj = DerivedParametersTestClass.new(42)
+      @obj = ParameterAttributesTestClass.new(42)
     end
 
     it 'should supply parameter getter' do
@@ -60,7 +60,7 @@ describe KerbalDyn::Mixin::ParameterAttributeHelper do
   describe 'alias_parameter' do
 
     before(:each) do
-      @obj = DerivedParametersTestClass.new(42)
+      @obj = ParameterAttributesTestClass.new(42)
     end
 
     it "should read aliased parameter value" do
