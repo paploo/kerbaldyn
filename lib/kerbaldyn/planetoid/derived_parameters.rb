@@ -4,6 +4,16 @@ module KerbalDyn
     # and rotational period.
     module DerivedParameters
 
+      # Convert the given radius to an altitude.
+      def radius_to_alt(r)
+        return r - self.radius
+      end
+
+      # Convert the given altitude into a radius.
+      def alt_to_radius(h)
+        return self.radius + h
+      end
+
       # Returns the gravtiational_parameter (G*M) of the planetoid.
       def gravitational_parameter
         KerbalDyn::G * self.mass
@@ -97,6 +107,38 @@ module KerbalDyn
       # Calculates the linear velocity of the geostationary orbit.
       def geostationary_orbit_velocity
         return self.circular_orbit_velocity_with_period( self.rotational_period )
+      end
+
+
+      # Calculate the Hohmann transfter parameters going from an orbital radius
+      # of h1 to an orbital radius of h2.
+      def hohmann_transfer_orbit(r1, r2)
+        # Get circular orbit velocities.
+        vc1 = self.circular_orbit_velocity(r1)
+        vc2 = self.circular_orbit_velocity(r2)
+
+        # Calculate semi-major axis
+        a = (r1 + r2) / 2.0
+
+        # Calculate period of transfer
+        t = 2 * Math::PI * Math.sqrt( a**3 / self.gravitational_parameter )
+
+        # Calculate delta v's
+        dv1 = (Math.sqrt(r2/a) - 1) * vc1
+        dv2 = (1 - Math.sqrt(r1/a)) * vc2
+
+        # Burn Parameters
+        burn_one = {:from_velocity => vc1, :to_velocity => vc1+dv1, :delta_velocity => dv1, :radius => r1, :altitude => self.radius_to_alt(r1)}
+        burn_two = {:from_velocity => vc2-dv2, :to_velocity => vc2, :delta_velocity => dv2, :radius => r2, :altitude => self.radius_to_alt(r2)}
+
+        # Return
+        return {:burn_one => burn_one, :burn_two => burn_two}
+      end
+
+      # Calculate the Hohmann transfer parameters going from an altitude of
+      # h1 to an altitude of h2.
+      def hohmann_transfer_orbit_by_altitude(h1, h2)
+        return transfer_orbit( alt_to_radius(h1), alt_to_radius(h2) )
       end
 
     end

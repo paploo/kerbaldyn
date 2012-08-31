@@ -21,3 +21,35 @@ end
     end
   end
 end
+
+class BeforeFactory
+
+  def self.earth
+    return Proc.new do
+      # I looked up real values off of tables for the Earth as test data where possible.
+      @name = 'Earth'
+      @mass = 5.9736e24
+      @radius = 6378.1e3
+      @rotational_period = 88533.6
+      @angular_velocity = 7.2921150e-5
+      @volume = 1.08321e21
+      @density = 5515.0
+      @gravitational_parameter = 398600.4418e9
+      @surface_gravity = 9.780327
+      @escape_velocity = 11.186e3
+      @equitorial_velocity = 465.1
+      @geostationary_orbit_radius = 42164e3
+      @geostationary_orbit_altitude = 35786e3
+      @geostationary_orbit_angular_velocity = 7.2921e-5
+      @geostationary_orbit_velocity = 3074.6
+
+      @options = {
+        :mass => @mass,
+        :radius => @radius,
+        :rotational_period => @rotational_period
+      }
+      @planetoid = KerbalDyn::Planetoid.new(@name, @options)
+    end
+  end
+
+end

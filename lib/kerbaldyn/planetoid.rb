@@ -1,6 +1,3 @@
-require_relative 'planetoid/derived_parameters'
-require_relative 'planetoid/data'
-
 module KerbalDyn
 
   # Planetoid is the superclass of any planetary object.  It is primarily used
@@ -10,64 +7,81 @@ module KerbalDyn
   # Most interesting parameters are included through the DerivedParameters module.
   class Planetoid < Body
 
+    def self.kerbin
+      return @kerbin ||= self.new('Kerbin', :mass => 5.29e22, :radius => 600e3, :rotational_period => 6.0*3600.0).freeze
+    end
+
+    def self.kerbol
+      return @kerbol ||= self.new('Kerbol', :mass => 1.75e28, :radius => 65400e3).freeze
+    end
+
+    def self.mun
+      return @mun ||= self.new('Mun', :mass => 9.76e20, :radius => 200e3, :rotational_period => 41.0*3600.0).freeze
+    end
+
+    def self.minmus
+      return @minmus ||= self.new('Minmus', :mass => 4.234e19, :radius => 60e3, :rotational_period => 1077379).freeze
+    end
+
     def initialize(name, options={})
       super
     end
 
     alias_parameter :radius, :bounding_sphere_radius
 
+    # The rotational period of this body around its axis.
     def rotational_period
       return 2.0 * Math::PI / self.angular_velocity
     end
 
+    # Set the rotational period of this body.
     def rotational_period=(period)
       self.angular_velocity = period && (2.0 * Math::PI / period)
     end
 
-    # Convert the given radius to an altitude.
-    def radius_to_alt(r)
-      return r - self.radius
+    # Returns the gravtiational_parameter (G*M) of the planetoid.
+    def gravitational_parameter
+      KerbalDyn::G * self.mass
     end
 
-    # Convert the given altitude into a radius.
-    def alt_to_radius(h)
-      return self.radius + h
+    # Returns the gravitational accelaration at a given radius from the
+    # center of the planet.
+    def gravitational_acceleration(r)
+      return self.gravitational_parameter / r**2
     end
 
-    # Include the derived parameters based on mass, radius, and rotational period.
-    include DerivedParameters
-
-
-    # Calculate the Hohmann transfter parameters going from an orbital radius
-    # of h1 to an orbital radius of h2.
-    def hohmann_transfer_orbit(r1, r2)
-      # Get circular orbit velocities.
-      vc1 = self.circular_orbit_velocity(r1)
-      vc2 = self.circular_orbit_velocity(r2)
-
-      # Calculate semi-major axis
-      a = (r1 + r2) / 2.0
-
-      # Calculate period of transfer
-      t = 2 * Math::PI * Math.sqrt( a**3 / self.gravitational_parameter )
-
-      # Calculate delta v's
-      dv1 = (Math.sqrt(r2/a) - 1) * vc1
-      dv2 = (1 - Math.sqrt(r1/a)) * vc2
-
-      # Burn Parameters
-      burn_one = {:from_velocity => vc1, :to_velocity => vc1+dv1, :delta_velocity => dv1, :radius => r1, :altitude => self.radius_to_alt(r1)}
-      burn_two = {:from_velocity => vc2-dv2, :to_velocity => vc2, :delta_velocity => dv2, :radius => r2, :altitude => self.radius_to_alt(r2)}
-
-      # Return
-      return {:burn_one => burn_one, :burn_two => burn_two}
+    # Returns the surface gravity (acceleration) of this planetoid.
+    #
+    # If a value is given, then this is used as the height above the surface
+    # to calculate the gravity.
+    def surface_gravity(h=0.0)
+      return self.gravitational_acceleration( self.radius + h )
     end
 
-    # Calculate the Hohmann transfer parameters going from an altitude of
-    # h1 to an altitude of h2.
-    def hohmann_transfer_orbit_by_altitude(h1, h2)
-      return transfer_orbit( alt_to_radius(h1), alt_to_radius(h2) )
+    # The volume of the planetoid.
+    def volume
+      return (4.0/3.0) * Math::PI * self.radius**3
     end
+
+    # The density of the planetoid.
+    def density
+      return self.mass / self.volume
+    end
+
+    # Equitorial linear velocity of the planetoid.
+    #
+    # If a value is gien, then this is used as the height above the surface for
+    # the calculation.
+    def equitorial_velocity(h=0.0)
+      return self.rotational_velocity * (self.radius + h)
+    end
+
+    # Calculates the escape velocity of the planetoid.
+    def escape_velocity
+      return Math.sqrt( 2.0 * self.gravitational_parameter / self.radius )
+    end
+
+    # ===== ALIASES =====
 
     alias_method :m, :mass
     alias_method :r, :radius
@@ -76,7 +90,7 @@ module KerbalDyn
     alias_method :rho, :density
     alias_method :mu, :gravitational_parameter
 
-    include Data
+    # ===== DEFINE FACTORY CONSTANTS =====
 
     # Data for the planet Kerbin.
     # Equivalent to calling the class factory method.
@@ -93,5 +107,6 @@ module KerbalDyn
     # Data for the moon of Minmus.
     # Equivalent to calling the class factory method.
     MINMUS = self.minmus
+
   end
 end

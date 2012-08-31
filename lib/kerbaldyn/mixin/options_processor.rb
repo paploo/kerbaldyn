@@ -6,10 +6,9 @@ module KerbalDyn
 
       # Iterates over all the key/value pairs in the options, calling the relevant
       # accessor.  Uses the passed block to get defaults for given keys.
-      def process_options(options, default_value=nil)
-        options.each do |key,value|
-          default_value = block_given? ? yield(key) : default_value
-          self.send("#{key}=", options.fetch(key, default_value))
+      def process_options(options, defaults)
+        defaults.merge(options).each do |key,value|
+          self.send("#{key}=", value)
         end
       end
 

@@ -14,7 +14,7 @@ module KerbalDyn
     # Initialize this body with the given name and options.
     def initialize(name, options={})
       @name = name
-      process_options(options) {|k| DEFAULT_OPTIONS[k]}
+      process_options(options, DEFAULT_OPTIONS)
     end
 
     # The mass of the body.
