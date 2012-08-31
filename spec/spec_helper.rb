@@ -9,7 +9,7 @@ RSpec::Matchers.define :be_within_error do |err|
   end
 
   match do |actual|
-    actual.should be_within(err*@expected).of(@expected)
+    actual.should be_within( (err*@expected).abs ).of(@expected)
   end
 end
 
