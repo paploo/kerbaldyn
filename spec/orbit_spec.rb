@@ -249,4 +249,20 @@ describe KerbalDyn::Orbit do
 
   end
 
+  describe 'known orbit for' do
+
+    describe 'Kerbol/Kerbin' do
+      it 'should exist'
+    end
+
+    describe 'Kerbin/Mun' do
+      it 'should exist'
+    end
+
+    describe 'Kerbin/Minmus' do
+      it 'should exist'
+    end
+
+  end
+
 end
