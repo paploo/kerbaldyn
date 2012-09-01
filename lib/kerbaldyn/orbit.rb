@@ -162,7 +162,7 @@ module KerbalDyn
         rp = opts[:periapsis]
         ra = opts.delete(:apoapsis)
         opts[:periapsis_velocity] = Math.sqrt( (2.0 * ra)/(ra+rp) * (self.gravitational_parameter / rp) )
-      elsif( opts.include?(:eccentricity) && opts.include(:semimajor_axis) )
+      elsif( opts.include?(:eccentricity) && opts.include?(:semimajor_axis) )
         raise NotImplementedError
       elsif( opts.include?(:radius) )
         opts[:periapsis] = opts.delete(:radius)

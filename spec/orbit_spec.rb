@@ -121,29 +121,62 @@ describe KerbalDyn::Orbit do
     describe 'constructing orbits from periapsis and periapsis velocity' do
       before(:all, &BeforeFactory.geostationary_transfer_orbit)
 
-      it 'should create an elliptical orbit correctly'
+      it 'should create from the initializer' do
+        orbit = KerbalDyn::Orbit.new(@planetoid, :periapsis => @periapsis, :periapsis_velocity => @periapsis_velocity)
+        [:periapsis, :apoapsis, :periapsis_velocity, :apoapsis_velocity, :eccentricity, :semimajor_axis].each do |parameter|
+          orbit.send(parameter).should be_within_three_sigma_of( instance_variable_get("@#{parameter}") )
+        end
+      end
 
     end
 
     describe 'constructing orbits from periapsis and apoapsis' do
       before(:all, &BeforeFactory.geostationary_transfer_orbit)
 
-      it 'should create an elliptical orbit correctly'
+      it 'should create from the initializer' do
+        orbit = KerbalDyn::Orbit.new(@planetoid, :periapsis => @periapsis, :apoapsis => @apoapsis)
+        [:periapsis, :apoapsis, :periapsis_velocity, :apoapsis_velocity, :eccentricity, :semimajor_axis].each do |parameter|
+          orbit.send(parameter).should be_within_three_sigma_of( instance_variable_get("@#{parameter}") )
+        end
+      end
 
     end
 
     describe 'constructing orbits from semimajor_axis and eccentricity' do
       before(:all, &BeforeFactory.geostationary_transfer_orbit)
 
-      it 'should create an elliptical orbit correctly'
+      it 'should create from the initializer' do
+        orbit = KerbalDyn::Orbit.new(@planetoid, :semimajor_axis => @semimajor_axis, :eccentricity => @eccentricity)
+        [:periapsis, :apoapsis, :periapsis_velocity, :apoapsis_velocity, :eccentricity, :semimajor_axis].each do |parameter|
+          orbit.send(parameter).should be_within_three_sigma_of( instance_variable_get("@{parameter}") )
+        end
+      end
 
     end
 
     describe 'constructing cicular orbits from a radius' do
       before(:all, &BeforeFactory.earth_geostationary_orbit)
 
-      it 'should describe the circular geostationary orbit correctly' do
+      it 'should be creatable from the initializer' do
+        orbit = KerbalDyn::Orbit.new(@planetoid, :radius => @geostationary_orbit_radius)
+        orbit.eccentricity.should be_within(0.000001).of(0.0)
+        orbit.periapsis.should be_within_four_sigma_of(@geostationary_orbit_radius)
+        orbit.periapsis_velocity.should be_within_four_sigma_of(@geostationary_orbit_velocity)
+        orbit.apoapsis.should be_within_four_sigma_of(@geostationary_orbit_radius)
+        orbit.apoapsis_velocity.should be_within_four_sigma_of(@geostationary_orbit_velocity)
+      end
+
+      it 'should be creatable from the factory method' do
         orbit = KerbalDyn::Orbit.circular_orbit(@planetoid, @geostationary_orbit_radius)
+        orbit.eccentricity.should be_within(0.000001).of(0.0)
+        orbit.periapsis.should be_within_four_sigma_of(@geostationary_orbit_radius)
+        orbit.periapsis_velocity.should be_within_four_sigma_of(@geostationary_orbit_velocity)
+        orbit.apoapsis.should be_within_four_sigma_of(@geostationary_orbit_radius)
+        orbit.apoapsis_velocity.should be_within_four_sigma_of(@geostationary_orbit_velocity)
+      end
+
+      it 'should construct using the orbital period' do
+        orbit = KerbalDyn::Orbit.circular_orbit_of_period(@planetoid, @orbital_period)
         orbit.eccentricity.should be_within(0.000001).of(0.0)
         orbit.periapsis.should be_within_four_sigma_of(@geostationary_orbit_radius)
         orbit.periapsis_velocity.should be_within_four_sigma_of(@geostationary_orbit_velocity)
