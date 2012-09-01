@@ -79,4 +79,24 @@ class BeforeFactory
     end
   end
 
+  # A pre-calculated and verified parabloic escape orbit from earth.
+  def self.earth_escape_orbit
+    return Proc.new do
+      @periapsis = 6678e3
+      # I used the calculated gavitational parameter for better precision,
+      # since this is a "critical" orbit between elliptical and hyperbolc orbits.
+      @escape_velocity = Math.sqrt( 2.0 * @planetoid.gravitational_parameter / @periapsis )
+      @orbit = KerbalDyn::Orbit.new(@planetoid, :periapsis => @periapsis, :periapsis_velocity => @escape_velocity)
+    end
+  end
+
+  def self.earth_hyperbolic_orbit
+    return Proc.new do
+      @periapsis = 6678e3
+      @periapsis_velocity = 20000
+      @eccentricity = 5.701 #Precomputed
+      @orbit = KerbalDyn::Orbit.new(@planetoid, :periapsis => @periapsis, :periapsis_velocity => @periapsis_velocity)
+    end
+  end
+
 end

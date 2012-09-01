@@ -96,21 +96,62 @@ describe KerbalDyn::Orbit do
     end
 
     describe 'Parabolic Orbit' do
+      before(:all, &BeforeFactory.earth)
+      before(:all, &BeforeFactory.earth_escape_orbit)
 
-      it 'should have the correct escape velocity'
+      it 'should have the correct escape velocity' do
+        @orbit.periapsis_velocity.should be_within_six_sigma_of(@escape_velocity)
+      end
 
-      it 'should be of kind :parabolic'
+      it 'should be of kind :parabolic' do
+        @orbit.kind.should == :parabolic
+      end
 
-      it 'should have an eccentricity of 1'
+      it 'should have an eccentricity of 1' do
+        @orbit.eccentricity.should be_within_six_sigma_of(1.0)
+      end
 
     end
 
     describe 'Hyperbolic Orbit' do
+      before(:all, &BeforeFactory.earth)
+      before(:all, &BeforeFactory.earth_hyperbolic_orbit)
 
-      it 'should be of kind :hyperbolic'
+      it 'should be of kind :hyperbolic' do
+        @orbit.kind.should == :hyperbolic
+      end
 
-      it 'should have an eccentricity greater than 1'
+      it 'should have an eccentricity greater than 1' do
+        puts @orbit.eccentricity
+        @orbit.eccentricity.should > 1.0
+        @orbit.eccentricity.should be_within_four_sigma_of(@eccentricity)
+      end
 
+    end
+
+  end
+
+  describe 'Eccentricity Independent Quantities' do
+
+    before(:all) do
+      @primary_planetoid = KerbalDyn::Planetoid.new('Kerbin', :mass => 5.29e22, :radius => 600e3)
+      @secondary_planetoid = KerbalDyn::Planetoid.new('Mun', :mass => 9.76e20, :radius => 200e3)
+      @semimajor_axis = 12000e3
+      @secondary_soi = 2430e3
+      @primary_soi = 59.3e6
+      @orbit = KerbalDyn::Orbit.new(@primary_planetoid, :secondary_body => @secondary_planetoid)
+    end
+
+    it 'should calculate SOI of primary body' do
+      @orbit.primary_body_sphere_of_influence.should be_within_four_sigma_of(@primary_soi)
+    end
+
+    it 'should cacluate SOI of secondary body' do
+      @orbit.secondary_body_sphere_of_influence.should be_within_four_sigma_of(@secondary_soi)
+    end
+
+    it 'should default to the secondary body SOI' do
+      @orbit.sphere_of_influence.should be_within_four_sigma_of(@secondary_soi)
     end
 
   end
