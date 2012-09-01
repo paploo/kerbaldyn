@@ -38,10 +38,6 @@ class BeforeFactory
       @surface_gravity = 9.780327
       @escape_velocity = 11.186e3
       @equitorial_velocity = 465.1
-      @geostationary_orbit_radius = 42164e3
-      @geostationary_orbit_altitude = 35786e3
-      @geostationary_orbit_angular_velocity = 7.2921e-5
-      @geostationary_orbit_velocity = 3074.6
 
       @options = {
         :mass => @mass,
@@ -49,6 +45,22 @@ class BeforeFactory
         :rotational_period => @rotational_period
       }
       @planetoid = KerbalDyn::Planetoid.new(@name, @options)
+    end
+  end
+
+  def self.earth_geostationary_orbit
+    return Proc.new do
+      @geostationary_orbit_radius = 42164e3
+      @geostationary_orbit_altitude = 35786e3
+      @geostationary_orbit_angular_velocity = 7.2921e-5
+      @geostationary_orbit_velocity = 3074.6
+      @orbital_radius = @geostationary_orbit_radius
+      @orbital_period = @rotational_period
+      @orbital_velocity = @geostationary_orbit_velocity
+      @orbital_kinetic_energy = 4726582.58 # Computed
+      @orbital_potential_energy = -9453572.75875 # Computed
+      @orbital_angular_momentum = 129640229204 # Computed using an alternative formula from a different source.
+      @orbit = KerbalDyn::Orbit.new(@planetoid, :radius => @orbital_radius)
     end
   end
 

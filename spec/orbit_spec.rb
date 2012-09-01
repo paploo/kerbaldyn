@@ -6,14 +6,7 @@ describe KerbalDyn::Orbit do
 
     describe 'Circular Orbit' do
       before(:all, &BeforeFactory.earth)
-      before(:all) do
-        @orbital_radius = @geostationary_orbit_radius
-        @orbital_period = @rotational_period
-        @orbital_velocity = @geostationary_orbit_velocity
-        @orbital_kinetic_energy = 4726582.58
-        @orbital_potential_energy = -9453572.75875
-        @orbit = KerbalDyn::Orbit.new(@planetoid, :radius => @orbital_radius)
-      end
+      before(:all, &BeforeFactory.earth_geostationary_orbit)
 
       it 'should be closed' do
         @orbit.closed?.should be_true
@@ -42,6 +35,10 @@ describe KerbalDyn::Orbit do
 
       it 'should have total energy that is the sum of kinetic and poential energy' do
         @orbit.energy.should be_within_four_sigma_of( @orbital_kinetic_energy + @orbital_potential_energy )
+      end
+
+      it 'should have the right rotational momentum' do
+        @orbit.specific_angular_momentum.should be_within_four_sigma_of( @orbital_angular_momentum )
       end
 
       it 'should have a semimajor_axis equal to the radius' do
