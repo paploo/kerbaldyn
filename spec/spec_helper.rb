@@ -24,9 +24,9 @@ end
 
 class BeforeFactory
 
+  # I looked up real values off of tables for the Earth as test data where possible.
   def self.earth
     return Proc.new do
-      # I looked up real values off of tables for the Earth as test data where possible.
       @name = 'Earth'
       @mass = 5.9736e24
       @radius = 6378.1e3
@@ -48,6 +48,7 @@ class BeforeFactory
     end
   end
 
+  # I looked up values from tables where possible.
   def self.earth_geostationary_orbit
     return Proc.new do
       @geostationary_orbit_radius = 42164e3
@@ -61,6 +62,20 @@ class BeforeFactory
       @orbital_potential_energy = -9453572.75875 # Computed
       @orbital_angular_momentum = 129640229204 # Computed using an alternative formula from a different source.
       @orbit = KerbalDyn::Orbit.new(@planetoid, :radius => @orbital_radius)
+    end
+  end
+
+  # A third party transfer to geosynchronous orbit from 300km alt example that
+  # can be used for the basis of elliptical orbit tests.
+  def self.geostationary_transfer_orbit
+    return Proc.new do
+      @periapsis = 6678e3
+      @apoapsis = 42164e3
+      @periapsis_velocity = 10150
+      @apoapsis_velocity = 1610
+      @eccentricity = 0.72655
+      @semimajor_axis = 24421e3
+      @orbit = KerbalDyn::Orbit.new(@planetoid, :periapsis => @periapsis, :apoapsis => @apoapsis)
     end
   end
 

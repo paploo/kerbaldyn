@@ -71,33 +71,107 @@ describe KerbalDyn::Orbit do
 
     end
 
-    describe 'Elliptical Orbit'
+    describe 'Elliptical Orbit' do
+      before(:all, &BeforeFactory.earth)
+      before(:all, &BeforeFactory.geostationary_transfer_orbit)
 
-    describe 'Parabolic Orbit'
+      it 'should be of kind elliptical' do
+        @orbit.kind.should == :elliptical
+      end
 
-    describe 'Hyperbolic Orbit'
+      [
+        :periapsis,
+        :apoapsis,
+        :periapsis_velocity,
+        :apoapsis_velocity,
+        :eccentricity,
+        :semimajor_axis
+      ].each do |parameter|
+        it "should calculate the correct #{parameter} value" do
+          expected_value = instance_variable_get("@#{parameter}")
+          @orbit.send(parameter).should be_within_three_sigma_of(expected_value)
+        end
+      end
+
+    end
+
+    describe 'Parabolic Orbit' do
+
+      it 'should have the correct escape velocity'
+
+      it 'should be of kind :parabolic'
+
+      it 'should have an eccentricity of 1'
+
+    end
+
+    describe 'Hyperbolic Orbit' do
+
+      it 'should be of kind :hyperbolic'
+
+      it 'should have an eccentricity greater than 1'
+
+    end
 
   end
 
-  describe 'Orbit Factory Methods' do
+  describe 'Orbit Initializers and Factory Methods' do
     before(:all, &BeforeFactory.earth)
 
-    it 'should construct orbits from periapsis and periapsis velocity'
+    describe 'constructing orbits from periapsis and periapsis velocity' do
+      before(:all, &BeforeFactory.geostationary_transfer_orbit)
 
-    it 'should construct orbits from periapsis and apoapsis'
+      it 'should create an elliptical orbit correctly'
 
-    it 'should construct orbits from semimajor_axis and eccentricity'
-
-    it 'should construct cicular orbits from a radius'
-
-    it 'should construct geostationary orbits' do
-      orbit = KerbalDyn::Orbit.geostationary_orbit(@planetoid)
-      orbit.eccentricity.should be_within(0.000001).of(0.0)
-      orbit.periapsis.should be_within_four_sigma_of(@geostationary_orbit_radius)
-      orbit.periapsis_velocity.should be_within_four_sigma_of(@geostationary_orbit_velocity)
     end
 
-    it 'should construct a escape orbits'
+    describe 'constructing orbits from periapsis and apoapsis' do
+      before(:all, &BeforeFactory.geostationary_transfer_orbit)
+
+      it 'should create an elliptical orbit correctly'
+
+    end
+
+    describe 'constructing orbits from semimajor_axis and eccentricity' do
+      before(:all, &BeforeFactory.geostationary_transfer_orbit)
+
+      it 'should create an elliptical orbit correctly'
+
+    end
+
+    describe 'constructing cicular orbits from a radius' do
+      before(:all, &BeforeFactory.earth_geostationary_orbit)
+
+      it 'should describe the circular geostationary orbit correctly' do
+        orbit = KerbalDyn::Orbit.circular_orbit(@planetoid, @geostationary_orbit_radius)
+        orbit.eccentricity.should be_within(0.000001).of(0.0)
+        orbit.periapsis.should be_within_four_sigma_of(@geostationary_orbit_radius)
+        orbit.periapsis_velocity.should be_within_four_sigma_of(@geostationary_orbit_velocity)
+        orbit.apoapsis.should be_within_four_sigma_of(@geostationary_orbit_radius)
+        orbit.apoapsis_velocity.should be_within_four_sigma_of(@geostationary_orbit_velocity)
+      end
+
+    end
+
+    describe 'constructing geostationary orbits' do
+      before(:all, &BeforeFactory.earth_geostationary_orbit)
+
+      it 'should construct geostationary orbit' do
+        orbit = KerbalDyn::Orbit.geostationary_orbit(@planetoid)
+        orbit.eccentricity.should be_within(0.000001).of(0.0)
+        orbit.periapsis.should be_within_four_sigma_of(@geostationary_orbit_radius)
+        orbit.apoapsis.should be_within_four_sigma_of(@geostationary_orbit_radius)
+        orbit.apoapsis_velocity.should be_within_four_sigma_of(@geostationary_orbit_velocity)
+        orbit.periapsis_velocity.should be_within_four_sigma_of(@geostationary_orbit_velocity)
+      end
+
+    end
+
+    describe 'constructing escape orbits' do
+
+      it 'should construct an escape orbit'
+
+    end
 
   end
 

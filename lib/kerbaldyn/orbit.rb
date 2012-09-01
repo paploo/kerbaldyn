@@ -156,14 +156,17 @@ module KerbalDyn
     def replace_orbital_parameters(options)
       opts = options.dup
 
-      if( options.include?(:periapsis) && options.include?(:periapsis_velocity) )
-        return options
-      elsif( options.include?(:periapsis) && options.include?(:apoapsis) )
+      if( opts.include?(:periapsis) && opts.include?(:periapsis_velocity) )
+        return opts
+      elsif( opts.include?(:periapsis) && opts.include?(:apoapsis) )
+        rp = opts[:periapsis]
+        ra = opts.delete(:apoapsis)
+        opts[:periapsis_velocity] = Math.sqrt( (2.0 * ra)/(ra+rp) * (self.gravitational_parameter / rp) )
+      elsif( opts.include?(:eccentricity) && opts.include(:semimajor_axis) )
         raise NotImplementedError
-      elsif( options.include?(:eccentricity) && options.include(:semimajor_axis) )
-        raise NotImplementedError
-      elsif( options.include?(:radius) )
+      elsif( opts.include?(:radius) )
         opts[:periapsis] = opts.delete(:radius)
+        # This is a special case of the equation used for apoapsis/periapsis configuration, where they are equal.
         opts[:periapsis_velocity] = Math.sqrt( self.gravitational_parameter / opts[:periapsis] )
       end
 
