@@ -154,6 +154,7 @@ module KerbalDyn
     # This takes one of the following sets of parameters, derives periapsis and
     # periapsis_velocity, and then replaces the original keys with them.
     def replace_orbital_parameters(options)
+      # We don't want to mutate the options hash they passed in.
       opts = options.dup
 
       if( opts.include?(:periapsis) && opts.include?(:periapsis_velocity) )
@@ -163,7 +164,11 @@ module KerbalDyn
         ra = opts.delete(:apoapsis)
         opts[:periapsis_velocity] = Math.sqrt( (2.0 * ra)/(ra+rp) * (self.gravitational_parameter / rp) )
       elsif( opts.include?(:eccentricity) && opts.include?(:semimajor_axis) )
-        raise NotImplementedError
+        e = opts.delete(:eccentricity)
+        a = opts.delete(:semimajor_axis)
+        mu = self.gravitational_parameter
+        opts[:periapsis] = rp = a*(1-e)
+        opts[:periapsis_velocity] = Math.sqrt( (e+1)*mu/rp )
       elsif( opts.include?(:radius) )
         opts[:periapsis] = opts.delete(:radius)
         # This is a special case of the equation used for apoapsis/periapsis configuration, where they are equal.

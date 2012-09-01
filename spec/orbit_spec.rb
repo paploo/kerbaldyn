@@ -148,7 +148,7 @@ describe KerbalDyn::Orbit do
       it 'should create from the initializer' do
         orbit = KerbalDyn::Orbit.new(@planetoid, :semimajor_axis => @semimajor_axis, :eccentricity => @eccentricity)
         [:periapsis, :apoapsis, :periapsis_velocity, :apoapsis_velocity, :eccentricity, :semimajor_axis].each do |parameter|
-          orbit.send(parameter).should be_within_three_sigma_of( instance_variable_get("@{parameter}") )
+          orbit.send(parameter).should be_within_three_sigma_of( instance_variable_get("@#{parameter}") )
         end
       end
 
