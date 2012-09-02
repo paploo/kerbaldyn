@@ -58,9 +58,9 @@ class BeforeFactory
       @orbital_radius = @geostationary_orbit_radius
       @orbital_period = @rotational_period
       @orbital_velocity = @geostationary_orbit_velocity
-      @orbital_kinetic_energy = 4726582.58 # Computed
-      @orbital_potential_energy = -9453572.75875 # Computed
-      @orbital_angular_momentum = 129640229204 # Computed using an alternative formula from a different source.
+      @orbital_specific_kinetic_energy = 4726582.58 # Computed
+      @orbital_specific_potential_energy = -9453572.75875 # Computed
+      @orbital_specific_angular_momentum = 129640229204 # Computed using an alternative formula from a different source.
       @orbit = KerbalDyn::Orbit.new(@planetoid, :radius => @orbital_radius)
     end
   end

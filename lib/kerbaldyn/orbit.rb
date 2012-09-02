@@ -28,7 +28,7 @@ module KerbalDyn
     # Convenience method for creating an escape orbit around the given body.
     def self.escape_orbit(primary_body, periapsis)
       periapsis_escape_velocity = Math.sqrt(2.0 * primary_body.gravitational_parameter / periapsis)
-      return self.new(:periapsis => periapsis, :periapsis_velocity => periapsis_escape_velocity)
+      return self.new(primary_body, :periapsis => periapsis, :periapsis_velocity => periapsis_escape_velocity)
     end
 
     def self.hohmann_transfer_parameters(initial_orbit, target_orbit)
@@ -114,21 +114,20 @@ module KerbalDyn
     end
 
     # The specific potential energy for any given orbit radius.
-    def potential_energy(r)
+    def specific_potential_energy(r)
       return -self.gravitational_parameter / r
     end
 
-    # THe specific kinetic energy for any given velocity.
-    def kinetic_energy(v)
+    # The specific kinetic energy for any given velocity.
+    def specific_kinetic_energy(v)
       return 0.5 * v**2
     end
 
     # The total specific energyy of the orbit; this is constant over the entire
     # orbit.
     def specific_energy
-      return self.potential_energy(self.periapsis) + self.kinetic_energy(self.periapsis_velocity)
+      return self.specific_potential_energy(self.periapsis) + self.specific_kinetic_energy(self.periapsis_velocity)
     end
-    alias_method :energy, :specific_energy
     alias_method :vis_viva_energy, :specific_energy
 
     # The specific angular momentum for this orbit; this is constant over the

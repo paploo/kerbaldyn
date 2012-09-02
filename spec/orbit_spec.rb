@@ -25,20 +25,20 @@ describe KerbalDyn::Orbit do
         @orbit.gravitational_parameter.should be_within_four_sigma_of(@gravitational_parameter)
       end
 
-      it 'should have the right kinetic energy' do
-        @orbit.kinetic_energy(@orbital_velocity).should be_within_four_sigma_of(@orbital_kinetic_energy)
+      it 'should have the right specific kinetic energy' do
+        @orbit.specific_kinetic_energy(@orbital_velocity).should be_within_four_sigma_of(@orbital_specific_kinetic_energy)
       end
 
-      it 'should have the right potential energy' do
-        @orbit.potential_energy(@orbital_radius).should be_within_four_sigma_of(@orbital_potential_energy)
+      it 'should have the right specific potential energy' do
+        @orbit.specific_potential_energy(@orbital_radius).should be_within_four_sigma_of(@orbital_specific_potential_energy)
       end
 
-      it 'should have total energy that is the sum of kinetic and poential energy' do
-        @orbit.energy.should be_within_four_sigma_of( @orbital_kinetic_energy + @orbital_potential_energy )
+      it 'should have total specific energy that is the sum of kinetic and poential specific energy' do
+        @orbit.specific_energy.should be_within_four_sigma_of( @orbital_specific_kinetic_energy + @orbital_specific_potential_energy )
       end
 
       it 'should have the right rotational momentum' do
-        @orbit.specific_angular_momentum.should be_within_four_sigma_of( @orbital_angular_momentum )
+        @orbit.specific_angular_momentum.should be_within_four_sigma_of( @orbital_specific_angular_momentum )
       end
 
       it 'should have a semimajor_axis equal to the radius' do
@@ -111,6 +111,10 @@ describe KerbalDyn::Orbit do
         @orbit.eccentricity.should be_within_six_sigma_of(1.0)
       end
 
+      it 'should have a total specific energy of zero' do
+        @orbit.specific_energy.should be_within(1e-6).of(0.0)
+      end
+
     end
 
     describe 'Hyperbolic Orbit' do
@@ -122,7 +126,6 @@ describe KerbalDyn::Orbit do
       end
 
       it 'should have an eccentricity greater than 1' do
-        puts @orbit.eccentricity
         @orbit.eccentricity.should > 1.0
         @orbit.eccentricity.should be_within_four_sigma_of(@eccentricity)
       end
@@ -200,7 +203,7 @@ describe KerbalDyn::Orbit do
 
       it 'should be creatable from the initializer' do
         orbit = KerbalDyn::Orbit.new(@planetoid, :radius => @geostationary_orbit_radius)
-        orbit.eccentricity.should be_within(0.000001).of(0.0)
+        orbit.eccentricity.should be_within(1e-9).of(0.0)
         orbit.periapsis.should be_within_four_sigma_of(@geostationary_orbit_radius)
         orbit.periapsis_velocity.should be_within_four_sigma_of(@geostationary_orbit_velocity)
         orbit.apoapsis.should be_within_four_sigma_of(@geostationary_orbit_radius)
@@ -209,7 +212,7 @@ describe KerbalDyn::Orbit do
 
       it 'should be creatable from the factory method' do
         orbit = KerbalDyn::Orbit.circular_orbit(@planetoid, @geostationary_orbit_radius)
-        orbit.eccentricity.should be_within(0.000001).of(0.0)
+        orbit.eccentricity.should be_within(1e-9).of(0.0)
         orbit.periapsis.should be_within_four_sigma_of(@geostationary_orbit_radius)
         orbit.periapsis_velocity.should be_within_four_sigma_of(@geostationary_orbit_velocity)
         orbit.apoapsis.should be_within_four_sigma_of(@geostationary_orbit_radius)
@@ -218,7 +221,7 @@ describe KerbalDyn::Orbit do
 
       it 'should construct using the orbital period' do
         orbit = KerbalDyn::Orbit.circular_orbit_of_period(@planetoid, @orbital_period)
-        orbit.eccentricity.should be_within(0.000001).of(0.0)
+        orbit.eccentricity.should be_within(1e-9).of(0.0)
         orbit.periapsis.should be_within_four_sigma_of(@geostationary_orbit_radius)
         orbit.periapsis_velocity.should be_within_four_sigma_of(@geostationary_orbit_velocity)
         orbit.apoapsis.should be_within_four_sigma_of(@geostationary_orbit_radius)
@@ -232,7 +235,7 @@ describe KerbalDyn::Orbit do
 
       it 'should construct geostationary orbit' do
         orbit = KerbalDyn::Orbit.geostationary_orbit(@planetoid)
-        orbit.eccentricity.should be_within(0.000001).of(0.0)
+        orbit.eccentricity.should be_within(1e-9).of(0.0)
         orbit.periapsis.should be_within_four_sigma_of(@geostationary_orbit_radius)
         orbit.apoapsis.should be_within_four_sigma_of(@geostationary_orbit_radius)
         orbit.apoapsis_velocity.should be_within_four_sigma_of(@geostationary_orbit_velocity)
@@ -243,7 +246,12 @@ describe KerbalDyn::Orbit do
 
     describe 'constructing escape orbits' do
 
-      it 'should construct an escape orbit'
+      it 'should construct an escape orbit' do
+        @periapsis = (@planetoid.radius * 2.0) # Just picked one at pseudo-random.
+        orbit = KerbalDyn::Orbit.escape_orbit(@planetoid, @periapsis)
+        orbit.eccentricity.should be_within(1e-9).of(1.0)
+        orbit.specific_energy.should be_within(1e-6).of(0.0)
+      end
 
     end
 
