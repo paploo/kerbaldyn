@@ -77,20 +77,25 @@ module KerbalDyn
 
     # Orbit classification, returns one of :subelliptical, :circular, :elliptical,
     # :parabolic, or :hyperbolic.
-    def kind
+    #
+    # Because of how floats work, a delta is given for evaluation of "critical"
+    # points such as circular and elliptical orbits.  The default value is 1e-9,
+    # however other values may be given.
+    def classification(delta=0.000000001)
       e = self.eccentricity
-      if( e < 0.0 )
-        return :subelliptical
-      elsif( e == 0.0 )
+      if( e.abs < delta )
         return :circular
+      elsif( (e-1.0).abs < delta )
+        return :parabolic
       elsif( e > 0.0 && e < 1.0 )
         return :elliptical
-      elsif( e == 1.0 )
-        return :parabolic
-      else
+      elsif( e > 1.0 )
         return :hyperbolic
+      elsif( e < 0.0 )
+        return :subelliptical
       end
     end
+    alias_method :kind, :classification
 
     # Returns true if the orbit is a closed orbit (eccentricity < 1)
     def closed?
