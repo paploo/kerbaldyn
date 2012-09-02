@@ -3,8 +3,46 @@ module KerbalDyn
     include Mixin::ParameterAttributes
     include Mixin::OptionsProcessor
 
+    # A list of the independent parameters that define an orbit for this class.
     BASE_PARAMETERS = [:periapsis, :periapsis_velocity, :inclination, :longitude_of_ascending_node, :argument_of_periapsis, :mean_anomaly, :epoch]
+
+    # A map of default values for initialization parameters.
     DEFAULT_OPTIONS = BASE_PARAMETERS.inject({}) {|opts,param| opts[param] = 0.0; opts}.merge(:secondary_body => Body::TEST_PARTICLE)
+
+    def self.kerbol_kerbin
+      return @kerbol_kerbin ||= self.new(
+        Planetoid.kerbol,
+        :secondary_body => Planetoid.kerbin,
+        # The wiki published 13599840256, but using the period and velocity, I get 13534193652 and 13546968857 respectively.
+        # Furthermore, these are very close to the published value with the Kerbol radius subtracted out: 13534440256.
+        :semimajor_axis => 13599840256.0,
+        :eccentricity => 0.0,
+        :mean_anomaly => 3.140000,
+      ).freeze
+    end
+
+    def self.kerbin_mun
+      return @kerbin_mun ||= self.new(
+        Planetoid.kerbin,
+        :secondary_body => Planetoid.mun,
+        :semimajor_axis => 12000e3,
+        :eccentricity => 0.0,
+        :mean_anomaly => 1.700000,
+      ).freeze
+    end
+
+    def self.kerbin_minmus
+      return @kerbin_minmus ||= self.new(
+        Planetoid.kerbin,
+        :secondary_body => Planetoid.minmus,
+        :semimajor_axis => 47000e3,
+        :eccentricity => 0.0,
+        :mean_anomaly => 0.900000,
+        :inclination => 6.0 * Math::PI/180.0, # 6 degrees
+        :longitude_of_ascending_node => 78.0 * Math::PI/180.0, # 78 degrees
+        :argument_of_periapsis => 38.0 * Math::PI/180.0 # 38 degrees
+      ).freeze
+    end
 
     # Convenience method for creating a circular orbit about the given body.
     # This is redundant to calling new with the option of :radius.
@@ -139,8 +177,7 @@ module KerbalDyn
 
     # The orbit eccentricity.
     def eccentricity
-      c = (2.0 * self.specific_energy * self.specific_angular_momentum**2) / (self.gravitational_parameter**2)
-      return Math.sqrt(1.0 + c)
+      return (self.periapsis * self.periapsis_velocity**2 / self.gravitational_parameter) - 1
     end
 
     # The orbit semimajor-axis.

@@ -100,14 +100,8 @@ describe KerbalDyn::Planetoid do
     describe 'Kerbin' do
 
       before(:all) do
-        @planet_const = KerbalDyn::Planetoid::KERBIN
         @planet_fact  = KerbalDyn::Planetoid.kerbin
         @expected_name = 'Kerbin'
-      end
-
-      it 'should be available via constant' do
-        @planet_const.should be_kind_of(KerbalDyn::Planetoid)
-        @planet_const.name.should == @expected_name
       end
 
       it 'should be available via a factory method' do
@@ -117,13 +111,12 @@ describe KerbalDyn::Planetoid do
 
       it 'should be a memoized' do
         # We fetch the constant and the factory method value twice, to be sure they are all the same.
-        unique_ids = [@planet_const, @planet_fact, @planet_fact].map {|obj| obj.object_id}.uniq
+        unique_ids = [@planet_fact, @planet_fact].map {|obj| obj.object_id}.uniq
         unique_ids.length.should == 1
       end
 
       it 'should be frozen' do
         @planet_fact.should be_frozen
-        @planet_const.should be_frozen
       end
 
       {
@@ -136,17 +129,17 @@ describe KerbalDyn::Planetoid do
         :rotational_period => 6.0 * 3600.0
       }.each do |param, value|
         it "should have a #{param} of #{value}" do
-          KerbalDyn::Planetoid::KERBIN.send(param).should be_within_three_sigma_of(value)
+          @planet_fact.send(param).should be_within_three_sigma_of(value)
         end
       end
 
       describe 'geostationary orbit' do
         before(:all) do
-          @orbit = KerbalDyn::Planetoid::KERBIN.geostationary_orbit
+          @orbit = KerbalDyn::Planetoid.kerbin.geostationary_orbit
         end
 
         it 'should compute the correct radius' do
-          orbit_radius = (2868.4e3 + KerbalDyn::Planetoid::KERBIN.radius)
+          orbit_radius = (2868.4e3 + KerbalDyn::Planetoid.kerbin.radius)
           @orbit.semimajor_axis.should be_within_three_sigma_of(orbit_radius)
         end
 
@@ -161,14 +154,8 @@ describe KerbalDyn::Planetoid do
     describe 'Kerbol' do
 
       before(:all) do
-        @planet_const = KerbalDyn::Planetoid::KERBOL
         @planet_fact  = KerbalDyn::Planetoid.kerbol
         @expected_name = 'Kerbol'
-      end
-
-      it 'should be available via constant' do
-        @planet_const.should be_kind_of(KerbalDyn::Planetoid)
-        @planet_const.name.should == @expected_name
       end
 
       it 'should be available via a factory method' do
@@ -178,13 +165,12 @@ describe KerbalDyn::Planetoid do
 
       it 'should be a memoized' do
         # We fetch the constant and the factory method value twice, to be sure they are all the same.
-        unique_ids = [@planet_const, @planet_fact, @planet_fact].map {|obj| obj.object_id}.uniq
+        unique_ids = [@planet_fact, @planet_fact].map {|obj| obj.object_id}.uniq
         unique_ids.length.should == 1
       end
 
       it 'should be frozen' do
         @planet_fact.should be_frozen
-        @planet_const.should be_frozen
       end
 
       {
@@ -195,7 +181,7 @@ describe KerbalDyn::Planetoid do
         :escape_velocity => 188.9e3
       }.each do |param, value|
         it "should have a #{param} of #{value}" do
-          KerbalDyn::Planetoid::KERBOL.send(param).should be_within_three_sigma_of(value)
+          @planet_fact.send(param).should be_within_three_sigma_of(value)
         end
       end
 
@@ -204,14 +190,8 @@ describe KerbalDyn::Planetoid do
     describe 'Mun' do
 
       before(:all) do
-        @planet_const = KerbalDyn::Planetoid::MUN
         @planet_fact  = KerbalDyn::Planetoid.mun
         @expected_name = 'Mun'
-      end
-
-      it 'should be available via constant' do
-        @planet_const.should be_kind_of(KerbalDyn::Planetoid)
-        @planet_const.name.should == @expected_name
       end
 
       it 'should be available via a factory method' do
@@ -221,13 +201,12 @@ describe KerbalDyn::Planetoid do
 
       it 'should be a memoized' do
         # We fetch the constant and the factory method value twice, to be sure they are all the same.
-        unique_ids = [@planet_const, @planet_fact, @planet_fact].map {|obj| obj.object_id}.uniq
+        unique_ids = [@planet_fact, @planet_fact].map {|obj| obj.object_id}.uniq
         unique_ids.length.should == 1
       end
 
       it 'should be frozen' do
         @planet_fact.should be_frozen
-        @planet_const.should be_frozen
       end
 
       {
@@ -241,7 +220,7 @@ describe KerbalDyn::Planetoid do
         #:geostationary_orbit_velocity => 143 # The wiki seems wrong!
       }.each do |param, value|
         it "should have a #{param} of #{value}" do
-          KerbalDyn::Planetoid::MUN.send(param).should be_within_three_sigma_of(value)
+          @planet_fact.send(param).should be_within_three_sigma_of(value)
         end
       end
 
@@ -250,14 +229,8 @@ describe KerbalDyn::Planetoid do
     describe 'Minmus' do
 
       before(:all) do
-        @planet_const = KerbalDyn::Planetoid::MINMUS
         @planet_fact  = KerbalDyn::Planetoid.minmus
         @expected_name = 'Minmus'
-      end
-
-      it 'should be available via constant' do
-        @planet_const.should be_kind_of(KerbalDyn::Planetoid)
-        @planet_const.name.should == @expected_name
       end
 
       it 'should be available via a factory method' do
@@ -267,13 +240,12 @@ describe KerbalDyn::Planetoid do
 
       it 'should be a memoized' do
         # We fetch the constant and the factory method value twice, to be sure they are all the same.
-        unique_ids = [@planet_const, @planet_fact, @planet_fact].map {|obj| obj.object_id}.uniq
+        unique_ids = [@planet_fact, @planet_fact].map {|obj| obj.object_id}.uniq
         unique_ids.length.should == 1
       end
 
       it 'should be frozen' do
         @planet_fact.should be_frozen
-        @planet_const.should be_frozen
       end
 
       {
@@ -286,7 +258,7 @@ describe KerbalDyn::Planetoid do
         :rotational_period => 299.272 * 3600.0,
       }.each do |param, value|
         it "should have a #{param} of #{value}" do
-          KerbalDyn::Planetoid::MINMUS.send(param).should be_within_three_sigma_of(value)
+          @planet_fact.send(param).should be_within_three_sigma_of(value)
         end
       end
 

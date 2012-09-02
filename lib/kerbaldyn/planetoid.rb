@@ -8,19 +8,19 @@ module KerbalDyn
   class Planetoid < Body
 
     def self.kerbin
-      return @kerbin ||= self.new('Kerbin', :mass => 5.29e22, :radius => 600e3, :rotational_period => 6.0*3600.0).freeze
+      return @kerbin ||= self.new('Kerbin', :mass => 5.2906654e22, :radius => 600e3, :rotational_period => 6.0*3600.0).freeze
     end
 
     def self.kerbol
-      return @kerbol ||= self.new('Kerbol', :mass => 1.75e28, :radius => 65400e3).freeze
+      return @kerbol ||= self.new('Kerbol', :mass => 1.7502203e28, :radius => 65400e3).freeze
     end
 
     def self.mun
-      return @mun ||= self.new('Mun', :mass => 9.76e20, :radius => 200e3, :rotational_period => 41.0*3600.0).freeze
+      return @mun ||= self.new('Mun', :mass => 9.76113e20, :radius => 200e3, :rotational_period => 41.0*3600.0).freeze
     end
 
     def self.minmus
-      return @minmus ||= self.new('Minmus', :mass => 4.234e19, :radius => 60e3, :rotational_period => 1077379).freeze
+      return @minmus ||= self.new('Minmus', :mass => 4.234235e19, :radius => 60e3, :rotational_period => 1077379).freeze
     end
 
     def initialize(name, options={})
@@ -119,24 +119,6 @@ module KerbalDyn
     alias_method :g, :surface_gravity
     alias_method :rho, :density
     alias_method :mu, :gravitational_parameter
-
-    # ===== DEFINE FACTORY CONSTANTS =====
-
-    # Data for the planet Kerbin.
-    # Equivalent to calling the class factory method.
-    KERBIN = self.kerbin
-
-    # Data for the sun of Kerbol.
-    # Equivalent to calling the class factory method.
-    KERBOL = self.kerbol
-
-    # Data for the moon of Mun.
-    # Equivalent to calling the class factory method.
-    MUN = self.mun
-
-    # Data for the moon of Minmus.
-    # Equivalent to calling the class factory method.
-    MINMUS = self.minmus
 
   end
 end
