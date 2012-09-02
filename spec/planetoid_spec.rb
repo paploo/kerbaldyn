@@ -133,13 +133,27 @@ describe KerbalDyn::Planetoid do
         :surface_gravity => 9.8068,
         :gravitational_parameter => 3530.461e9,
         :escape_velocity => 3430.45,
-        :rotational_period => 6.0 * 3600.0,
-        :geostationary_orbit_altitude => 2868.4e3,
-        :geostationary_orbit_velocity => 1008.9
+        :rotational_period => 6.0 * 3600.0
       }.each do |param, value|
         it "should have a #{param} of #{value}" do
           KerbalDyn::Planetoid::KERBIN.send(param).should be_within_three_sigma_of(value)
         end
+      end
+
+      describe 'geostationary orbit' do
+        before(:all) do
+          @orbit = KerbalDyn::Planetoid::KERBIN.geostationary_orbit
+        end
+
+        it 'should compute the correct radius' do
+          orbit_radius = (2868.4e3 + KerbalDyn::Planetoid::KERBIN.radius)
+          @orbit.semimajor_axis.should be_within_three_sigma_of(orbit_radius)
+        end
+
+        it 'should compute the correct velocity' do
+          @orbit.periapsis_velocity.should be_within_three_sigma_of(1008.9)
+        end
+
       end
 
     end
@@ -270,8 +284,6 @@ describe KerbalDyn::Planetoid do
         :gravitational_parameter => 2.825505e9,
         :escape_velocity => 306.89,
         :rotational_period => 299.272 * 3600.0,
-        :geostationary_orbit_altitude => 4303.59e3,
-        :geostationary_orbit_velocity => 25.4
       }.each do |param, value|
         it "should have a #{param} of #{value}" do
           KerbalDyn::Planetoid::MINMUS.send(param).should be_within_three_sigma_of(value)

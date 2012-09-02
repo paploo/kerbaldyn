@@ -138,8 +138,8 @@ describe KerbalDyn::Orbit do
       @secondary_planetoid = KerbalDyn::Planetoid.new('Mun', :mass => 9.76e20, :radius => 200e3)
       @semimajor_axis = 12000e3
       @secondary_soi = 2430e3
-      @primary_soi = 59.3e6
-      @orbit = KerbalDyn::Orbit.new(@primary_planetoid, :secondary_body => @secondary_planetoid)
+      @primary_soi = 59.26e6
+      @orbit = KerbalDyn::Orbit.new(@primary_planetoid, :secondary_body => @secondary_planetoid, :semimajor_axis => @semimajor_axis, :eccentricity => 0.0)
     end
 
     it 'should calculate SOI of primary body' do

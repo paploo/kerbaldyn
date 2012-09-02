@@ -89,6 +89,28 @@ module KerbalDyn
       return Math.sqrt( 2.0 * self.gravitational_parameter / self.radius )
     end
 
+    # ===== Orbit Factory Methods =====
+
+    def geostationary_orbit
+      return Orbit.geostationary_orbit(self)
+    end
+
+    def circular_orbit(radius)
+      return Orbit.circular_orbit(self, radius)
+    end
+
+    def circular_orbit_of_period(period)
+      return Orbit.circular_orbit_of_period(self, period)
+    end
+
+    def escape_orbit(periapsis)
+      return Orbit.escape_orbit(self, periapsis)
+    end
+
+    def self.orbit(options={})
+      return Orbit.new(self, options)
+    end
+
     # ===== ALIASES =====
 
     alias_method :m, :mass

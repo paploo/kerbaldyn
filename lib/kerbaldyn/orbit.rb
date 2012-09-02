@@ -6,21 +6,26 @@ module KerbalDyn
     BASE_PARAMETERS = [:periapsis, :periapsis_velocity, :inclination, :longitude_of_ascending_node, :argument_of_periapsis, :mean_anomaly, :epoch]
     DEFAULT_OPTIONS = BASE_PARAMETERS.inject({}) {|opts,param| opts[param] = 0.0; opts}.merge(:secondary_body => Body::TEST_PARTICLE)
 
+    # Convenience method for creating a circular orbit about the given body.
     # This is redundant to calling new with the option of :radius.
     def self.circular_orbit(primary_body, radius)
       return self.new(primary_body, :radius => radius)
     end
 
+    # Convenience method for creating a circular orbit of a given period around
+    # a given body.
     def self.circular_orbit_of_period(primary_body, period)
       planetoid_angular_velocity = 2.0 * Math::PI / period
       radius = (primary_body.gravitational_parameter / planetoid_angular_velocity**2)**(1.0/3.0)
       return self.circular_orbit(primary_body, radius)
     end
 
+    # Convenience method for creating a geostationary orbit around the given body.
     def self.geostationary_orbit(primary_body)
       return self.circular_orbit_of_period(primary_body, primary_body.rotational_period)
     end
 
+    # Convenience method for creating an escape orbit around the given body.
     def self.escape_orbit(primary_body, periapsis)
       periapsis_escape_velocity = Math.sqrt(2.0 * primary_body.gravitational_parameter / periapsis)
       return self.new(:periapsis => periapsis, :periapsis_velocity => periapsis_escape_velocity)
@@ -57,9 +62,25 @@ module KerbalDyn
     # Expected to be an instance of Planetoid.
     attr_accessor :secondary_body
 
+    # Returns the sphere of influence (SOI) for the primary body in the context
+    # of the two-body system.
+    def primary_body_sphere_of_influence
+      return self.semimajor_axis * (self.primary_body.mass / self.secondary_body.mass)**(0.4)
+    end
+
+    # Returns the sphere of influence (SOI) for the secondary body in the context
+    # of the two-body system.
+    def secondary_body_sphere_of_influence
+      return self.semimajor_axis * (self.secondary_body.mass / self.primary_body.mass)**(0.4)
+    end
+    alias_method :sphere_of_influence, :secondary_body_sphere_of_influence
+
+    # Orbit classification, returns one of :subelliptical, :circular, :elliptical,
+    # :parabolic, or :hyperbolic.
     def kind
       e = self.eccentricity
       if( e < 0.0 )
+        return :subelliptical
       elsif( e == 0.0 )
         return :circular
       elsif( e > 0.0 && e < 1.0 )
@@ -71,42 +92,54 @@ module KerbalDyn
       end
     end
 
+    # Returns true if the orbit is a closed orbit (eccentricity < 1)
     def closed?
       return self.eccentricity < 1.0
     end
 
+    # Returns false if the orbit is closed.
     def open?
       return !self.closed?
     end
 
+    # Returns the gravitational parameter for this orbit.
+    # Note that this currently is G*M rather than G*(M+m).
     def gravitational_parameter
       return self.primary_body.gravitational_parameter
     end
 
+    # The specific potential energy for any given orbit radius.
     def potential_energy(r)
       return -self.gravitational_parameter / r
     end
 
+    # THe specific kinetic energy for any given velocity.
     def kinetic_energy(v)
       return 0.5 * v**2
     end
 
+    # The total specific energyy of the orbit; this is constant over the entire
+    # orbit.
     def specific_energy
       return self.potential_energy(self.periapsis) + self.kinetic_energy(self.periapsis_velocity)
     end
     alias_method :energy, :specific_energy
     alias_method :vis_viva_energy, :specific_energy
 
+    # The specific angular momentum for this orbit; this is constant over the
+    # entire orbit.
     def specific_angular_momentum
       return self.periapsis * self.periapsis_velocity
     end
     alias_method :angular_momentum, :specific_angular_momentum
 
+    # The orbit eccentricity.
     def eccentricity
       c = (2.0 * self.specific_energy * self.specific_angular_momentum**2) / (self.gravitational_parameter**2)
       return Math.sqrt(1.0 + c)
     end
 
+    # The orbit semimajor-axis.
     def semimajor_axis
       if self.closed?
         return self.periapsis / (1.0 - self.eccentricity)
@@ -115,6 +148,7 @@ module KerbalDyn
       end
     end
 
+    # The orbit semiminor_axis, if the eccentricity is less than one.
     def semiminor_axis
       if self.closed?
         return self.semimajor_axis * Math.sqrt(1.0 - self.eccentricity**2)
@@ -123,6 +157,7 @@ module KerbalDyn
       end
     end
 
+    # The orbital period, if the eccentricity is less than one.
     def period
       if self.closed?
         return 2.0 * Math::PI * Math.sqrt( self.semimajor_axis**3 / self.gravitational_parameter )
@@ -131,6 +166,7 @@ module KerbalDyn
       end
     end
 
+    # The apoapsis radius, if the eccentricity is less than one.
     def apoapsis
       if self.closed?
         return self.semimajor_axis * (1 + self.eccentricity)
@@ -139,6 +175,7 @@ module KerbalDyn
       end
     end
 
+    # The apoapsis velocity, if the eccentricity is less than one.
     def apoapsis_velocity
       if self.closed?
         e = self.eccentricity
@@ -151,8 +188,10 @@ module KerbalDyn
 
     private
 
-    # This takes one of the following sets of parameters, derives periapsis and
-    # periapsis_velocity, and then replaces the original keys with them.
+    # This takes one several sets of base parameters, and derives the periapsis
+    # and periapsis_velocity, and then replaces the original keys with them.
+    #
+    # This is helper method for initialization.
     def replace_orbital_parameters(options)
       # We don't want to mutate the options hash they passed in.
       opts = options.dup
