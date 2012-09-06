@@ -61,6 +61,10 @@ describe KerbalDyn::Orbit do
         @orbit.period.should be_within_four_sigma_of(@orbital_period)
       end
 
+      it 'should have the expected mean_angular_velocity' do
+        @orbit.mean_angular_velocity.should be_within_four_sigma_of(2.0*Math::PI / @orbital_period)
+      end
+
       it 'should have the correct periapsis_velocity' do
         @orbit.periapsis_velocity.should be_within_four_sigma_of(@orbital_velocity)
       end

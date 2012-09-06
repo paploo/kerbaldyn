@@ -74,24 +74,48 @@ module KerbalDyn
       def lead_angle
         # This is the angle traversed by the target during the transfer orbit period,
         # with positive angles leading back in time further and further.
-        target_angle_traversed = (Math::PI / Math.sqrt(8.0)) * Math.sqrt(self.radius_ratio + 1.0)**1.5
+        rp_over_ra = 1.0 / self.radius_ratio
+        target_angle_traversed = (Math::PI / Math.sqrt(8.0)) * (rp_over_ra + 1.0)**1.5
         # We when subtract this from 180.0, which is the start angel for us
         # relative to the meet-up time.
-        return Math::PI - target_angle_traveresed
+        return Math::PI - target_angle_traversed
       end
 
-      # This is the amount the relative anomaly changes per full orbit.
-      # Positive values mean that the angle is getting larger so you are falling
-      # behind the target, and negative values mean the angle is getting smaller
-      # so you are gaining on the target.
-      def relative_anomaly_change
-        return 2.0 * Math::PI * (self.final_orbit.angular_velocity - self.initial_orbit.angular_velocity)
+      # The time elapsed such that--if started when the target is directly radial
+      # from you (same true anomaly)--you would start your transfer orbit in order
+      # to intersect.
+      def lead_time
+        # Calculate the time necessary for the necessary lead angle separation
+        # to occur, taking into account that the relative anomaly delta needs
+        # to be from the refernce frame of the destination orbit (thus applying
+        # a negative sign).
+        self.lead_angle / (-self.relative_anomaly_delta) * self.initial_orbit.period
+      end
+
+      # For every full cycle of the initial orbit (2pi radians), the final orbit
+      # covers either less than 2pi radians (if it is bigger) or more than 2pi radians
+      # (if it is smaller) in the same amount of time.  The relative_delta_anomaly
+      # is the change difference covered.
+      #
+      # If it is positive, then the initial orbit is slower,
+      # If it is zero, then they are in lock-step,
+      # If it is negative, then the initial orbit is faster.
+      def relative_anomaly_delta
+        initial_orbit_anomaly = 2.0 * Math::PI
+        final_orbit_anomaly = 2.0 * Math::PI * (self.initial_orbit.period / self.final_orbit.period)
+        return final_orbit_anomaly - initial_orbit_anomaly
       end
 
       # The ratio of the destination orbit radius over the initial orbit radius.
       # Ratios greater than one are a move to a higher orbit.
       def radius_ratio
-        return self.destination_orbit.semimajor_axis / self.initial_orbit.semimajor_axis
+        return self.final_orbit.semimajor_axis / self.initial_orbit.semimajor_axis
+      end
+
+      # The ratio of the destination orbit period to the initial orbit period.
+      # If it is greater than 1, then the destination orbit is lower.
+      def period_ratio
+        return self.final_orbit.period / self.initial_orbit.period
       end
 
     end
