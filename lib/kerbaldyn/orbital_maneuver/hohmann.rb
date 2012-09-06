@@ -86,10 +86,8 @@ module KerbalDyn
       # to intersect.
       def lead_time
         # Calculate the time necessary for the necessary lead angle separation
-        # to occur, taking into account that the relative anomaly delta needs
-        # to be from the refernce frame of the destination orbit (thus applying
-        # a negative sign).
-        self.lead_angle / (-self.relative_anomaly_delta) * self.initial_orbit.period
+        # to occur.
+        self.lead_angle / self.relative_anomaly_delta * self.initial_orbit.period
       end
 
       # For every full cycle of the initial orbit (2pi radians), the final orbit
@@ -100,6 +98,12 @@ module KerbalDyn
       # If it is positive, then the initial orbit is slower,
       # If it is zero, then they are in lock-step,
       # If it is negative, then the initial orbit is faster.
+      #
+      # Note that for a large orbit ratio, going from the lower to higher orbit
+      # will have a very negative anomaly close to -2pi (the target didn't move much
+      # much , while you did your rotation), while going from a higher to lower
+      # orbit has a high positive number (the target did a lot of laps while you
+      # were waiting for it.
       def relative_anomaly_delta
         initial_orbit_anomaly = 2.0 * Math::PI
         final_orbit_anomaly = 2.0 * Math::PI * (self.initial_orbit.period / self.final_orbit.period)

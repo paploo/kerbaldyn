@@ -142,15 +142,17 @@ describe KerbalDyn::OrbitalManeuver::Hohmann do
     end
 
     it 'should calculate the lead angle for intercept' do
-      @hohmann.lead_angle.should be_within_two_sigma_of(-1.756)
+      # This is a large negative number because the lower orbit gets nearly 3.5 periods in during the transfer, which is nearly 22 radians.
+      @hohmann.lead_angle.should be_within_two_sigma_of(-18.83)
     end
 
     it 'should calculate the lead time for intercept' do
-      @hohmann.lead_time.should be_within_two_sigma_of(1620.7)
+      @hohmann.lead_time.should be_within_two_sigma_of(1620.7) #TODO: 1620.7 is trailing time, not lead time!
     end
 
     it 'should calculate the realtive anomaly change per complete orbit' do
-      delta_theta = 5.887 #separation change per complete rotation ofinitial orbit as compared to something in the final orbit; negative since the lower orbit should close the gap.
+      # This is large because the inner planet gets nearly 16 loops (nearly 100 radians) in for each of the slow orbit's
+      delta_theta = 93.40
       @hohmann.relative_anomaly_delta.should be_within_two_sigma_of(delta_theta)
     end
 
