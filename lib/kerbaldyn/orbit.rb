@@ -1,4 +1,8 @@
 module KerbalDyn
+  # The primary class for encapsulating an orbit around a primary body.
+  # At this time orbits are simplified to only consider the mass of the primary
+  # body, thus the orbit of the secondary body is around the center-of-mass of
+  # the primary body.  This approximation works well for the Kerbal universe.
   class Orbit
     include Mixin::ParameterAttributes
     include Mixin::OptionsProcessor
@@ -9,12 +13,16 @@ module KerbalDyn
     # A map of default values for initialization parameters.
     DEFAULT_OPTIONS = BASE_PARAMETERS.inject({}) {|opts,param| opts[param] = 0.0; opts}.merge(:secondary_body => Body::TEST_PARTICLE)
 
+    # Returns the orbit of Kerbin orbiting Kerbol.
+    #
+    # The wiki published the semi-major axis as being 13599840256, but using the
+    # period and velocity, I get 13534193652 and 13546968857 respectively.
+    # Furthermore, these are very close to the published value with the Kerbol
+    # radius subtracted out: 13534440256.
     def self.kerbol_kerbin
       return @kerbol_kerbin ||= self.new(
         Planetoid.kerbol,
         :secondary_body => Planetoid.kerbin,
-        # The wiki published 13599840256, but using the period and velocity, I get 13534193652 and 13546968857 respectively.
-        # Furthermore, these are very close to the published value with the Kerbol radius subtracted out: 13534440256.
         :semimajor_axis => 13599840256.0,
         :eccentricity => 0.0,
         :mean_anomaly => 3.140000,

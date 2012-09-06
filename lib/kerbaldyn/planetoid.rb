@@ -41,7 +41,7 @@ module KerbalDyn
 
     # Returns the gravtiational_parameter (G*M) of the planetoid.
     def gravitational_parameter
-      KerbalDyn::G * self.mass
+      Constants::G * self.mass
     end
 
     # Returns the gravitational accelaration at a given radius from the
