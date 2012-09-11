@@ -81,17 +81,6 @@ module KerbalDyn
         #
         # Therefore: delta_theta = Math::PI - omega_2*delta_t
         return Math::PI - self.final_orbit.mean_angular_velocity * self.delta_time
-
-        # Another solution involves the same logic, but using periods, and gives
-        # rise to the following analytic solution:
-        #
-        # This is the angle traversed by the target during the transfer orbit period,
-        # with positive angles leading back in time further and further.
-        rp_over_ra = 1.0 / self.radius_ratio
-        target_angle_traversed = (Math::PI / Math.sqrt(8.0)) * (rp_over_ra + 1.0)**1.5
-        # We when subtract this from 180.0, which is the start angel for us
-        # relative to the meet-up time.
-        return Math::PI - target_angle_traversed
       end
 
       # The time elapsed such that--if started when the target is directly radial
