@@ -63,11 +63,13 @@ describe KerbalDyn::OrbitalManeuver::Hohmann do
     end
 
     it 'should calculate the lead angle for intercept' do
+      # Value calculated several times, several different ways to cross-check
       @hohmann.lead_angle.should be_within_two_sigma_of(1.756)
     end
 
     it 'should calculate the lead time for intercept' do
-      @hohmann.lead_time.should be_within_two_sigma_of(1620.7)
+      # Value calculated
+      @hohmann.lead_time.should be_within_two_sigma_of(4175.58)
     end
 
     it 'should calculate the realtive anomaly change per complete orbit' do
@@ -142,12 +144,14 @@ describe KerbalDyn::OrbitalManeuver::Hohmann do
     end
 
     it 'should calculate the lead angle for intercept' do
+      # Value calculated several times, several different ways to cross-check
       # This is a large negative number because the lower orbit gets nearly 3.5 periods in during the transfer, which is nearly 22 radians.
       @hohmann.lead_angle.should be_within_two_sigma_of(-18.83)
     end
 
     it 'should calculate the lead time for intercept' do
-      @hohmann.lead_time.should be_within_two_sigma_of(1620.7) #TODO: 1620.7 is trailing time, not lead time!
+      # The lead angle, -18.828, is so insanely close to three times around the circle, that about 20s is actually the lead time!
+      @hohmann.lead_time.should be_within_two_sigma_of(19.73)
     end
 
     it 'should calculate the realtive anomaly change per complete orbit' do

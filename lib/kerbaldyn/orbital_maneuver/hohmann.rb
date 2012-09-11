@@ -72,6 +72,19 @@ module KerbalDyn
       # so zero degrees means you both have the same anomaly, and positive values
       # are tha anomaly angle they should lead you by.
       def lead_angle
+        # Easy calculation:
+        # theta_f1 = theta_01 + Math::PI        (The "spaceship" will travel 180 degrees during the transfer)
+        # theta_f2 = theta_02 + omega_2*delta_t (The target body will travel omega_2*delta_t during the transfer)
+        #
+        # theta_f1 = theta_f2                   (They must both be at the same final place for an incercept)
+        # delta_theta := theta_02 - theta_01
+        #
+        # Therefore: delta_theta = Math::PI - omega_2*delta_t
+        return Math::PI - self.final_orbit.mean_angular_velocity * self.delta_time
+
+        # Another solution involves the same logic, but using periods, and gives
+        # rise to the following analytic solution:
+        #
         # This is the angle traversed by the target during the transfer orbit period,
         # with positive angles leading back in time further and further.
         rp_over_ra = 1.0 / self.radius_ratio
@@ -83,11 +96,25 @@ module KerbalDyn
 
       # The time elapsed such that--if started when the target is directly radial
       # from you (same true anomaly)--you would start your transfer orbit in order
-      # to intersect.
+      # to intercept.
       def lead_time
-        # Calculate the time necessary for the necessary lead angle separation
-        # to occur.
-        self.lead_angle / self.relative_anomaly_delta * self.initial_orbit.period
+        # theta_f1 = theta_01 + omega_1*t
+        # theta_f2 = theta_02 + omega_2*t
+        # theta_f2 - theta_f1 = theta_lead  (After time t, we want to achieve lead angle)
+        # theta_02 - theta_01 = 0           (When we start the clock, we want no separation)
+        #
+        # Thefefore: theta_lead = (omega_2 - omega_1) * t
+        #
+        # We also have to find the offset (n*2*pi) to the lead angle that will lead to the
+        # first positive time.  This depends on wether delta_omega is positive or
+        # negative.
+        delta_omega = self.final_orbit.mean_angular_velocity - self.initial_orbit.mean_angular_velocity
+
+        two_pi = 2.0*Math::PI
+        theta_lead = (self.lead_angle % two_pi)
+        theta_lead = (delta_omega>0.0) ? theta_lead : (theta_lead-two_pi)
+
+        return theta_lead / delta_omega
       end
 
       # For every full cycle of the initial orbit (2pi radians), the final orbit
