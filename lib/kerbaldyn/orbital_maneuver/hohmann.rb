@@ -14,11 +14,26 @@ module KerbalDyn
         super
       end
 
-      # The total delta velocity necessary.
+      # An array of the transfer burn delta-v values.
       #
-      # This is the sum of the <b>absolute values<b> of each burn's delta-v.
-      def delta_velocity
-        return delta_v1.abs + delta_v2.abs
+      # The first burn is for leaving your initial circular orbit, and the
+      # second is for entering the new circular orbit.
+      #
+      # Note that positive values are prograde burns, and negative values
+      # are retrograde burns.
+      def delta_velocities
+        # We can use either periapsis or apoapsis velocity since the initial orbit is round, but periapsis is faster..
+        delta_v1 = self.transfer_v1 - self.initial_orbit.periapsis_velocity
+        delta_v2 = self.final_orbit.periapsis_velocity - self.transfer_v2
+        return [delta_v1, delta_v2]
+      end
+
+      # These are the target velocities you should have at the completion of
+      # each burn.
+      def transfer_velocities
+        transfer_v1 = self.moving_to_higher_orbit? ? self.transfer_orbit.periapsis_velocity : self.transfer_orbit.apoapsis_velocity
+        transfer_v2 = self.moving_to_higher_orbit? ? self.transfer_orbit.apoapsis_velocity : self.transfer_orbit.periapsis_velocity
+        return [transfer_v1, transfer_v2]
       end
 
       # This is the period of the transfer orbit between the initial burn and
@@ -45,25 +60,23 @@ module KerbalDyn
       # Delta-v for the first burn.  If this is positive, it is a prograde burn,
       # if it is negative, it is a retrograde burn.
       def delta_v1
-        # We can use either periapsis or apoapsis velocity since the initial orbit is round, but periapsis is faster..
-        return self.transfer_v1 - self.initial_orbit.periapsis_velocity
+        return delta_velocities[0]
       end
 
       # Delta-v for the second burn.  If this is positive, it is a prograde burn,
       # if it is negative, it is a retrograde burn.
       def delta_v2
-        # We can use either periapsis or apoapsis velocity since hte initial orbit is round, but periapsis is faster.
-        return self.final_orbit.periapsis_velocity - self.transfer_v2
+        return delta_velocities[1]
       end
 
       # Your transfer velocity in the initial orbit.
       def transfer_v1
-        return self.moving_to_higher_orbit? ? self.transfer_orbit.periapsis_velocity : self.transfer_orbit.apoapsis_velocity
+        return transfer_velocities[0]
       end
 
       # Your transfer velocity in the final orbit.
       def transfer_v2
-        return self.moving_to_higher_orbit? ? self.transfer_orbit.apoapsis_velocity : self.transfer_orbit.periapsis_velocity
+        return transfer_velocities[1]
       end
 
       # This lead angle for intercept of a body in the destination orbit.
