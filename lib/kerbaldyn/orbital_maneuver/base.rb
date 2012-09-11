@@ -31,7 +31,7 @@ module KerbalDyn
       # The baseclass implementation is to sum the absolute values of the
       # deltas in the velocity list +delta_velocities+.
       def delta_velocity
-        return self.delta_velocities.reduce {|a,b| a.abs + b.abs}
+        return self.delta_velocities.reduce(0) {|a,b| a.abs + b.abs}
       end
 
       # An alias to delta_velocity.
