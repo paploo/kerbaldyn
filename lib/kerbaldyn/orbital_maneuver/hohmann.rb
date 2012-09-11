@@ -23,8 +23,8 @@ module KerbalDyn
       # are retrograde burns.
       def delta_velocities
         # We can use either periapsis or apoapsis velocity since the initial orbit is round, but periapsis is faster..
-        delta_v1 = self.transfer_v1 - self.initial_orbit.periapsis_velocity
-        delta_v2 = self.final_orbit.periapsis_velocity - self.transfer_v2
+        delta_v1 = self.transfer_velocities[0] - self.initial_orbit.periapsis_velocity
+        delta_v2 = self.final_orbit.periapsis_velocity - self.transfer_velocities[1]
         return [delta_v1, delta_v2]
       end
 
@@ -55,28 +55,6 @@ module KerbalDyn
         periapsis = [r1,r2].min
         apoapsis = [r1,r2].max
         return Orbit.new(self.initial_orbit.primary_body, :periapsis => periapsis, :apoapsis => apoapsis)
-      end
-
-      # Delta-v for the first burn.  If this is positive, it is a prograde burn,
-      # if it is negative, it is a retrograde burn.
-      def delta_v1
-        return delta_velocities[0]
-      end
-
-      # Delta-v for the second burn.  If this is positive, it is a prograde burn,
-      # if it is negative, it is a retrograde burn.
-      def delta_v2
-        return delta_velocities[1]
-      end
-
-      # Your transfer velocity in the initial orbit.
-      def transfer_v1
-        return transfer_velocities[0]
-      end
-
-      # Your transfer velocity in the final orbit.
-      def transfer_v2
-        return transfer_velocities[1]
       end
 
       # This lead angle for intercept of a body in the destination orbit.

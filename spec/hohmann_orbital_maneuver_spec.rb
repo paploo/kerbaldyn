@@ -42,20 +42,20 @@ describe KerbalDyn::OrbitalManeuver::Hohmann do
 
     it 'should calculate burn one to velocity' do
       @hohmann.transfer_orbit.periapsis_velocity.should be_within_two_sigma_of(@vp)
-      @hohmann.transfer_v1.should be_within_two_sigma_of(@vp)
+      @hohmann.transfer_velocities[0].should be_within_two_sigma_of(@vp)
     end
 
     it 'should calculate burn two to velocity' do
       @hohmann.transfer_orbit.apoapsis_velocity.should be_within_two_sigma_of(@va)
-      @hohmann.transfer_v2.should be_within_two_sigma_of(@va)
+      @hohmann.transfer_velocities[1].should be_within_two_sigma_of(@va)
     end
 
     it 'should calculate burn one delta velocity' do
-      @hohmann.delta_v1.should be_within_two_sigma_of(@dv1)
+      @hohmann.delta_velocities[0].should be_within_two_sigma_of(@dv1)
     end
 
     it 'should calculate burn two delta velocity' do
-      @hohmann.delta_v2.should be_within_two_sigma_of(@dv2)
+      @hohmann.delta_velocities[1].should be_within_two_sigma_of(@dv2)
     end
 
     it 'should calculate total delta velocity' do
@@ -123,20 +123,20 @@ describe KerbalDyn::OrbitalManeuver::Hohmann do
 
     it 'should calculate burn one to velocity' do
       @hohmann.transfer_orbit.apoapsis_velocity.should be_within_two_sigma_of(@va)
-      @hohmann.transfer_v1.should be_within_two_sigma_of(@va)
+      @hohmann.transfer_velocities[0].should be_within_two_sigma_of(@va)
     end
 
     it 'should calculate burn two to velocity' do
       @hohmann.transfer_orbit.periapsis_velocity.should be_within_two_sigma_of(@vp)
-      @hohmann.transfer_v2.should be_within_two_sigma_of(@vp)
+      @hohmann.transfer_velocities[1].should be_within_two_sigma_of(@vp)
     end
 
     it 'should calculate burn one delta velocity' do
-      @hohmann.delta_v1.should be_within_two_sigma_of(@dv1)
+      @hohmann.delta_velocities[0].should be_within_two_sigma_of(@dv1)
     end
 
     it 'should calculate burn two delta velocity' do
-      @hohmann.delta_v2.should be_within_two_sigma_of(@dv2)
+      @hohmann.delta_velocities[1].should be_within_two_sigma_of(@dv2)
     end
 
     it 'should calculate total delta velocity' do
