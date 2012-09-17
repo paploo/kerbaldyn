@@ -224,6 +224,13 @@ module KerbalDyn
       end
     end
 
+    # This is the mean angular velocity (angle change per unit time) for this orbit.
+    #
+    # This simply calls +mean_angular_velocity+ on self.
+    def mean_motion
+      return self.mean_angular_velocity
+    end
+
     # The apoapsis radius, if the eccentricity is less than one.
     def apoapsis
       if self.closed?
