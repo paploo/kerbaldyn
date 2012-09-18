@@ -1,9 +1,12 @@
-require 'kerbaldyn/version'
+require_relative 'kerbaldyn/version'
 
-require 'kerbaldyn/constants'
-require 'kerbaldyn/mixin'
+require_relative 'kerbaldyn/constants'
+require_relative 'kerbaldyn/mixin'
 
-require 'kerbaldyn/body'
-require 'kerbaldyn/planetoid'
-require 'kerbaldyn/orbit'
-require 'kerbaldyn/orbital_maneuver'
+require_relative 'kerbaldyn/part'
+require_relative 'kerbaldyn/part_library'
+
+require_relative 'kerbaldyn/body'
+require_relative 'kerbaldyn/planetoid'
+require_relative 'kerbaldyn/orbit'
+require_relative 'kerbaldyn/orbital_maneuver'
