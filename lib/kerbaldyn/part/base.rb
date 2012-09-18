@@ -94,6 +94,10 @@ module KerbalDyn
         return self['maximum_drag'] && self['maximum_drag'].to_f
       end
 
+      def drag
+        return self.maximum_drag
+      end
+
       def minimum_drag
         return self['minimum_drag'] && self['minimum_drag'].to_f
       end
@@ -104,6 +108,10 @@ module KerbalDyn
 
       def crash_tolerance
         return self['crashTolerance'].to_f
+      end
+
+      def impact_tolerance
+        return self.crash_tolerance
       end
 
       def cost

@@ -1,6 +1,6 @@
 module KerbalDyn
   module Part
-    class RCSFuelTank < Base
+    class RCSFuelTank < FuelTank
     end
   end
 end
