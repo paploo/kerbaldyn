@@ -51,13 +51,31 @@ describe KerbalDyn::Part do
 
     describe 'loader' do
 
-      it 'should load parts from part directories'
+      before(:all) do
+        @parts_directory = File.join(File.dirname(__FILE__), 'support', 'parts')
+        @liquid_engine_part_dir = File.join(@parts_directory, 'liquidEngine1')
+        @part_dir = @liquid_engine_part_dir
+      end
 
-      it 'should instantiate as the module attribute class'
+      before(:each) do
+        @part = KerbalDyn::Part::Base.load_part(@part_dir)
+      end
+
+      it 'should load parts from part directories' do
+        @part.should be_kind_of(KerbalDyn::Part::Base)
+      end
+
+      it 'should instantiate as the module attribute class' do
+        @part.class.name.should =~ Regexp.new( 'KerbalDyn::Part::' + @part[:module] + "$")
+      end
 
       it 'should default to instantiating as generic'
 
-      it 'should return nil if no part was found'
+      it 'should return nil if no part was found' do
+        dir_path = File.join(@parts_directory, 'tardis') # Doesn't exist.
+        part = KerbalDyn::Part::Base.load_part(dir_path)
+        part.should == nil
+      end
 
       it 'should log parse errors'
 
