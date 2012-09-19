@@ -9,7 +9,7 @@ module KerbalDyn
     # Loads parts from a given directory into the library.
     def self.load_parts(directory)
       dir = Pathname.new(directory)
-      raise "#{dir} is not a directory" unless dir.directory?
+      raise nil unless dir.directory?
 
       parts = dir.children.reject do |part_dir|
         # Reject if it starts with a dot or is not a directory.
@@ -51,4 +51,5 @@ module KerbalDyn
   end
 end
 
-$lib = KerbalDyn::PartLibrary.load_parts("/Users/jreinecke/Downloads/NovaPunch1_3beta/NovaPunch/Parts")
+#$lib = KerbalDyn::PartLibrary.load_parts("/Users/jreinecke/Downloads/NovaPunch1_3beta/NovaPunch/Parts")
+#$lib = KerbalDyn::PartLibrary.load_parts("/Users/jreinecke/Downloads/KSPDefaultParts")

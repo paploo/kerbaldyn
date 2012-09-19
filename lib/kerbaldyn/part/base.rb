@@ -8,7 +8,7 @@ module KerbalDyn
       def self.load_part(directory)
         # Process the argument.
         dir = Pathname.new(directory)
-        raise "#{dir} is not a directory" unless dir.directory?
+        return nil unless dir.directory?
 
         # Get a handle on the spec file.
         spec_file = dir + 'part.cfg'
@@ -21,8 +21,10 @@ module KerbalDyn
         # Parse the lines.
         spec_file.read.each_line do |line|
           line_count += 1
+          line.chomp!
+          line = line.encode('ASCII-8BIT', :invalid => :replace, :replace => '?') unless line.valid_encoding?
 
-          case line.chomp
+          case line
           when /^\s*$/
             # Blank
           when /^\s*\/\//
@@ -49,13 +51,17 @@ module KerbalDyn
       end
 
       def initialize(attributes)
-        @attributes = attributes
+        @attributes = attributes.dup
       end
 
       attr_reader :attributes
 
       def [](attr)
         return self.attributes[attr.to_s]
+      end
+
+      def to_hash
+        return attributes.dup
       end
 
       def name
@@ -71,7 +77,7 @@ module KerbalDyn
       end
 
       def category
-        return self['category']
+        return self['category'].to_i
       end
 
       def category_name

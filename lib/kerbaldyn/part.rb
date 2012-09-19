@@ -1,3 +1,5 @@
+require_relative 'part/mixin'
+
 require_relative 'part/base'
 require_relative 'part/generic'
 require_relative 'part/fuel_tank'
