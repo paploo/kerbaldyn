@@ -3,7 +3,6 @@ require 'pathname'
 module KerbalDyn
   module Part
     class Base
-      CATEGORIES = {'Propulsion' => 0, 'Command & Control' => 1, 'Structural & Aerodynamic' => 2, 'Utility & Scientific' => 3, 'Decals' => 4, 'Crew' => 5}
 
       def self.load_part(directory)
         # Process the argument.

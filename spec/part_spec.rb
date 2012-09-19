@@ -15,20 +15,37 @@ describe KerbalDyn::Part do
     describe 'properties' do
 
       before(:each) do
-        @attributes = {'name' => 'Foo'}
+        @attributes = {'name' => 'fooThruster', 'module' => 'LiquidFuelEngine', 'category' => '0'}
         @part = KerbalDyn::Part::Base.new(@attributes)
       end
 
       # Rather than test every single property, we test those that have non-trivial
       # accessors.
 
-      it 'should provide string and symbol access to attributes'
+      it 'should provide string and symbol access to attributes' do
+        @part['name'].should == @attributes['name']
+        @part[:name].should == @attributes['name']
+      end
 
-      it 'should provide category name'
+      it 'should provide category name' do
+        @part.category.should == KerbalDyn::Part::CATEGORIES['Propulsion']
+        @part.category_name.should == 'Propulsion'
+      end
 
-      it 'should provide module class'
+      it 'should provide module class' do
+        @part.module_class.should == KerbalDyn::Part::LiquidFuelEngine
+      end
 
-      it 'should copy the attributes passed to it'
+      it 'should copy the attributes passed to it' do
+        attributes = @attributes.dup
+        part = KerbalDyn::Part::Base.new(attributes)
+
+        part.attributes.object_id.should_not == attributes.object_id
+
+        part['name'].should == 'fooThruster'
+        attributes['name'] == 'barThruster'
+        part['name'].should_not == 'barThruster'
+      end
 
     end
 
