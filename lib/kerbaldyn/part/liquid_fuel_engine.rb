@@ -13,11 +13,11 @@ module KerbalDyn
       end
 
       def isp
-        return self['isp'].to_f
+        return self['Isp'].to_f
       end
 
       def vac_isp
-        return self['vac_isp'].to_f
+        return self['vacIsp'].to_f
       end
 
       def heat_production
@@ -34,7 +34,7 @@ module KerbalDyn
 
       # Calculated mass fuel flow.
       def vac_mass_flow_rate
-        return self.max_thrust / (self.isp * SurfaceGravity)
+        return self.max_thrust / (self.vac_isp * SurfaceGravity)
       end
 
       # This is the volume-wise fuel flow.  Multiply by 1000.0 to get liters/s
@@ -42,7 +42,7 @@ module KerbalDyn
       #
       # It needs a fuel tank to calculate from, as fuel densities vary by
       # tank.
-      def consumption(tank)
+      def fuel_consumption(tank)
         return self.mass_flow_rate / tank.fuel_density
       end
 
@@ -51,7 +51,7 @@ module KerbalDyn
       #
       # It needs a fuel tank to calculate from, as fuel densities vary by
       # tank.
-      def vac_consumption(tank)
+      def vac_fuel_consumption(tank)
         return self.vac_mass_flow_rate / tank.fuel_density
       end
 

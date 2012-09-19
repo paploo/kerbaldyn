@@ -67,7 +67,9 @@ describe KerbalDyn::Part do
 
   describe KerbalDyn::Part::Generic do
 
-    it 'should be a subclass of Base'
+    it 'should be a subclass of Base' do
+      KerbalDyn::Part::Generic < KerbalDyn::Part::Base
+    end
 
   end
 
@@ -77,25 +79,37 @@ describe KerbalDyn::Part do
       @fuel_tank = KerbalDyn::Part::FuelTank.new(@fuel_tank_attr)
     end
 
-    it 'should calculate capacity in m^3'
+    it 'should calculate capacity in m^3' do
+      @fuel_tank.capacity.should be_within_six_sigma_of(0.4)
+    end
 
-    it 'should calculate fuel weight'
+    it 'should calculate fuel mass' do
+      @fuel_tank.fuel_mass.should be_within_six_sigma_of(2.0)
+    end
 
-    it 'should calculate fuel density in kg/m^3'
+    it 'should calculate fuel density in kg/m^3' do
+      @fuel_tank.fuel_density.should be_within_six_sigma_of(5.0)
+    end
 
   end
 
   describe KerbalDyn::Part::RCSFuelTank do
 
     before(:each) do
-      @rcs_fuel_tank = KerbalDyn::Part::FuelTank.new(@rcs_fuel_tank_attr)
+      @rcs_tank = KerbalDyn::Part::FuelTank.new(@rcs_tank_attr)
     end
 
-    it 'should calculate capacity in m^3'
+    it 'should calculate capacity in m^3' do
+      @rcs_tank.capacity.should be_within_six_sigma_of(0.2)
+    end
 
-    it 'should calculate fuel weight'
+    it 'should calculate fuel mass' do
+      @rcs_tank.fuel_mass.should be_within_six_sigma_of(0.4)
+    end
 
-    it 'should calculate fuel density in kg/m^3'
+    it 'should calculate fuel density in kg/m^3' do
+      @rcs_tank.fuel_density.should be_within_six_sigma_of(2.0)
+    end
 
   end
 
@@ -103,34 +117,67 @@ describe KerbalDyn::Part do
 
     before(:each) do
       @liquid_engine = KerbalDyn::Part::LiquidFuelEngine.new(@liquid_engine_attr)
-      @liquid_engine2 = KerbalDyn::Part::LiquidFuelEngine.new(@liquid_engine2)
+      @liquid_engine2 = KerbalDyn::Part::LiquidFuelEngine.new(@liquid_engine2_attr)
     end
 
-    it 'should calculate mass flow rate'
+    it 'should give Isp at sealevel' do
+      measured = 320.7
+      @liquid_engine.isp.should be_within_three_sigma_of(measured)
+    end
 
-    it 'should calculate vacuum mass flow rate'
+    it 'should give vacuum Isp' do
+      specified = 370.0
+      @liquid_engine.vac_isp.should be_within_six_sigma_of(specified)
+    end
 
-    it 'should calculate fuel consumption in m^3/s'
+    it 'should calculate mass flow rate' do
+      expected = (215.0/320.0) / 9.8066 # Not sure what the 5th digit of g should be.
+      @liquid_engine.mass_flow_rate.should be_within_three_sigma_of(expected)
+    end
 
-    it 'should calculate vacuum fuel consumption in m^3/s'
+    it 'should calculate vacuum mass flow rate' do
+      expected = (215.0/370.0) / 9.8066 # Not sure what hte 5th digit of g should be.
+      @liquid_engine.vac_mass_flow_rate.should be_within_three_sigma_of(expected)
+    end
+
+    it 'should calculate fuel consumption in m^3/s' do
+      fuel_tank = KerbalDyn::Part::FuelTank.new(@fuel_tank_attr)
+      measured = 13.7 # in liters/second
+      @liquid_engine.fuel_consumption(fuel_tank).should be_within_three_sigma_of(measured/1000.0)
+    end
+
+    it 'should calculate vacuum fuel consumption in m^3/s' do
+      fuel_tank = KerbalDyn::Part::FuelTank.new(@fuel_tank_attr)
+      @liquid_engine.vac_fuel_consumption(fuel_tank).should be_within_two_sigma_of(0.0119)
+    end
 
   end
 
   describe KerbalDyn::Part::SolidRocket do
 
     before(:each) do
-      @booster = KerbalDyn::Part::FuelTank.new(@booster_attr)
+      @booster = KerbalDyn::Part::SolidRocket.new(@booster_attr)
     end
 
-    it 'should calculate capacity in m^3'
+    it 'should calculate capacity in m^3' do
+      @booster.capacity.should be_within_six_sigma_of(0.1)
+    end
 
-    it 'should calculate fuel weight'
+    it 'should calculate fuel mass' do
+      @booster.fuel_mass.should be_within_six_sigma_of(1.44)
+    end
 
-    it 'should calculate fuel density in kg/m^3'
+    it 'should calculate fuel density in kg/m^3' do
+      @booster.fuel_density.should be_within_six_sigma_of(14.4)
+    end
 
-    it 'should calculate fuel consumption in m^3/s'
+    it 'should calculate fuel consumption in m^3/s' do
+      @booster.fuel_consumption.should be_within_six_sigma_of(0.004)
+    end
 
-    it 'should calculate burn time'
+    it 'should calculate burn time' do
+      @booster.burn_time.should be_within_six_sigma_of(25.0)
+    end
 
   end
 

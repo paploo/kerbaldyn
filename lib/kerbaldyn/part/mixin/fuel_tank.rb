@@ -8,7 +8,7 @@ module KerbalDyn
         #
         # Note that 1 m^3 = 1000 liters
         def fuel
-          return self['internalFuel'].to_f / 1000.0
+          return (self['fuel'] || self['internalFuel']).to_f / 1000.0
         end
         alias_method :internal_fuel, :fuel
         alias_method :capacity, :fuel
