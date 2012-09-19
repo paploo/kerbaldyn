@@ -47,6 +47,10 @@ describe KerbalDyn::Part do
         part['name'].should_not == 'barThruster'
       end
 
+      it 'should export as JSON'
+
+      it 'should export as CSV' # This will need a predefined set of properties to output.
+
     end
 
     describe 'loader' do
