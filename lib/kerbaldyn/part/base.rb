@@ -1,9 +1,15 @@
 require 'pathname'
+require 'json'
 
 module KerbalDyn
   module Part
+    # The base-class for all rocket parts.  Instances are always of another
+    # type, which is determined by the +module+ attribute.  For parts that
+    # don't have special implementations, the Generic part class is used.
     class Base
 
+      # Load the part from a given part directory.  This will automatically
+      # instantiate the correct subclass.
       def self.load_part(directory)
         # Process the argument.
         dir = Pathname.new(directory)
@@ -40,6 +46,7 @@ module KerbalDyn
         return self.module_class(attributes['module']).new(attributes)
       end
 
+      # Return the class to instantiate for a given +module+ attribute.
       def self.module_class(module_name)
         ref_mod = Module.nesting[1]
         if( ref_mod.constants.include?(module_name.to_sym) )
@@ -49,18 +56,37 @@ module KerbalDyn
         end
       end
 
+      # Initialize the part from the hash.  Note that this does NOT auto-select
+      # the subclass.
       def initialize(attributes)
         @attributes = attributes.dup
       end
 
+      # Return the raw attributes hash.
+      #
+      # Generally speaking it is better to use to_hash to keep from accidentally
+      # altering the part by altering the attributes hash by reference.  That
+      # being said, this is provided for special/power use cases.
       attr_reader :attributes
 
+      # Return the raw attribute value by string or symbol.
+      #
+      # It is generally preferrable to use the accessor method.
       def [](attr)
         return self.attributes[attr.to_s]
       end
 
+      # Return a the part parameters as a hash.
+      #
+      # Currently this is implemented as a raw dump of the attributes hash,
+      # but in the future it is planned to convert numeric types appropriately.
       def to_hash
         return attributes.dup
+      end
+
+      # Returns a JSON encoded form of the to_hash result.
+      def to_json
+        return self.to_hash.to_json
       end
 
       def name

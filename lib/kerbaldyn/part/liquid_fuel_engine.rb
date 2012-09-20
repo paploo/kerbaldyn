@@ -1,7 +1,8 @@
 module KerbalDyn
   module Part
     class LiquidFuelEngine < Base
-      SurfaceGravity = 9.8072 # Determined experimentally.
+      # The surface gravity, as used for Isp calculations; this was determined experimentally.
+      IspSurfaceGravity = 9.8072
 
       def max_thrust
         return self['maxThrust'].to_f
@@ -29,12 +30,12 @@ module KerbalDyn
       # To calculate the fuel flow in liters, one must multiply by 1000.0 and
       # divide by the fuel tank density
       def mass_flow_rate
-        return self.max_thrust / (self.isp * SurfaceGravity)
+        return self.max_thrust / (self.isp * IspSurfaceGravity)
       end
 
       # Calculated mass fuel flow.
       def vac_mass_flow_rate
-        return self.max_thrust / (self.vac_isp * SurfaceGravity)
+        return self.max_thrust / (self.vac_isp * IspSurfaceGravity)
       end
 
       # This is the volume-wise fuel flow.  Multiply by 1000.0 to get liters/s

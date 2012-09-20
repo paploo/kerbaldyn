@@ -1,5 +1,8 @@
 module KerbalDyn
   module Part
+    # A class respresenting booster rockets
+    #
+    # Some of its methods are defined in the Mixin::FuelTank module.
     class SolidRocket < Base
       include Mixin::FuelTank
 

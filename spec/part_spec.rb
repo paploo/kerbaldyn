@@ -47,7 +47,19 @@ describe KerbalDyn::Part do
         part['name'].should_not == 'barThruster'
       end
 
-      it 'should export as JSON'
+      it 'should convert to hash that is not the attributes hash itself' do
+        hash = @part.to_hash
+
+        hash.should == @part.attributes
+        hash.object_id.should_not == @part.attributes.object_id
+      end
+
+      it 'should export as JSON' do
+        part_json = @part.to_json
+        attributes_json = @part.to_hash.to_json
+
+        part_json.should == attributes_json
+      end
 
       it 'should export as CSV' # This will need a predefined set of properties to output.
 
