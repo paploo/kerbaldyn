@@ -65,16 +65,16 @@ describe KerbalDyn::Planetoid do
       end
 
       {
-        :radius => 600e3,
-        :mass => 5.29e22,
-        :density => 58467,
-        :surface_gravity => 9.8068,
-        :gravitational_parameter => 3530.461e9,
-        :escape_velocity => 3430.45,
-        :rotational_period => 6.0 * 3600.0
+        :radius => 600000.0,
+        :mass => 5.29237224636595e22,
+        :density => 58493.555811910,
+        :surface_gravity => 9.8100,
+        :gravitational_parameter => 3531600000000.0,
+        :escape_velocity => 3431.03482931899,
+        :rotational_period => 21600
       }.each do |param, value|
         it "should have a #{param} of #{value}" do
-          @planet_fact.send(param).should be_within_three_sigma_of(value)
+          @planet_fact.send(param).should be_within_six_sigma_of(value)
         end
       end
 
@@ -84,12 +84,12 @@ describe KerbalDyn::Planetoid do
         end
 
         it 'should compute the correct radius' do
-          orbit_radius = (2868.4e3 + KerbalDyn::Planetoid.kerbin.radius)
-          @orbit.semimajor_axis.should be_within_three_sigma_of(orbit_radius)
+          orbit_radius = 3468750.72504862
+          @orbit.semimajor_axis.should be_within_six_sigma_of(orbit_radius)
         end
 
         it 'should compute the correct velocity' do
-          @orbit.periapsis_velocity.should be_within_three_sigma_of(1008.9)
+          @orbit.periapsis_velocity.should be_within_six_sigma_of(1009.01868471732)
         end
 
       end
@@ -119,14 +119,14 @@ describe KerbalDyn::Planetoid do
       end
 
       {
-        :radius => 65400e3,
-        :mass => 1.75e28,
-        :surface_gravity => 273.06,
-        :gravitational_parameter => 1.167922e18,
-        :escape_velocity => 188.9e3
+        :radius => 261600000.0,
+        :mass => 1.756830203555361e28,
+        :surface_gravity => 17.13071282744409,
+        :gravitational_parameter => 1.172332794832492300e18,
+        :escape_velocity => 94672.00722134684
       }.each do |param, value|
         it "should have a #{param} of #{value}" do
-          @planet_fact.send(param).should be_within_three_sigma_of(value)
+          @planet_fact.send(param).should be_within_six_sigma_of(value)
         end
       end
 
@@ -156,16 +156,14 @@ describe KerbalDyn::Planetoid do
 
       {
         :radius => 200e3,
-        :mass => 9.76e20,
-        :surface_gravity => 1.628,
-        :gravitational_parameter => 65.135e9,
-        :escape_velocity => 806,
-        :rotational_period => 41.0 * 3600.0,
-        #:geostationary_orbit_altitude => 2970876.0, # The wiki seems wrong!
-        #:geostationary_orbit_velocity => 143 # The wiki seems wrong!
+        :mass => 9.76148621621169e20,
+        :surface_gravity => 1.628459938019515,
+        :gravitational_parameter => 65138397520.7806,
+        :escape_velocity => 807.0836234293234,
+        :rotational_period => 138984.376574476,
       }.each do |param, value|
         it "should have a #{param} of #{value}" do
-          @planet_fact.send(param).should be_within_three_sigma_of(value)
+          @planet_fact.send(param).should be_within_six_sigma_of(value)
         end
       end
 
@@ -195,15 +193,15 @@ describe KerbalDyn::Planetoid do
 
       {
         :radius => 60e3,
-        :mass => 4.234e19,
-        :density => 46790,
-        :surface_gravity => 0.785,
-        :gravitational_parameter => 2.825505e9,
-        :escape_velocity => 306.89,
-        :rotational_period => 299.272 * 3600.0,
+        :mass => 2.6461861626142216e19,
+        :density => 29246.77834176579,
+        :surface_gravity => 0.49050000730901944,
+        :gravitational_parameter => 1.76580002631247e9,
+        :escape_velocity => 242.61080123746,
+        :rotational_period => 40400,
       }.each do |param, value|
         it "should have a #{param} of #{value}" do
-          @planet_fact.send(param).should be_within_three_sigma_of(value)
+          @planet_fact.send(param).should be_within_six_sigma_of(value)
         end
       end
 

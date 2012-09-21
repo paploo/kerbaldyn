@@ -25,7 +25,7 @@ module KerbalDyn
         :secondary_body => Planetoid.kerbin,
         :semimajor_axis => 13599840256.0,
         :eccentricity => 0.0,
-        :mean_anomaly => 3.140000,
+        :mean_anomaly => 179.908753681645 * Math::PI/180.0,
       ).freeze
     end
 
@@ -35,7 +35,7 @@ module KerbalDyn
         :secondary_body => Planetoid.mun,
         :semimajor_axis => 12000e3,
         :eccentricity => 0.0,
-        :mean_anomaly => 1.700000,
+        :mean_anomaly => 97.4028279043156 * Math::PI/180.0,
       ).freeze
     end
 
@@ -45,7 +45,7 @@ module KerbalDyn
         :secondary_body => Planetoid.minmus,
         :semimajor_axis => 47000e3,
         :eccentricity => 0.0,
-        :mean_anomaly => 0.900000,
+        :mean_anomaly => 51.5662001957363 * Math::PI/180.0,
         :inclination => 6.0 * Math::PI/180.0, # 6 degrees
         :longitude_of_ascending_node => 78.0 * Math::PI/180.0, # 78 degrees
         :argument_of_periapsis => 38.0 * Math::PI/180.0 # 38 degrees
@@ -110,16 +110,34 @@ module KerbalDyn
 
     # Returns the sphere of influence (SOI) for the primary body in the context
     # of the two-body system.
+    #
+    # This is NOT the KSP SOI, for it, use +kerbal_soi+
     def primary_body_sphere_of_influence
       return self.semimajor_axis * (self.primary_body.mass / self.secondary_body.mass)**(0.4)
     end
 
     # Returns the sphere of influence (SOI) for the secondary body in the context
     # of the two-body system.
+    #
+    # This is NOT the KSP SOI, for it, use +kerbal_soi+
     def secondary_body_sphere_of_influence
       return self.semimajor_axis * (self.secondary_body.mass / self.primary_body.mass)**(0.4)
     end
     alias_method :sphere_of_influence, :secondary_body_sphere_of_influence
+
+    # The Hill Sphere radius.
+    #
+    # This is NOT the KSP SOI, for it, use +kerbal_soi+
+    def hill_sphere_radius
+      return self.periapsis * (self.secondary_body.mass / (3.0*self.primary_body.mass))**(2.0/3.0)
+    end
+
+
+    # KSP uses this alternate hill sphere radius I found on Wikipedia.
+    def kerbal_soi
+      return self.semimajor_axis * (self.secondary_body.mass / self.primary_body.mass)**(1.0/3.0)
+    end
+
 
     # Orbit classification, returns one of :subelliptical, :circular, :elliptical,
     # :parabolic, or :hyperbolic.

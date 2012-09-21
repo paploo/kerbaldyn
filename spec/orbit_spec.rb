@@ -280,22 +280,22 @@ describe KerbalDyn::Orbit do
 
       {
         :semimajor_axis => 13599840256.0,
-        :periapsis_velocity => 9284.5,
+        :periapsis_velocity => 9284.5007,
         :longitude_of_ascending_node => 0.0,
         :argument_of_periapsis => 0.0,
-        :mean_anomaly => 3.140000,
+        :mean_anomaly => 3.1400001,
         :epoch => 0.0,
         :inclination => 0.0,
-        :sphere_of_influence => 84275e3
+        :kerbal_soi => 196414707.77848
       }.each do |param, value|
         it "should have a #{param} of #{value}" do
-          KerbalDyn::Orbit::kerbol_kerbin.send(param).should be_within_three_sigma_of(value)
+          KerbalDyn::Orbit::kerbol_kerbin.send(param).should be_within_six_sigma_of(value)
         end
       end
 
       # I only have this to rounded to the nearest hour.
       it 'should have a period of 2543 hours +/- 0.5 hours' do
-        expected_period = 2543.0
+        expected_period = 2556.5
         calculated_period = KerbalDyn::Orbit::kerbol_kerbin.period / 3600.0
         error = 0.5
         delta = calculated_period - expected_period
@@ -308,8 +308,8 @@ describe KerbalDyn::Orbit do
       # used in some versions; it only showed up strong enough for this orbit.
       it 'should have the same value for semimajor_axis, periapsis, and apoapsis' do
         orbit = KerbalDyn::Orbit::kerbol_kerbin
-        orbit.semimajor_axis.should be_within_five_sigma_of( orbit.periapsis )
-        orbit.apoapsis.should be_within_five_sigma_of( orbit.periapsis )
+        orbit.semimajor_axis.should be_within_six_sigma_of( orbit.periapsis )
+        orbit.apoapsis.should be_within_six_sigma_of( orbit.periapsis )
       end
 
     end
@@ -331,17 +331,17 @@ describe KerbalDyn::Orbit do
 
       {
         :semimajor_axis => 12000e3,
-        :periapsis_velocity => 542.5,
+        :periapsis_velocity => 542.49424,
         :longitude_of_ascending_node => 0.0,
         :argument_of_periapsis => 0.0,
-        :mean_anomaly => 1.700000,
+        :mean_anomaly => 1.700000048,
         :epoch => 0.0,
         :inclination => 0.0,
-        :period => (38.0*3600.0 + 36.0*60.0 + 23.0),
-        :sphere_of_influence => 2430e3
+        :period => (38.0*3600.0 + 36.0*60.0 + 24.3766),
+        :kerbal_soi => 3170563.33757116
       }.each do |param, value|
         it "should have a #{param} of #{value}" do
-          KerbalDyn::Orbit::kerbin_mun.send(param).should be_within_three_sigma_of(value)
+          KerbalDyn::Orbit::kerbin_mun.send(param).should be_within_six_sigma_of(value)
         end
       end
 
@@ -364,17 +364,17 @@ describe KerbalDyn::Orbit do
 
       {
         :semimajor_axis => 47000e3,
-        :periapsis_velocity => 274.1,
+        :periapsis_velocity => 274.11754,
         :longitude_of_ascending_node => 78.0 * Math::PI/180.0,
         :argument_of_periapsis => 38.0 * Math::PI/180.0,
-        :mean_anomaly => 0.900000,
+        :mean_anomaly => 0.899999976,
         :epoch => 0.0,
         :inclination => 6.0 * Math::PI/180.0,
-        :period => 1077379.0,
-        :sphere_of_influence => 2713e3
+        :period => 1077310.52,
+        :kerbal_soi => 3730392.49065433
       }.each do |param, value|
         it "should have a #{param} of #{value}" do
-          KerbalDyn::Orbit::kerbin_minmus.send(param).should be_within_three_sigma_of(value)
+          KerbalDyn::Orbit::kerbin_minmus.send(param).should be_within_six_sigma_of(value)
         end
       end
 

@@ -7,20 +7,22 @@ module KerbalDyn
   # Most interesting parameters are included through the DerivedParameters module.
   class Planetoid < Body
 
-    def self.kerbin
-      return @kerbin ||= self.new('Kerbin', :mass => 5.2906654e22, :radius => 600e3, :rotational_period => 6.0*3600.0).freeze
+    def self.kerbol
+      # Grav Parameter calculated from semimajor axis and velocity vector dumps via mu = a*v**2, and is good to around the 15th digit.
+      # Radius calculated by subtracting Apa from Apr in data dump
+      return @kerbol ||= self.new('Kerbol', :gravitational_parameter => 1172332794832492300.0, :radius => 261600000).freeze
     end
 
-    def self.kerbol
-      return @kerbol ||= self.new('Kerbol', :mass => 1.7502203e28, :radius => 65400e3).freeze
+    def self.kerbin
+      return @kerbin ||= self.new('Kerbin', :gravitational_parameter => 3531600000000.0, :radius => 600000.0, :rotational_period => 21600.0).freeze
     end
 
     def self.mun
-      return @mun ||= self.new('Mun', :mass => 9.76113e20, :radius => 200e3, :rotational_period => 41.0*3600.0).freeze
+      return @mun ||= self.new('Mun', :gravitational_parameter => 65138397520.7806, :radius => 200000.0, :rotational_period => 138984.376574476).freeze
     end
 
     def self.minmus
-      return @minmus ||= self.new('Minmus', :mass => 4.234235e19, :radius => 60e3, :rotational_period => 1077379).freeze
+      return @minmus ||= self.new('Minmus', :gravitational_parameter => 1765800026.31247, :radius => 60000.0, :rotational_period => 40400).freeze
     end
 
     def initialize(name, options={})
@@ -28,6 +30,17 @@ module KerbalDyn
     end
 
     alias_parameter :radius, :bounding_sphere_radius
+
+    # Returns the gravtiational_parameter (G*M) of the planetoid.
+    def gravitational_parameter
+      Constants::G * self.mass
+    end
+
+    # Sets the gravitational parameter (G*M) by deriving the mass and setting it.
+    def gravitational_parameter=(mu)
+      self.send(:mass=, mu / Constants::G)
+    end
+    private :gravitational_parameter=
 
     # The rotational period of this body around its axis.
     def rotational_period
@@ -37,11 +50,6 @@ module KerbalDyn
     # Set the rotational period of this body.
     def rotational_period=(period)
       self.angular_velocity = period && (2.0 * Math::PI / period)
-    end
-
-    # Returns the gravtiational_parameter (G*M) of the planetoid.
-    def gravitational_parameter
-      Constants::G * self.mass
     end
 
     # Returns the gravitational accelaration at a given radius from the
