@@ -7,22 +7,76 @@ module KerbalDyn
   # Most interesting parameters are included through the DerivedParameters module.
   class Planetoid < Body
 
+    # The Kerbal Sun.
     def self.kerbol
       # Grav Parameter calculated from semimajor axis and velocity vector dumps via mu = a*v**2, and is good to around the 15th digit.
       # Radius calculated by subtracting Apa from Apr in data dump
       return @kerbol ||= self.new('Kerbol', :gravitational_parameter => 1172332794832492300.0, :radius => 261600000).freeze
     end
 
+    # The Earth-like Homeworld.
     def self.kerbin
       return @kerbin ||= self.new('Kerbin', :gravitational_parameter => 3531600000000.0, :radius => 600000.0, :rotational_period => 21600.0).freeze
     end
 
+    # The Moon equivalient; orbits Kerbin.
     def self.mun
       return @mun ||= self.new('Mun', :gravitational_parameter => 65138397520.7806, :radius => 200000.0, :rotational_period => 138984.376574476).freeze
     end
 
+    # A small outter moon of Kerbin; no Solar System equivalent.
     def self.minmus
-      return @minmus ||= self.new('Minmus', :gravitational_parameter => 1765800026.31247, :radius => 60000.0, :rotational_period => 40400).freeze
+      return @minmus ||= self.new('Minmus', :gravitational_parameter => 1765800026.31247, :radius => 60000.0, :rotational_period => 40400.0).freeze
+    end
+
+    # The inner planet (Mercury like)
+    def self.moho
+      return @moho ||= self.new('Moho', :gravitational_parameter => 245250003654.51, :radius => 250000.0, :rotational_period => 2215754.21968432).freeze
+    end
+
+    # The second planet (Venus like)
+    def self.eve
+      return @eve ||= self.new('Eve', :gravitational_parameter => 8171730229210.85, :radius => 700000.0, :rotational_period => 80500.0).freeze
+    end
+
+    # The asteroid moon of Gilly
+    def self.gilly
+      return @gilly ||= self.new('Gilly', :gravitational_parameter => 8289449.81471635, :radius => 13000.0, :rotational_period => 28255.0).freeze
+    end
+
+    # The fourth planet (Mars like)
+    def self.duna
+      return @duna ||= self.new('Duna', :gravitational_parameter => 301363211975.098, :radius => 320000.0, :rotational_period => 65517.859375).freeze
+    end
+
+    # The moon of Duna
+    def self.ike
+      return @ike ||= self.new('Ike', :gravitational_parameter => 18568368573.1441, :radius => 130000.0, :rotational_period => 65517.8621348081).freeze
+    end
+
+    # The fifth planet (Jupiter like)
+    def self.jool
+      return @jool ||= self.new('Jool', :gravitational_parameter => 282528004209995, :radius => 6000000.0, :rotational_period => 36000.0).freeze
+    end
+
+    # The first moon of Jool, ocean moon with atmosphere
+    def self.laythe
+      return @laythe ||= self.new('Laythe', :gravitational_parameter => 1962000029236.08, :radius => 500000.0, :rotational_period => 500000.0).freeze
+    end
+
+    # The second moon of Jool, ice moon
+    def self.vall
+      return @vall ||= self.new('Vall', :gravitational_parameter => 207481499473.751, :radius => 300000.0, :rotational_period => 105962.088893924).freeze
+    end
+
+    # The third moon of Jool, rocky
+    def self.tylo
+      return @tylo ||= self.new('Tylo', :gravitational_parameter => 2825280042099.95, :radius => 600000.0, :rotational_period => 211926.35802123).freeze
+    end
+
+    # The captured asteroid around Jool.
+    def self.bop
+      return @bop ||= self.new('Bop', :gravitational_parameter => 2486834944.41491, :radius => 65000.0, :rotational_period => 12950.0).freeze
     end
 
     def initialize(name, options={})
