@@ -133,7 +133,7 @@ module KerbalDyn
     # Returns the sphere of influence (SOI) for the primary body in the context
     # of the two-body system.
     #
-    # This is NOT the KSP SOI, for it, use +kerbal_soi+
+    # This is NOT the KSP SOI, for it, use +kerbal_sphere_of_influence+
     def primary_body_sphere_of_influence
       return self.semimajor_axis * (self.primary_body.mass / self.secondary_body.mass)**(0.4)
     end
@@ -141,7 +141,7 @@ module KerbalDyn
     # Returns the sphere of influence (SOI) for the secondary body in the context
     # of the two-body system.
     #
-    # This is NOT the KSP SOI, for it, use +kerbal_soi+
+    # This is NOT the KSP SOI, for it, use +kerbal_sphere_of_influence+
     def secondary_body_sphere_of_influence
       return self.semimajor_axis * (self.secondary_body.mass / self.primary_body.mass)**(0.4)
     end
@@ -149,16 +149,17 @@ module KerbalDyn
 
     # The Hill Sphere radius.
     #
-    # This is NOT the KSP SOI, for it, use +kerbal_soi+
+    # This is NOT the KSP SOI, for it, use +kerbal_sphere_of_influence+
     def hill_sphere_radius
       return self.periapsis * (self.secondary_body.mass / (3.0*self.primary_body.mass))**(2.0/3.0)
     end
 
 
     # KSP uses this alternate hill sphere radius I found on Wikipedia.
-    def kerbal_soi
+    def kerbal_sphere_of_influence
       return self.semimajor_axis * (self.secondary_body.mass / self.primary_body.mass)**(1.0/3.0)
     end
+    alias_method :kerbal_soi, :kerbal_sphere_of_influence
 
 
     # Orbit classification, returns one of :subelliptical, :circular, :elliptical,
