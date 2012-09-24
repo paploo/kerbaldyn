@@ -13,7 +13,6 @@ class String
 
 end
 
-
 class Float
 
   def to_rad
@@ -33,7 +32,6 @@ class NilClass
   end
 
 end
-
 
 def parse(fp)
   data = {}

@@ -12,7 +12,6 @@ module KerbalDyn
       data = Data.fetch(:planet_data)[symbol][:planetoid]
       name = data[:name]
       parameters = data.reject {|k,v| k == :name}
-      puts [name, parameters].inspect
       return self.new(name, parameters).freeze
     end
 

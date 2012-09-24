@@ -40,60 +40,67 @@ module KerbalDyn
     #end
 
     # This is an internal factory method and should not be used.
-    def self.orbit_factory(primary, secondary)
-      self.new( Planetoid.send(primary), ORBITAL_PARAMETERS[secondary].merge(:secondary_body => Planetoid.send(secondary)) ).freeze
+    def self.make(primary, secondary)
+      primary_body = Planetoid.send(primary)
+      secondary_body = Planetoid.send(secondary)
+      parameters = Data.fetch(:planet_data)[secondary][:orbit].reject {|k,v| [:primary_body, :secondary_body].include?(k)}
+      return self.new( primary_body, parameters.merge(:secondary_body => secondary_body) ).freeze
+    end
+
+    class << self
+      private :make
     end
 
     def self.kerbol_kerbin
-      return @kerbol_kerbin ||= orbit_factory(:kerbol, :kerbin)
+      return @kerbol_kerbin ||= make(:kerbol, :kerbin)
     end
 
     def self.kerbin_mun
-      return @kerbin_mun ||= orbit_factory(:kerbin, :mun)
+      return @kerbin_mun ||= make(:kerbin, :mun)
     end
 
     def self.kerbin_minmus
-      return @kerbin_minmus ||= orbit_factory(:kerbin, :minmus)
+      return @kerbin_minmus ||= make(:kerbin, :minmus)
     end
 
     def self.kerbol_moho
-      return @kerbol_moho ||= orbit_factory(:kerbol, :moho)
+      return @kerbol_moho ||= make(:kerbol, :moho)
     end
 
     def self.kerbol_eve
-      return @kerbol_eve ||= orbit_factory(:kerbol, :eve)
+      return @kerbol_eve ||= make(:kerbol, :eve)
     end
 
     def self.eve_gilly
-      return @eve_gilly ||= orbit_factory(:eve, :gilly)
+      return @eve_gilly ||= make(:eve, :gilly)
     end
 
     def self.kerbol_duna
-      return @kerbol_duna ||= orbit_factory(:kerbol, :duna)
+      return @kerbol_duna ||= make(:kerbol, :duna)
     end
 
     def self.duna_ike
-      return @duna_ike ||= orbit_factory(:duna, :ike)
+      return @duna_ike ||= make(:duna, :ike)
     end
 
     def self.kerbol_jool
-      return @kerbol_jool ||= orbit_factory(:kerbol, :jool)
+      return @kerbol_jool ||= make(:kerbol, :jool)
     end
 
     def self.jool_laythe
-      return @jool_laythe ||= orbit_factory(:jool, :laythe)
+      return @jool_laythe ||= make(:jool, :laythe)
     end
 
     def self.jool_vall
-      return @jool_vall ||= orbit_factory(:jool, :vall)
+      return @jool_vall ||= make(:jool, :vall)
     end
 
     def self.jool_tylo
-      return @jool_tylo ||= orbit_factory(:jool, :tylo)
+      return @jool_tylo ||= make(:jool, :tylo)
     end
 
     def self.jool_bop
-      return @jool_bop ||= orbit_factory(:jool, :bop)
+      return @jool_bop ||= make(:jool, :bop)
     end
 
     # Convenience method for creating a circular orbit about the given body.
