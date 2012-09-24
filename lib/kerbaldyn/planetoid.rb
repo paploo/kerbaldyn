@@ -22,23 +22,12 @@ module KerbalDyn
 
     # The Kerbal Sun.
     def self.kerbol
+      # TODO: Refactor to calculate these from data on-the-fly (need to output that kind of data first).
+      #
       # Grav Parameter calculated from semimajor axis and velocity vector dumps via mu = a*v**2, and is good to around the 15th digit.
       # Radius calculated by subtracting Kerbin Apa from Apr in data dump
       return @kerbol ||= self.new('Kerbol', :gravitational_parameter => 1172332794832492300.0, :radius => 261600000).freeze
     end
-
-    # This level of meta-programming is harder to debug, and impossible to document.
-    #Data.fetch(:planet_data).each do |symbol, data|
-    #  line_number = __LINE__ + 1
-    #  name = data[:planetoid][:name]
-    #  parameters = data[:planetoid].reject {|k,v| k == :name}
-    #  code = <<-CODE
-    #    def self.#{symbol}
-    #      return @#{symbol} ||= self.new(#{name.inspect}, #{parameters.inspect}).freeze
-    #    end
-    #  CODE
-    #  class_eval(code, __FILE__, line_number)
-    #end
 
     #The Earth-like Homeworld.
     def self.kerbin
