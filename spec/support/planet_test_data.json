@@ -1,0 +1,340 @@
+{
+  "kerbin": {
+    "planetoid": {
+      "name": "Kerbin",
+      "gravitational_parameter": 3531600000000.0,
+      "radius": 600000.0,
+      "rotational_period": 21600.0
+    },
+    "orbit": {
+      "primary_body": "kerbol",
+      "secondary_body": "kerbin",
+      "semimajor_axis": 13599840256.0,
+      "eccentricity": 0.0,
+      "mean_anomaly": 3.1400001049041752,
+      "inclination": 0.0,
+      "longitude_of_ascending_node": 0.0,
+      "argument_of_periapsis": 0.0,
+      "epoch": 0.0,
+      "name": "Kerbin",
+      "apoapsis": 13599840256.0,
+      "periapsis": 13599840256.0,
+      "rotational_period": 9203544.61750141,
+      "specific_energy": -43100976.6572545,
+      "specific_angular_momentum": null,
+      "kerbal_sphere_of_influence": 196414707.77848
+    }
+  },
+  "mun": {
+    "planetoid": {
+      "name": "Mun",
+      "gravitational_parameter": 65138397520.7806,
+      "radius": 200000.0,
+      "rotational_period": 138984.376574476
+    },
+    "orbit": {
+      "primary_body": "kerbin",
+      "secondary_body": "mun",
+      "semimajor_axis": 12000000.0,
+      "eccentricity": 0.0,
+      "mean_anomaly": 1.7000000476837156,
+      "inclination": 0.0,
+      "longitude_of_ascending_node": 0.0,
+      "argument_of_periapsis": 0.0,
+      "epoch": 0.0,
+      "name": "Mun",
+      "apoapsis": 12000000.0,
+      "periapsis": 12000000.0,
+      "rotational_period": 138984.376574476,
+      "specific_energy": -147150.0,
+      "specific_angular_momentum": null,
+      "kerbal_sphere_of_influence": 3170563.33757116
+    }
+  },
+  "minmus": {
+    "planetoid": {
+      "name": "Minmus",
+      "gravitational_parameter": 1765800026.31247,
+      "radius": 60000.0,
+      "rotational_period": 40400.0
+    },
+    "orbit": {
+      "primary_body": "kerbin",
+      "secondary_body": "minmus",
+      "semimajor_axis": 47000000.0,
+      "eccentricity": 0.0,
+      "mean_anomaly": 0.8999999761581429,
+      "inclination": 0.10471975511965977,
+      "longitude_of_ascending_node": 1.361356816555577,
+      "argument_of_periapsis": 0.6632251157578452,
+      "epoch": 0.0,
+      "name": "Minmus",
+      "apoapsis": 47000000.0,
+      "periapsis": 47000000.0,
+      "rotational_period": 1077310.52101881,
+      "specific_energy": -37570.2127659575,
+      "specific_angular_momentum": null,
+      "kerbal_sphere_of_influence": 3730392.49065433
+    }
+  },
+  "duna": {
+    "planetoid": {
+      "name": "Duna",
+      "gravitational_parameter": 301363211975.098,
+      "radius": 320000.0,
+      "rotational_period": 65517.859375
+    },
+    "orbit": {
+      "primary_body": "kerbol",
+      "secondary_body": "duna",
+      "semimajor_axis": 20726155264.0,
+      "eccentricity": 0.0509999990463257,
+      "mean_anomaly": 3.1400001049041752,
+      "inclination": 0.0010471975277899085,
+      "longitude_of_ascending_node": 2.3649211364523164,
+      "argument_of_periapsis": 0.0,
+      "epoch": 0.0,
+      "name": "Duna",
+      "apoapsis": 21783189162.698,
+      "periapsis": 19669121365.302,
+      "rotational_period": 17315400.1425698,
+      "specific_energy": -28281482.5012339,
+      "specific_angular_momentum": null,
+      "kerbal_sphere_of_influence": 125063736.748336
+    }
+  },
+  "ike": {
+    "planetoid": {
+      "name": "Ike",
+      "gravitational_parameter": 18568368573.1441,
+      "radius": 130000.0,
+      "rotational_period": 65517.8621348081
+    },
+    "orbit": {
+      "primary_body": "duna",
+      "secondary_body": "ike",
+      "semimajor_axis": 3200000.0,
+      "eccentricity": 0.0299999993294477,
+      "mean_anomaly": 1.7000000476837156,
+      "inclination": 0.00349065855600352,
+      "longitude_of_ascending_node": 0.0,
+      "argument_of_periapsis": 0.0,
+      "epoch": 0.0,
+      "name": "Ike",
+      "apoapsis": 3295999.99785423,
+      "periapsis": 3104000.00214577,
+      "rotational_period": 65517.8621348081,
+      "specific_energy": -47088.0069888677,
+      "specific_angular_momentum": null,
+      "kerbal_sphere_of_influence": 1225978.58343316
+    }
+  },
+  "moho": {
+    "planetoid": {
+      "name": "Moho",
+      "gravitational_parameter": 245250003654.51,
+      "radius": 250000.0,
+      "rotational_period": 2215754.21968432
+    },
+    "orbit": {
+      "primary_body": "kerbol",
+      "secondary_body": "moho",
+      "semimajor_axis": 5263138304.0,
+      "eccentricity": 0.200000002980232,
+      "mean_anomaly": 3.1400001049041752,
+      "inclination": 0.12217304763960307,
+      "longitude_of_ascending_node": 1.2217304763960306,
+      "argument_of_periapsis": 0.2617993877991494,
+      "epoch": 0.0,
+      "name": "Moho",
+      "apoapsis": 6315765980.48537,
+      "periapsis": 4210510627.51463,
+      "rotational_period": 2215754.21968432,
+      "specific_energy": -111372030.060971,
+      "specific_angular_momentum": null,
+      "kerbal_sphere_of_influence": 24995057.3375388
+    }
+  },
+  "eve": {
+    "planetoid": {
+      "name": "Eve",
+      "gravitational_parameter": 8171730229210.85,
+      "radius": 700000.0,
+      "rotational_period": 80500.0
+    },
+    "orbit": {
+      "primary_body": "kerbol",
+      "secondary_body": "eve",
+      "semimajor_axis": 9832684544.0,
+      "eccentricity": 0.00999999977648258,
+      "mean_anomaly": 3.1400001049041752,
+      "inclination": 0.03665191262740527,
+      "longitude_of_ascending_node": 0.2617993877991494,
+      "argument_of_periapsis": 0.0,
+      "epoch": 0.0,
+      "name": "Eve",
+      "apoapsis": 9931011387.24222,
+      "periapsis": 9734357700.75778,
+      "rotational_period": 5657995.14648303,
+      "specific_energy": -59614075.3619559,
+      "specific_angular_momentum": null,
+      "kerbal_sphere_of_influence": 185949494.965972
+    }
+  },
+  "gilly": {
+    "planetoid": {
+      "name": "Gilly",
+      "gravitational_parameter": 8289449.81471635,
+      "radius": 13000.0,
+      "rotational_period": 28255.0
+    },
+    "orbit": {
+      "primary_body": "eve",
+      "secondary_body": "gilly",
+      "semimajor_axis": 31500000.0,
+      "eccentricity": 0.550000011920929,
+      "mean_anomaly": 0.8999999761581429,
+      "inclination": 0.20943951023931953,
+      "longitude_of_ascending_node": 1.3962634015954636,
+      "argument_of_periapsis": 0.17453292519943295,
+      "epoch": 0.0,
+      "name": "Gilly",
+      "apoapsis": 48825000.3755093,
+      "periapsis": 14174999.6244907,
+      "rotational_period": 388587.376847929,
+      "specific_energy": -129710.058691725,
+      "specific_angular_momentum": null,
+      "kerbal_sphere_of_influence": 142427.423478875
+    }
+  },
+  "jool": {
+    "planetoid": {
+      "name": "Jool",
+      "gravitational_parameter": 282528004209995.0,
+      "radius": 6000000.0,
+      "rotational_period": 36000.0
+    },
+    "orbit": {
+      "primary_body": "kerbol",
+      "secondary_body": "jool",
+      "semimajor_axis": 68773560320.0,
+      "eccentricity": 0.0500000007450581,
+      "mean_anomaly": 0.10000000149011617,
+      "inclination": 0.022759093795545936,
+      "longitude_of_ascending_node": 0.9075712110370514,
+      "argument_of_periapsis": 0.0,
+      "epoch": 0.0,
+      "name": "Jool",
+      "apoapsis": 72212238387.2403,
+      "periapsis": 65334882252.7597,
+      "rotational_period": 104661432.107989,
+      "specific_energy": -8523135.84897254,
+      "specific_angular_momentum": null,
+      "kerbal_sphere_of_influence": 4065824625.34358
+    }
+  },
+  "vall": {
+    "planetoid": {
+      "name": "Vall",
+      "gravitational_parameter": 207481499473.751,
+      "radius": 300000.0,
+      "rotational_period": 105962.088893924
+    },
+    "orbit": {
+      "primary_body": "jool",
+      "secondary_body": "vall",
+      "semimajor_axis": 43152000.0,
+      "eccentricity": 0.0,
+      "mean_anomaly": 0.8999999761581429,
+      "inclination": 0.0,
+      "longitude_of_ascending_node": 0.0,
+      "argument_of_periapsis": 0.0,
+      "epoch": 0.0,
+      "name": "Vall",
+      "apoapsis": 43152000.0,
+      "periapsis": 43152000.0,
+      "rotational_period": 105962.088893924,
+      "specific_energy": -3273637.42364196,
+      "specific_angular_momentum": null,
+      "kerbal_sphere_of_influence": 3893201.55262435
+    }
+  },
+  "laythe": {
+    "planetoid": {
+      "name": "Laythe",
+      "gravitational_parameter": 1962000029236.08,
+      "radius": 500000.0,
+      "rotational_period": 52980.8790593796
+    },
+    "orbit": {
+      "primary_body": "jool",
+      "secondary_body": "laythe",
+      "semimajor_axis": 27184000.0,
+      "eccentricity": 0.0,
+      "mean_anomaly": 3.1400001049041752,
+      "inclination": 0.0,
+      "longitude_of_ascending_node": 0.0,
+      "argument_of_periapsis": 0.0,
+      "epoch": 0.0,
+      "name": "Laythe",
+      "apoapsis": 27184000.0,
+      "periapsis": 27184000.0,
+      "rotational_period": 52980.8790593796,
+      "specific_energy": -5196586.30462764,
+      "specific_angular_momentum": null,
+      "kerbal_sphere_of_influence": 5186318.66159496
+    }
+  },
+  "tylo": {
+    "planetoid": {
+      "name": "Tylo",
+      "gravitational_parameter": 2825280042099.95,
+      "radius": 600000.0,
+      "rotational_period": 211926.35802123
+    },
+    "orbit": {
+      "primary_body": "jool",
+      "secondary_body": "tylo",
+      "semimajor_axis": 68500000.0,
+      "eccentricity": 0.0,
+      "mean_anomaly": 3.1400001049041752,
+      "inclination": 0.00043633231950044,
+      "longitude_of_ascending_node": 0.0,
+      "argument_of_periapsis": 0.0,
+      "epoch": 0.0,
+      "name": "Tylo",
+      "apoapsis": 68500000.0,
+      "periapsis": 68500000.0,
+      "rotational_period": 211926.35802123,
+      "specific_energy": -2062248.20591237,
+      "specific_angular_momentum": null,
+      "kerbal_sphere_of_influence": 14757877.6267184
+    }
+  },
+  "bop": {
+    "planetoid": {
+      "name": "Bop",
+      "gravitational_parameter": 2486834944.41491,
+      "radius": 65000.0,
+      "rotational_period": 12950.0
+    },
+    "orbit": {
+      "primary_body": "jool",
+      "secondary_body": "bop",
+      "semimajor_axis": 104500000.0,
+      "eccentricity": 0.234999999403954,
+      "mean_anomaly": 0.8999999761581429,
+      "inclination": 0.2617993877991494,
+      "longitude_of_ascending_node": 0.17453292519943295,
+      "argument_of_periapsis": 0.4363323129985824,
+      "epoch": 0.0,
+      "name": "Bop",
+      "apoapsis": 129057499.937713,
+      "periapsis": 79942500.0622869,
+      "rotational_period": 399322.290201907,
+      "specific_energy": -1351808.88093213,
+      "specific_angular_momentum": null,
+      "kerbal_sphere_of_influence": 1650591.27782792
+    }
+  }
+}

@@ -1,0 +1,249 @@
+{
+  "kerbin": {
+    "planetoid": {
+      "name": "Kerbin",
+      "gravitational_parameter": 3531600000000.0,
+      "radius": 600000.0,
+      "rotational_period": 21600.0
+    },
+    "orbit": {
+      "primary_body": "kerbol",
+      "secondary_body": "kerbin",
+      "semimajor_axis": 13599840256.0,
+      "eccentricity": 0.0,
+      "mean_anomaly": 3.1400001049041752,
+      "inclination": 0.0,
+      "longitude_of_ascending_node": 0.0,
+      "argument_of_periapsis": 0.0,
+      "epoch": 0.0
+    }
+  },
+  "mun": {
+    "planetoid": {
+      "name": "Mun",
+      "gravitational_parameter": 65138397520.7806,
+      "radius": 200000.0,
+      "rotational_period": 138984.376574476
+    },
+    "orbit": {
+      "primary_body": "kerbin",
+      "secondary_body": "mun",
+      "semimajor_axis": 12000000.0,
+      "eccentricity": 0.0,
+      "mean_anomaly": 1.7000000476837156,
+      "inclination": 0.0,
+      "longitude_of_ascending_node": 0.0,
+      "argument_of_periapsis": 0.0,
+      "epoch": 0.0
+    }
+  },
+  "minmus": {
+    "planetoid": {
+      "name": "Minmus",
+      "gravitational_parameter": 1765800026.31247,
+      "radius": 60000.0,
+      "rotational_period": 40400.0
+    },
+    "orbit": {
+      "primary_body": "kerbin",
+      "secondary_body": "minmus",
+      "semimajor_axis": 47000000.0,
+      "eccentricity": 0.0,
+      "mean_anomaly": 0.8999999761581429,
+      "inclination": 0.10471975511965977,
+      "longitude_of_ascending_node": 1.361356816555577,
+      "argument_of_periapsis": 0.6632251157578452,
+      "epoch": 0.0
+    }
+  },
+  "duna": {
+    "planetoid": {
+      "name": "Duna",
+      "gravitational_parameter": 301363211975.098,
+      "radius": 320000.0,
+      "rotational_period": 65517.859375
+    },
+    "orbit": {
+      "primary_body": "kerbol",
+      "secondary_body": "duna",
+      "semimajor_axis": 20726155264.0,
+      "eccentricity": 0.0509999990463257,
+      "mean_anomaly": 3.1400001049041752,
+      "inclination": 0.0010471975277899085,
+      "longitude_of_ascending_node": 2.3649211364523164,
+      "argument_of_periapsis": 0.0,
+      "epoch": 0.0
+    }
+  },
+  "ike": {
+    "planetoid": {
+      "name": "Ike",
+      "gravitational_parameter": 18568368573.1441,
+      "radius": 130000.0,
+      "rotational_period": 65517.8621348081
+    },
+    "orbit": {
+      "primary_body": "duna",
+      "secondary_body": "ike",
+      "semimajor_axis": 3200000.0,
+      "eccentricity": 0.0299999993294477,
+      "mean_anomaly": 1.7000000476837156,
+      "inclination": 0.00349065855600352,
+      "longitude_of_ascending_node": 0.0,
+      "argument_of_periapsis": 0.0,
+      "epoch": 0.0
+    }
+  },
+  "moho": {
+    "planetoid": {
+      "name": "Moho",
+      "gravitational_parameter": 245250003654.51,
+      "radius": 250000.0,
+      "rotational_period": 2215754.21968432
+    },
+    "orbit": {
+      "primary_body": "kerbol",
+      "secondary_body": "moho",
+      "semimajor_axis": 5263138304.0,
+      "eccentricity": 0.200000002980232,
+      "mean_anomaly": 3.1400001049041752,
+      "inclination": 0.12217304763960307,
+      "longitude_of_ascending_node": 1.2217304763960306,
+      "argument_of_periapsis": 0.2617993877991494,
+      "epoch": 0.0
+    }
+  },
+  "eve": {
+    "planetoid": {
+      "name": "Eve",
+      "gravitational_parameter": 8171730229210.85,
+      "radius": 700000.0,
+      "rotational_period": 80500.0
+    },
+    "orbit": {
+      "primary_body": "kerbol",
+      "secondary_body": "eve",
+      "semimajor_axis": 9832684544.0,
+      "eccentricity": 0.00999999977648258,
+      "mean_anomaly": 3.1400001049041752,
+      "inclination": 0.03665191262740527,
+      "longitude_of_ascending_node": 0.2617993877991494,
+      "argument_of_periapsis": 0.0,
+      "epoch": 0.0
+    }
+  },
+  "gilly": {
+    "planetoid": {
+      "name": "Gilly",
+      "gravitational_parameter": 8289449.81471635,
+      "radius": 13000.0,
+      "rotational_period": 28255.0
+    },
+    "orbit": {
+      "primary_body": "eve",
+      "secondary_body": "gilly",
+      "semimajor_axis": 31500000.0,
+      "eccentricity": 0.550000011920929,
+      "mean_anomaly": 0.8999999761581429,
+      "inclination": 0.20943951023931953,
+      "longitude_of_ascending_node": 1.3962634015954636,
+      "argument_of_periapsis": 0.17453292519943295,
+      "epoch": 0.0
+    }
+  },
+  "jool": {
+    "planetoid": {
+      "name": "Jool",
+      "gravitational_parameter": 282528004209995.0,
+      "radius": 6000000.0,
+      "rotational_period": 36000.0
+    },
+    "orbit": {
+      "primary_body": "kerbol",
+      "secondary_body": "jool",
+      "semimajor_axis": 68773560320.0,
+      "eccentricity": 0.0500000007450581,
+      "mean_anomaly": 0.10000000149011617,
+      "inclination": 0.022759093795545936,
+      "longitude_of_ascending_node": 0.9075712110370514,
+      "argument_of_periapsis": 0.0,
+      "epoch": 0.0
+    }
+  },
+  "vall": {
+    "planetoid": {
+      "name": "Vall",
+      "gravitational_parameter": 207481499473.751,
+      "radius": 300000.0,
+      "rotational_period": 105962.088893924
+    },
+    "orbit": {
+      "primary_body": "jool",
+      "secondary_body": "vall",
+      "semimajor_axis": 43152000.0,
+      "eccentricity": 0.0,
+      "mean_anomaly": 0.8999999761581429,
+      "inclination": 0.0,
+      "longitude_of_ascending_node": 0.0,
+      "argument_of_periapsis": 0.0,
+      "epoch": 0.0
+    }
+  },
+  "laythe": {
+    "planetoid": {
+      "name": "Laythe",
+      "gravitational_parameter": 1962000029236.08,
+      "radius": 500000.0,
+      "rotational_period": 52980.8790593796
+    },
+    "orbit": {
+      "primary_body": "jool",
+      "secondary_body": "laythe",
+      "semimajor_axis": 27184000.0,
+      "eccentricity": 0.0,
+      "mean_anomaly": 3.1400001049041752,
+      "inclination": 0.0,
+      "longitude_of_ascending_node": 0.0,
+      "argument_of_periapsis": 0.0,
+      "epoch": 0.0
+    }
+  },
+  "tylo": {
+    "planetoid": {
+      "name": "Tylo",
+      "gravitational_parameter": 2825280042099.95,
+      "radius": 600000.0,
+      "rotational_period": 211926.35802123
+    },
+    "orbit": {
+      "primary_body": "jool",
+      "secondary_body": "tylo",
+      "semimajor_axis": 68500000.0,
+      "eccentricity": 0.0,
+      "mean_anomaly": 3.1400001049041752,
+      "inclination": 0.00043633231950044,
+      "longitude_of_ascending_node": 0.0,
+      "argument_of_periapsis": 0.0,
+      "epoch": 0.0
+    }
+  },
+  "bop": {
+    "planetoid": {
+      "name": "Bop",
+      "gravitational_parameter": 2486834944.41491,
+      "radius": 65000.0,
+      "rotational_period": 12950.0
+    },
+    "orbit": {
+      "primary_body": "jool",
+      "secondary_body": "bop",
+      "semimajor_axis": 104500000.0,
+      "eccentricity": 0.234999999403954,
+      "mean_anomaly": 0.8999999761581429,
+      "inclination": 0.2617993877991494,
+      "longitude_of_ascending_node": 0.17453292519943295,
+      "argument_of_periapsis": 0.4363323129985824,
+      "epoch": 0.0
+    }
+  }
+}

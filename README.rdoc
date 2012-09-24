@@ -15,6 +15,14 @@ A library for Kerbal Space Program (KSP) calculation and simulation tools.
 Jeff Reinecke
 jeff@paploo.net
 
+= TODO
+
+* Refactor planetoid and orbit factory methods, and the tests, to use a JSON data file from a game dump.
+* Add bielliptic transfer and tests.
+* Build a tool for calculating lead angles.
+* Build a tool for outputting body information in standard units.
+* Build a tool for calculating the delta-v of hohmann vs various bielliptic transfers.
+
 = License
 
   Copyright (c) 2012, Jeffrey C. Reinecke

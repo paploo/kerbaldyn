@@ -1,5 +1,7 @@
 require_relative 'kerbaldyn/version'
 
+require_relative 'kerbaldyn/data'
+
 require_relative 'kerbaldyn/constants'
 require_relative 'kerbaldyn/mixin'
 

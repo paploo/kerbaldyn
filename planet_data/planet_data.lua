@@ -81,8 +81,8 @@ function reportSkomKSPCurrentOrbitalElementsDegreesFromObt(Orbit)
   -- Velvec3[2] is the velocity vector ?y? ??
   -- Velvec3[3] is the velocity vector ?z? ??
   -- l is the semi-latus rectum in meters
-  -- Os is the ?? Unknown type does not match navball ?? orbital velocity in m/s
-  -- Oe is the ?? Unknown ?? orbital energy in ??
+  -- Os is the ?? Unknown type does not match navball ?? orbital velocity in m/s (JR: Confirmed is current velocity)
+  -- Oe is the ?? Unknown ?? orbital energy in ?? (JR: Confirmed this is the current total specific energy)
   -- Altunk is the ?? Unknown type - not true, ASL, or bottom ?? altitude in meters
   -- Rfcb is the Radius From Central Body in meters, the distance in meters from the orbiting
   --   object to the center of gravity it's orbiting (i.e. the center of the planet)
@@ -107,12 +107,12 @@ function reportSkomKSPCurrentOrbitalElementsDegreesFromObt(Orbit)
   -- Eccvec3[1] is the ??
   -- Eccvec3[2] is the ??
   -- Eccvec3[3] is the ??
-  -- Hvec3[1] is the ??
+  -- Hvec3[1] is the ?? (JR: Specific angular momentum vector)
   -- Hvec3[2] is the ??
   -- Hvec3[3] is the ??
   -- Fevp is the ??
   -- Fevs is the ??
-  -- mag is the ??
+  -- mag is the ?? (JR: Specific angular momentum magnitude)
   -- Clsencbodynamefull is the fully qualified name of the closest encounter body, or nil
   -- Clsencbodynameshort is the fully qualified name of the closest encounter body, or nil
   -- TODO - a few more items, including next patch and previous patch.
