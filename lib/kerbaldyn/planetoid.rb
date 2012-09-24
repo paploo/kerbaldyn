@@ -7,9 +7,10 @@ module KerbalDyn
   # Most interesting parameters are included through the DerivedParameters module.
   class Planetoid < Body
 
+    # :nodoc:
     # For data read in from data files, this private method DRYs the process.
-    def self.make(symbol)
-      data = Data.fetch(:planet_data)[symbol][:planetoid]
+    def self.make(planet_ref)
+      data = Data.fetch(:planet_data)[planet_ref][:planetoid]
       name = data[:name]
       parameters = data.reject {|k,v| k == :name}
       return self.new(name, parameters).freeze

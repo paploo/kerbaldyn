@@ -13,38 +13,19 @@ module KerbalDyn
     # A map of default values for initialization parameters.
     DEFAULT_OPTIONS = BASE_PARAMETERS.inject({}) {|opts,param| opts[param] = 0.0; opts}.merge(:secondary_body => Body::TEST_PARTICLE)
 
-    # This is an internal factory data structure and hsould not be used.
-    #
-    # Orbital data output from in-game data dump via the planet_data.lua Autom8 script.
-    # NOTE: In the future I may have JSON data files hold this information.
-    ORBITAL_PARAMETERS = {
-      :kerbin => {:semimajor_axis=>13599840256.0, :eccentricity=>0.0, :mean_anomaly=>3.1400001049041752, :inclination=>0.0, :longitude_of_ascending_node=>0.0, :argument_of_periapsis=>0.0},
-      :duna => {:semimajor_axis=>20726155264.0, :eccentricity=>0.0509999990463257, :mean_anomaly=>3.1400001049041752, :inclination=>0.0010471975277899085, :longitude_of_ascending_node=>2.3649211364523164, :argument_of_periapsis=>0.0},
-      :moho => {:semimajor_axis=>5263138304.0, :eccentricity=>0.200000002980232, :mean_anomaly=>3.1400001049041752, :inclination=>0.12217304763960307, :longitude_of_ascending_node=>1.2217304763960306, :argument_of_periapsis=>0.2617993877991494},
-      :eve => {:semimajor_axis=>9832684544.0, :eccentricity=>0.00999999977648258, :mean_anomaly=>3.1400001049041752, :inclination=>0.03665191262740527, :longitude_of_ascending_node=>0.2617993877991494, :argument_of_periapsis=>0.0},
-      :jool => {:semimajor_axis=>68773560320.0, :eccentricity=>0.0500000007450581, :mean_anomaly=>0.10000000149011617, :inclination=>0.022759093795545936, :longitude_of_ascending_node=>0.9075712110370514, :argument_of_periapsis=>0.0},
-      :vall => {:semimajor_axis=>43152000.0, :eccentricity=>0.0, :mean_anomaly=>0.8999999761581429, :inclination=>0.0, :longitude_of_ascending_node=>0.0, :argument_of_periapsis=>0.0},
-      :laythe => {:semimajor_axis=>27184000.0, :eccentricity=>0.0, :mean_anomaly=>3.1400001049041752, :inclination=>0.0, :longitude_of_ascending_node=>0.0, :argument_of_periapsis=>0.0},
-      :tylo => {:semimajor_axis=>68500000.0, :eccentricity=>0.0, :mean_anomaly=>3.1400001049041752, :inclination=>0.00043633231950044, :longitude_of_ascending_node=>0.0, :argument_of_periapsis=>0.0},
-      :bop => {:semimajor_axis=>104500000.0, :eccentricity=>0.234999999403954, :mean_anomaly=>0.8999999761581429, :inclination=>0.2617993877991494, :longitude_of_ascending_node=>0.17453292519943295, :argument_of_periapsis=>0.4363323129985824},
-      :gilly => {:semimajor_axis=>31500000.0, :eccentricity=>0.550000011920929, :mean_anomaly=>0.8999999761581429, :inclination=>0.20943951023931953, :longitude_of_ascending_node=>1.3962634015954636, :argument_of_periapsis=>0.17453292519943295},
-      :ike => {:semimajor_axis=>3200000.0, :eccentricity=>0.0299999993294477, :mean_anomaly=>1.7000000476837156, :inclination=>0.00349065855600352, :longitude_of_ascending_node=>0.0, :argument_of_periapsis=>0.0},
-      :mun => {:semimajor_axis=>12000000.0, :eccentricity=>0.0, :mean_anomaly=>1.7000000476837156, :inclination=>0.0, :longitude_of_ascending_node=>0.0, :argument_of_periapsis=>0.0},
-      :minmus => {:semimajor_axis=>47000000.0, :eccentricity=>0.0, :mean_anomaly=>0.8999999761581429, :inclination=>0.10471975511965977, :longitude_of_ascending_node=>1.361356816555577, :argument_of_periapsis=>0.6632251157578452},
-    }
+    # A quick-reference system structure data structure.  Each parent body has a key with an array of children.  Subsequent hits are necessary for additional lookups.
+    #SYSTEM_STRUCTURE = {:kerbol => [:moho, :eve, :kerbin, :duna, :jool], :eve => [:gilly], :kerbin => [:mun, :minmus], :duna => [:ike], :jool => [:laythe, :vall, :tylo, :bop]}.each do |primary, secondaries|
 
-    #{:kerbol => [:moho, :eve, :kerbin, :duna, :jool], :eve => [:gilly], :kerbin => [:mun, :minmus], :duna => [:ike], :jool => [:laythe, :vall, :tylo, :bop]}.each do |primary, secondaries|
-    #  secondaries.each do |secondary|
-    #    # TODO: Dynamically build methods
-    #  end
-    #end
-
-    # This is an internal factory method and should not be used.
-    def self.make(primary, secondary)
-      primary_body = Planetoid.send(primary)
-      secondary_body = Planetoid.send(secondary)
-      parameters = Data.fetch(:planet_data)[secondary][:orbit].reject {|k,v| [:primary_body, :secondary_body].include?(k)}
-      return self.new( primary_body, parameters.merge(:secondary_body => secondary_body) ).freeze
+    # :nodoc:
+    # For data read in from data files, this private method DRYs the process.
+    def self.make(planet_ref)
+      # Get the data and dup it so we can muck with it.
+      data = Data.fetch(:planet_data)[planet_ref][:orbit].dup
+      # Get the primary/secondary body refs from it and then lookup to get the values.
+      primary_body = Planetoid.send( data.delete(:primary_body) )
+      secondary_body = Planetoid.send( data.delete(:secondary_body) )
+      # Now construct the object.
+      return self.new( primary_body, data.merge(:secondary_body => secondary_body) ).freeze
     end
 
     class << self
@@ -52,55 +33,55 @@ module KerbalDyn
     end
 
     def self.kerbol_kerbin
-      return @kerbol_kerbin ||= make(:kerbol, :kerbin)
+      return @kerbol_kerbin ||= make(:kerbin)
     end
 
     def self.kerbin_mun
-      return @kerbin_mun ||= make(:kerbin, :mun)
+      return @kerbin_mun ||= make(:mun)
     end
 
     def self.kerbin_minmus
-      return @kerbin_minmus ||= make(:kerbin, :minmus)
+      return @kerbin_minmus ||= make(:minmus)
     end
 
     def self.kerbol_moho
-      return @kerbol_moho ||= make(:kerbol, :moho)
+      return @kerbol_moho ||= make(:moho)
     end
 
     def self.kerbol_eve
-      return @kerbol_eve ||= make(:kerbol, :eve)
+      return @kerbol_eve ||= make(:eve)
     end
 
     def self.eve_gilly
-      return @eve_gilly ||= make(:eve, :gilly)
+      return @eve_gilly ||= make(:gilly)
     end
 
     def self.kerbol_duna
-      return @kerbol_duna ||= make(:kerbol, :duna)
+      return @kerbol_duna ||= make(:duna)
     end
 
     def self.duna_ike
-      return @duna_ike ||= make(:duna, :ike)
+      return @duna_ike ||= make(:ike)
     end
 
     def self.kerbol_jool
-      return @kerbol_jool ||= make(:kerbol, :jool)
+      return @kerbol_jool ||= make(:jool)
     end
 
     def self.jool_laythe
-      return @jool_laythe ||= make(:jool, :laythe)
+      return @jool_laythe ||= make(:laythe)
     end
 
     def self.jool_vall
-      return @jool_vall ||= make(:jool, :vall)
+      return @jool_vall ||= make(:vall)
     end
 
     def self.jool_tylo
-      return @jool_tylo ||= make(:jool, :tylo)
+      return @jool_tylo ||= make(:tylo)
     end
 
     def self.jool_bop
-      return @jool_bop ||= make(:jool, :bop)
+      return @jool_bop ||= make(:bop)
     end
 
     # Convenience method for creating a circular orbit about the given body.
