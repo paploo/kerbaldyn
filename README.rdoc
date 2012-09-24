@@ -17,11 +17,12 @@ jeff@paploo.net
 
 = TODO
 
-* Refactor planetoid and orbit factory methods, and the tests, to use a JSON data file from a game dump.
+* Refactor planetoid and orbit tests to use a JSON data file from a game dump.
 * Add bielliptic transfer and tests.
-* Build a tool for calculating lead angles.
-* Build a tool for outputting body information in standard units.
-* Build a tool for calculating the delta-v of hohmann vs various bielliptic transfers.
+* Build a tool for calculating lead angles: kerbaldyn leadangle kerbin+100a mun
+* Build a tool for outputting body information in standard units: kerbaldyn info minmus
+* Build a tool for calculating the delta-v of hohmann vs various bielliptic transfers: kerbaldyn transfer kerbin+900 minmus
+* Build a tool for listing parts of a type with important specs, sorted in useful ways: kerbaldyn partlist --type liquidfuelengine --sort isp
 
 = License
 

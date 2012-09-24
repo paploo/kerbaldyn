@@ -108,15 +108,6 @@ module KerbalDyn
       return self.new(primary_body, :periapsis => periapsis, :periapsis_velocity => periapsis_escape_velocity)
     end
 
-    def self.hohmann_transfer_parameters(initial_orbit, target_orbit)
-    end
-
-    def self.bielliptic_transfer_parameters(initial_orbit, target_orbit)
-    end
-
-    def self.inclination_change_parameters(initial_orbit, target_orbit)
-    end
-
     def initialize(primary_body, options={})
       # Set the primary planetoid
       self.primary_body = primary_body
