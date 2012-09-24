@@ -16,7 +16,6 @@ module KerbalDyn
     # A quick-reference system structure data structure.  Each parent body has a key with an array of children.  Subsequent hits are necessary for additional lookups.
     #SYSTEM_STRUCTURE = {:kerbol => [:moho, :eve, :kerbin, :duna, :jool], :eve => [:gilly], :kerbin => [:mun, :minmus], :duna => [:ike], :jool => [:laythe, :vall, :tylo, :bop]}.each do |primary, secondaries|
 
-    # :nodoc:
     # For data read in from data files, this private method DRYs the process.
     def self.make(planet_ref)
       # Get the data and dup it so we can muck with it.
