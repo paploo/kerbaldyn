@@ -170,7 +170,7 @@ module KerbalDyn
 
     # KSP uses this alternate hill sphere radius I found on Wikipedia.
     def kerbal_sphere_of_influence
-      return self.semimajor_axis * (self.secondary_body.mass / self.primary_body.mass)**(1.0/3.0)
+      return self.periapsis * (self.secondary_body.mass / self.primary_body.mass)**(1.0/3.0)
     end
     alias_method :kerbal_soi, :kerbal_sphere_of_influence
 
