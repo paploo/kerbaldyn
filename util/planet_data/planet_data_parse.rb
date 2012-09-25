@@ -92,9 +92,9 @@ TEST_MAP = {
   :name => 'Nameshort',
   :apoapsis => 'Apr',
   :periapsis => 'Per',
-  :rotational_period => 'Sop',
+  :period => 'Sop',
   :specific_energy => 'Oe',
-  :specific_angular_momentum => 'mag',
+  :specific_angular_momentum => 'Mag',
   :kerbal_sphere_of_influence => 'Hsoi'
 }
 

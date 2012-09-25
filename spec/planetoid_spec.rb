@@ -83,6 +83,7 @@ describe KerbalDyn::Planetoid do
       data = test_data[:planetoid]
 
       describe "#{data[:name]}" do
+
         before(:all) do
           @planetoid = KerbalDyn::Planetoid.send(planet_key)
         end

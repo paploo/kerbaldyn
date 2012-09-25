@@ -19,9 +19,9 @@
       "name": "Kerbin",
       "apoapsis": 13599840256.0,
       "periapsis": 13599840256.0,
-      "rotational_period": 9203544.61750141,
+      "period": 9203544.61750141,
       "specific_energy": -43100976.6572545,
-      "specific_angular_momentum": null,
+      "specific_angular_momentum": 126267726424679.0,
       "kerbal_sphere_of_influence": 196414707.77848
     }
   },
@@ -45,9 +45,9 @@
       "name": "Mun",
       "apoapsis": 12000000.0,
       "periapsis": 12000000.0,
-      "rotational_period": 138984.376574476,
+      "period": 138984.376574476,
       "specific_energy": -147150.0,
-      "specific_angular_momentum": null,
+      "specific_angular_momentum": 6509930875.1894,
       "kerbal_sphere_of_influence": 3170563.33757116
     }
   },
@@ -71,9 +71,9 @@
       "name": "Minmus",
       "apoapsis": 47000000.0,
       "periapsis": 47000000.0,
-      "rotational_period": 1077310.52101881,
+      "period": 1077310.52101881,
       "specific_energy": -37570.2127659575,
-      "specific_angular_momentum": null,
+      "specific_angular_momentum": 12883524362.482,
       "kerbal_sphere_of_influence": 3730392.49065433
     }
   },
@@ -97,9 +97,9 @@
       "name": "Duna",
       "apoapsis": 21783189162.698,
       "periapsis": 19669121365.302,
-      "rotational_period": 17315400.1425698,
+      "period": 17315400.1425698,
       "specific_energy": -28281482.5012339,
-      "specific_angular_momentum": null,
+      "specific_angular_momentum": 155675150737745.0,
       "kerbal_sphere_of_influence": 125063736.748336
     }
   },
@@ -123,9 +123,9 @@
       "name": "Ike",
       "apoapsis": 3295999.99785423,
       "periapsis": 3104000.00214577,
-      "rotational_period": 65517.8621348081,
+      "period": 65517.8621348081,
       "specific_energy": -47088.0069888677,
-      "specific_angular_momentum": null,
+      "specific_angular_momentum": 981577481.559739,
       "kerbal_sphere_of_influence": 1225978.58343316
     }
   },
@@ -149,9 +149,9 @@
       "name": "Moho",
       "apoapsis": 6315765980.48537,
       "periapsis": 4210510627.51463,
-      "rotational_period": 2215754.21968432,
+      "period": 2215754.21968432,
       "specific_energy": -111372030.060971,
-      "specific_angular_momentum": null,
+      "specific_angular_momentum": 76963261655559.6,
       "kerbal_sphere_of_influence": 24995057.3375388
     }
   },
@@ -175,9 +175,9 @@
       "name": "Eve",
       "apoapsis": 9931011387.24222,
       "periapsis": 9734357700.75778,
-      "rotational_period": 5657995.14648303,
+      "period": 5657995.14648303,
       "specific_energy": -59614075.3619559,
-      "specific_angular_momentum": null,
+      "specific_angular_momentum": 107359330448592.0,
       "kerbal_sphere_of_influence": 185949494.965972
     }
   },
@@ -201,9 +201,9 @@
       "name": "Gilly",
       "apoapsis": 48825000.3755093,
       "periapsis": 14174999.6244907,
-      "rotational_period": 388587.376847929,
+      "period": 388587.376847929,
       "specific_energy": -129710.058691725,
-      "specific_angular_momentum": null,
+      "specific_angular_momentum": 13399370299.4996,
       "kerbal_sphere_of_influence": 142427.423478875
     }
   },
@@ -227,9 +227,9 @@
       "name": "Jool",
       "apoapsis": 72212238387.2403,
       "periapsis": 65334882252.7597,
-      "rotational_period": 104661432.107989,
+      "period": 104661432.107989,
       "specific_energy": -8523135.84897254,
-      "specific_angular_momentum": null,
+      "specific_angular_momentum": 283591143063510.0,
       "kerbal_sphere_of_influence": 4065824625.34358
     }
   },
@@ -253,9 +253,9 @@
       "name": "Vall",
       "apoapsis": 43152000.0,
       "periapsis": 43152000.0,
-      "rotational_period": 105962.088893924,
+      "period": 105962.088893924,
       "specific_energy": -3273637.42364196,
-      "specific_angular_momentum": null,
+      "specific_angular_momentum": 110415797953.03,
       "kerbal_sphere_of_influence": 3893201.55262435
     }
   },
@@ -279,9 +279,9 @@
       "name": "Laythe",
       "apoapsis": 27184000.0,
       "periapsis": 27184000.0,
-      "rotational_period": 52980.8790593796,
+      "period": 52980.8790593796,
       "specific_energy": -5196586.30462764,
-      "specific_angular_momentum": null,
+      "specific_angular_momentum": 87636985721.9069,
       "kerbal_sphere_of_influence": 5186318.66159496
     }
   },
@@ -305,9 +305,9 @@
       "name": "Tylo",
       "apoapsis": 68500000.0,
       "periapsis": 68500000.0,
-      "rotational_period": 211926.35802123,
+      "period": 211926.35802123,
       "specific_energy": -2062248.20591237,
-      "specific_angular_momentum": null,
+      "specific_angular_momentum": 139115665143.263,
       "kerbal_sphere_of_influence": 14757877.6267184
     }
   },
@@ -331,9 +331,9 @@
       "name": "Bop",
       "apoapsis": 129057499.937713,
       "periapsis": 79942500.0622869,
-      "rotational_period": 399322.290201907,
+      "period": 399322.290201907,
       "specific_energy": -1351808.88093213,
-      "specific_angular_momentum": null,
+      "specific_angular_momentum": 167014082652.679,
       "kerbal_sphere_of_influence": 1650591.27782792
     }
   }
