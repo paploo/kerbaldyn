@@ -32,68 +32,68 @@ module KerbalDyn
     end
 
     # :category: Library Methods
-    def self.kerbol_kerbin
-      return @kerbol_kerbin ||= make(:kerbin)
+    def self.kerbin
+      return @kerbin ||= make(__method__)
     end
 
     # :category: Library Methods
-    def self.kerbin_mun
-      return @kerbin_mun ||= make(:mun)
+    def self.mun
+      return @mun ||= make(__method__)
     end
 
     # :category: Library Methods
-    def self.kerbin_minmus
-      return @kerbin_minmus ||= make(:minmus)
+    def self.minmus
+      return @minmus ||= make(__method__)
     end
 
     # :category: Library Methods
-    def self.kerbol_moho
-      return @kerbol_moho ||= make(:moho)
+    def self.moho
+      return @moho ||= make(__method__)
     end
 
     # :category: Library Methods
-    def self.kerbol_eve
-      return @kerbol_eve ||= make(:eve)
+    def self.eve
+      return @eve ||= make(__method__)
     end
 
     # :category: Library Methods
-    def self.eve_gilly
-      return @eve_gilly ||= make(:gilly)
+    def self.gilly
+      return @gilly ||= make(__method__)
     end
 
     # :category: Library Methods
-    def self.kerbol_duna
-      return @kerbol_duna ||= make(:duna)
+    def self.duna
+      return @duna ||= make(__method__)
     end
 
     # :category: Library Methods
-    def self.duna_ike
-      return @duna_ike ||= make(:ike)
+    def self.ike
+      return @ike ||= make(__method__)
     end
 
     # :category: Library Methods
-    def self.kerbol_jool
-      return @kerbol_jool ||= make(:jool)
+    def self.jool
+      return @jool ||= make(__method__)
     end
 
     # :category: Library Methods
-    def self.jool_laythe
-      return @jool_laythe ||= make(:laythe)
+    def self.laythe
+      return @laythe ||= make(__method__)
     end
 
     # :category: Library Methods
-    def self.jool_vall
-      return @jool_vall ||= make(:vall)
+    def self.vall
+      return @vall ||= make(__method__)
     end
 
     # :category: Library Methods
-    def self.jool_tylo
-      return @jool_tylo ||= make(:tylo)
+    def self.tylo
+      return @tylo ||= make(__method__)
     end
 
     # :category: Library Methods
-    def self.jool_bop
-      return @jool_bop ||= make(:bop)
+    def self.jbop
+      return @bop ||= make(__method__)
     end
 
     # Convenience method for creating a circular orbit about the given body.

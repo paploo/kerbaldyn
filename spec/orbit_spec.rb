@@ -269,7 +269,7 @@ describe KerbalDyn::Orbit do
       describe "#{data[:name]}" do
 
         before(:all) do
-          @library_method = [data[:primary_body], data[:secondary_body]].join('_')
+          @library_method = planet_key
           @orbit = KerbalDyn::Orbit.send(@library_method)
         end
 
