@@ -31,67 +31,67 @@ module KerbalDyn
       private :make
     end
 
-    # :category: Factory Methods
+    # :category: Library Methods
     def self.kerbol_kerbin
       return @kerbol_kerbin ||= make(:kerbin)
     end
 
-    # :category: Factory Methods
+    # :category: Library Methods
     def self.kerbin_mun
       return @kerbin_mun ||= make(:mun)
     end
 
-    # :category: Factory Methods
+    # :category: Library Methods
     def self.kerbin_minmus
       return @kerbin_minmus ||= make(:minmus)
     end
 
-    # :category: Factory Methods
+    # :category: Library Methods
     def self.kerbol_moho
       return @kerbol_moho ||= make(:moho)
     end
 
-    # :category: Factory Methods
+    # :category: Library Methods
     def self.kerbol_eve
       return @kerbol_eve ||= make(:eve)
     end
 
-    # :category: Factory Methods
+    # :category: Library Methods
     def self.eve_gilly
       return @eve_gilly ||= make(:gilly)
     end
 
-    # :category: Factory Methods
+    # :category: Library Methods
     def self.kerbol_duna
       return @kerbol_duna ||= make(:duna)
     end
 
-    # :category: Factory Methods
+    # :category: Library Methods
     def self.duna_ike
       return @duna_ike ||= make(:ike)
     end
 
-    # :category: Factory Methods
+    # :category: Library Methods
     def self.kerbol_jool
       return @kerbol_jool ||= make(:jool)
     end
 
-    # :category: Factory Methods
+    # :category: Library Methods
     def self.jool_laythe
       return @jool_laythe ||= make(:laythe)
     end
 
-    # :category: Factory Methods
+    # :category: Library Methods
     def self.jool_vall
       return @jool_vall ||= make(:vall)
     end
 
-    # :category: Factory Methods
+    # :category: Library Methods
     def self.jool_tylo
       return @jool_tylo ||= make(:tylo)
     end
 
-    # :category: Factory Methods
+    # :category: Library Methods
     def self.jool_bop
       return @jool_bop ||= make(:bop)
     end
