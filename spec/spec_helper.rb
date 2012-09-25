@@ -1,7 +1,15 @@
 require 'rubygems'
 require 'bundler/setup'
 Bundler.require(:test)
+
 require 'kerbaldyn'
+
+
+require 'json'
+require 'pathname'
+planet_test_data_file = Pathname.new(__FILE__).dirname + 'support' + 'planet_test_data.json'
+PLANET_TEST_DATA = JSON.parse( planet_test_data_file.read, :symbolize_names => true )
+
 
 RSpec::Matchers.define :be_within_error do |err|
   chain :of do |expected|
