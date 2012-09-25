@@ -282,6 +282,15 @@ describe KerbalDyn::Orbit do
           @orbit.should be_frozen
         end
 
+        it "should have the primary_body #{data[:primary_body]}" do
+          @orbit.primary_body.should == KerbalDyn::Planetoid.send( data[:primary_body] )
+        end
+
+        it "should have the secondary_body #{data[:secondary_body]}" do
+          @orbit.secondary_body.should == KerbalDyn::Planetoid.send( data[:secondary_body] )
+        end
+
+
         data.each do |property, expected_value|
           next if [:primary_body, :secondary_body, :name].include?(property)
           it "should have #{property} of #{expected_value}" do

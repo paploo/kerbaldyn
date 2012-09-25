@@ -92,7 +92,7 @@ module KerbalDyn
     end
 
     # :category: Library Methods
-    def self.jbop
+    def self.bop
       return @bop ||= make(__method__)
     end
 
