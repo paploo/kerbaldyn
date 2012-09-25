@@ -19,6 +19,7 @@ module KerbalDyn
       private :make
     end
 
+    # :category: Factory Methods
     # The Kerbal Sun.
     def self.kerbol
       # TODO: Refactor to calculate these from data on-the-fly (need to output that kind of data first).
@@ -28,66 +29,79 @@ module KerbalDyn
       return @kerbol ||= self.new('Kerbol', :gravitational_parameter => 1172332794832492300.0, :radius => 261600000).freeze
     end
 
+    # :category: Factory Methods
     #The Earth-like Homeworld.
     def self.kerbin
       return @kerbin ||= make(__method__)
     end
 
+    # :category: Factory Methods
     # The Moon equivalient; orbits Kerbin.
     def self.mun
       return @mun ||= make(__method__)
     end
 
+    # :category: Factory Methods
     # A small outter moon of Kerbin; no Solar System equivalent.
     def self.minmus
       return @minmus ||= make(__method__)
     end
 
+    # :category: Factory Methods
     # The inner planet (Mercury like)
     def self.moho
       return @moho ||= make(__method__)
     end
 
+    # :category: Factory Methods
     # The second planet (Venus like)
     def self.eve
       return @eve ||= make(__method__)
     end
 
+    # :category: Factory Methods
     # The asteroid moon of Gilly
     def self.gilly
       return @gilly ||= make(__method__)
     end
 
+    # :category: Factory Methods
     # The fourth planet (Mars like)
     def self.duna
       return @duna ||= make(__method__)
     end
 
+    # :category: Factory Methods
     # The moon of Duna
     def self.ike
       return @ike ||= make(__method__)
     end
 
+    # :category: Factory Methods
     # The fifth planet (Jupiter like)
     def self.jool
       return @jool ||= make(__method__)
     end
 
+    # :category: Factory Methods
     # The first moon of Jool, ocean moon with atmosphere
     def self.laythe
       return @laythe ||= make(__method__)
     end
 
+    # :category: Factory Methods
     # The second moon of Jool, ice moon
     def self.vall
       return @vall ||= make(__method__)
     end
 
+    # :category: Factory Methods
     # The third moon of Jool, rocky
     def self.tylo
       return @tylo ||= make(__method__)
     end
 
+    # :category: Factory Methods
     # The captured asteroid around Jool.
     def self.bop
       return @bop ||= make(__method__)
