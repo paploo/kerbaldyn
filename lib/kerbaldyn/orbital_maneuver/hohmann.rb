@@ -2,16 +2,21 @@ module KerbalDyn
   module OrbitalManeuver
     # A special 2-burn orbital maneuver between two circular orbits.
     #
+    # Note that all orbits are circulairzed before being used.
+    #
     # The first burn moves the opposite side of the orbit to the radius of
     # the destination orbit, and the second burn--done when reaching the destination
     # radius--moves the opposite side (where you started) to circularize your
     # orbit.
+    #
+    #--
+    # TODO: To facilitate elliptical orbits, assume coplanar/coaxial, and take options to use periapsis, semimajor_axis, or apoapsis for each orbit.
+    # TODO: ALWAYS use semimajor axis here, so that we can assume circular on lead angle and time; make another class for elliptics and eventually replace this as a subclass with default args.
+    #++
     class Hohmann < Base
 
       def initialize(initial_orbit, final_orbit, options={})
-        raise ArgumentError, "Expected the initial orbit to be circular, but instead it is #{initial_orbit.classification}" unless initial_orbit.classification == :circular
-        raise ArgumentError, "Expected the final orbit to be circular, but instead it is #{final_orbit.classification}" unless final_orbit.classification == :circular
-        super
+        super(initial_orbit.circularize, final_orbit.circularize, options)
       end
 
       # An array of the transfer burn delta-v values.
@@ -22,9 +27,8 @@ module KerbalDyn
       # Note that positive values are prograde burns, and negative values
       # are retrograde burns.
       def delta_velocities
-        # We can use either periapsis or apoapsis velocity since the initial orbit is round, but periapsis is faster..
         delta_v1 = self.transfer_velocities[0] - self.initial_orbit.periapsis_velocity
-        delta_v2 = self.final_orbit.periapsis_velocity - self.transfer_velocities[1]
+        delta_v2 = self.final_orbit.apoapsis_velocity - self.transfer_velocities[1]
         return [delta_v1, delta_v2]
       end
 
