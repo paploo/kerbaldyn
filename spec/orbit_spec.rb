@@ -5,7 +5,9 @@ describe KerbalDyn::Orbit do
   describe 'Circularize' do
 
     before(:all) do
-      @elliptical = KerbalDyn::Orbit.new(KerbalDyn::Planetoid.kerbin, :secondary_body => KerbalDyn::Planetoid.test_particle, :periapsis => 700000.0, :apoapsis => 3e6, :inclination => 0.2)
+      @planet = KerbalDyn::Planetoid.new('Test Planet', :gravitational_parameter => 3.5316e12, :radius => 600000)
+      @satellite = KerbalDyn::Planetoid.test_particle
+      @elliptical = KerbalDyn::Orbit.new(@planet, :secondary_body => @satellite, :periapsis => 700000.0, :apoapsis => 3e6, :inclination => 0.2)
       @circular = @elliptical.circularize
     end
 
