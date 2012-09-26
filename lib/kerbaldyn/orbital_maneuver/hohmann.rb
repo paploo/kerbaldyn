@@ -54,8 +54,8 @@ module KerbalDyn
       # The elliptical orbit used to transfer from the initial_orbit to the
       # final_orbit.
       def transfer_orbit
-        r1 = initial_orbit.semimajor_axis
-        r2 = final_orbit.semimajor_axis
+        r1 = initial_orbit.periapsis
+        r2 = final_orbit.apoapsis
         periapsis = [r1,r2].min
         apoapsis = [r1,r2].max
         return Orbit.new(self.initial_orbit.primary_body, :periapsis => periapsis, :apoapsis => apoapsis)
