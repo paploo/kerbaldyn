@@ -134,7 +134,6 @@ module KerbalDyn
 
     attr_parameter *BASE_PARAMETERS
 
-
     # The body being orbited (required)
     # Expected to be an instance of Planetoid.
     attr_accessor :primary_body
@@ -285,6 +284,12 @@ module KerbalDyn
       return self.mean_angular_velocity
     end
 
+    # This is the velocity associated with the mean motion at the semimajor axis,
+    # This works out to be the velocity of an object in a circular orbit with the same period.
+    def mean_velocity
+      return self.mean_motion * self.semimajor_axis
+    end
+
     # The apoapsis radius, if the eccentricity is less than one.
     def apoapsis
       if self.closed?
@@ -303,6 +308,21 @@ module KerbalDyn
       else
         return nil
       end
+    end
+
+    # Instantiates a new orbit with the same period and semimajor axis, zero
+    # inclination, and is circular.
+    #
+    # This is useful for idealizing orbits for rough calculations.
+    #--
+    # TODO: Figure out how to translate parameters such as mean anomaly and LAN.
+    #++
+    def circularize
+      return self.class.new(primary_body, {
+        :secondary_body => self.secondary_body,
+        :radius => self.semimajor_axis,
+        :inclination => 0.0
+      })
     end
 
     private

@@ -2,6 +2,45 @@ require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe KerbalDyn::Orbit do
 
+  describe 'Circularize' do
+
+    before(:all) do
+      @elliptical = KerbalDyn::Orbit.new(KerbalDyn::Planetoid.kerbin, :secondary_body => KerbalDyn::Planetoid.test_particle, :periapsis => 700000.0, :apoapsis => 3e6, :inclination => 0.2)
+      @circular = @elliptical.circularize
+    end
+
+    it 'should have the same primary body' do
+      @circular.primary_body.should == @elliptical.primary_body
+    end
+
+    it 'should have the same secondary body' do
+      @circular.secondary_body.should == @elliptical.secondary_body
+    end
+
+    it 'should be circular' do
+      @circular.kind.should == :circular
+    end
+
+    it 'should have the same semimajor_axis' do
+      @circular.semimajor_axis.should == @elliptical.semimajor_axis
+    end
+
+    it 'should have zero inclination' do
+      @circular.inclination.should be_within(1e-9).of(0.0)
+    end
+
+    it 'should have the same period' do
+      @circular.period.should be_within_six_sigma_of(@elliptical.period)
+    end
+
+    it 'should have a periapsis and apoapsis velocity that is the same as original mean velocity.' do
+      @circular.mean_velocity.should be_within_six_sigma_of(@elliptical.mean_velocity)
+      @circular.periapsis_velocity.should be_within_six_sigma_of(@elliptical.mean_velocity)
+      @circular.apoapsis_velocity.should be_within_six_sigma_of(@elliptical.mean_velocity)
+    end
+
+  end
+
   describe 'Orbit Types' do
 
     describe 'Circular Orbit' do
