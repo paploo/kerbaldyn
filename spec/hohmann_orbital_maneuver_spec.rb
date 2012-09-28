@@ -2,6 +2,70 @@ require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe KerbalDyn::OrbitalManeuver::Hohmann do
 
+  describe "Standard Hohmann" do
+
+    it 'should produce the transfer orbit'
+
+    it 'should produce the list of orbits'
+
+    it 'should produce the list of burn events'
+
+    it 'should know if it is moving ot a higher orbit'
+
+    it 'should produce the list of before/after velocities'
+
+    it 'should produce the list of impulse burn time stamps'
+
+    it 'should produce the list of impulse burn radii'
+
+    it 'should produce the list of impulse burn mean anomalies'
+
+    it 'should produce the final delta velocity'
+
+    it 'should produce the delta_t'
+
+    it 'should produce the delta anomaly'
+
+    it 'should produce the mean lead angle'
+
+    it 'should produce the mean lead time'
+
+    it 'should produce the relative anomaly delta'
+
+  end
+
+  describe "Descending Hohmann" do
+
+    it 'should produce the transfer orbit'
+
+    it 'should produce the list of orbits'
+
+    it 'should produce the list of burn events'
+
+    it 'should know if it is moving ot a higher orbit'
+
+    it 'should produce the list of before/after velocities'
+
+    it 'should produce the list of impulse burn time stamps'
+
+    it 'should produce the list of impulse burn radii'
+
+    it 'should produce the list of impulse burn mean anomalies'
+
+    it 'should produce the final delta velocity'
+
+    it 'should produce the delta_t'
+
+    it 'should produce the delta anomaly'
+
+    it 'should produce the mean lead angle'
+
+    it 'should produce the mean lead time'
+
+    it 'should produce the relative anomaly delta'
+
+  end
+
   describe "Earth lower-to-higher orbit" do
 
     before(:all, &BeforeFactory.earth)
@@ -168,7 +232,7 @@ describe KerbalDyn::OrbitalManeuver::Hohmann do
 
   end
 
-  describe 'same orbit' do
+  describe 'Null transition' do
     before(:all, &BeforeFactory.earth)
 
     before(:all) do
