@@ -15,7 +15,12 @@ module KerbalDyn
       return self.new("Test Particle", :mass => 0.0, :bounding_sphere_radius => 0.0)
     end
 
-    # Initialize this body with the given name and options.
+    # Create a body with the given name and options.
+    #
+    # The options are:
+    # [mass] The mass of the body.
+    # [bounding_sphere_radius] The bounding sphere radius.
+    # [angular_velocity] The angular velocity around the axis of rotation.
     def initialize(name, options={})
       @name = name
       process_options(options, DEFAULT_OPTIONS)

@@ -121,6 +121,25 @@ module KerbalDyn
       return self.new(primary_body, :periapsis => periapsis, :periapsis_velocity => periapsis_escape_velocity)
     end
 
+    # Create a new orbit.
+    #
+    # The first argument should be the Body (usually a Planetoid) that is being orbited.
+    #
+    # The second argument is a list of parameters which should include a size
+    # and eccentricity specification, and a may include other optional parameters.
+    #
+    # To specify an orbit, at least one of the following pairs must be given:
+    # * periapsis, periapsis_velocity
+    # * periapsis, apoapsis
+    # * semimajor_axis, eccentricity
+    # * radius (assumes circular orbit)
+    #
+    # The following additional parameters may be given:
+    # * inclination
+    # * longitude_of_ascending_node
+    # * argument_of_periapsis
+    # * mean_anomaly
+    # * epoch
     def initialize(primary_body, options={})
       # Set the primary planetoid
       self.primary_body = primary_body

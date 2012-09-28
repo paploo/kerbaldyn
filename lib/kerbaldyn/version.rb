@@ -1,7 +1,7 @@
 module KerbalDyn
   class Version
     MAJOR = 0
-    MINOR = 5
+    MINOR = 6
     TINY  = 0
 
     def self.to_s

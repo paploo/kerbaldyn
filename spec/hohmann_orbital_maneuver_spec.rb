@@ -42,12 +42,12 @@ describe KerbalDyn::OrbitalManeuver::Hohmann do
 
     it 'should calculate burn one to velocity' do
       @hohmann.transfer_orbit.periapsis_velocity.should be_within_two_sigma_of(@vp)
-      @hohmann.transfer_velocities[0].should be_within_two_sigma_of(@vp)
+      @hohmann.delta_velocities[0].should be_within_two_sigma_of(@vp)
     end
 
     it 'should calculate burn two to velocity' do
       @hohmann.transfer_orbit.apoapsis_velocity.should be_within_two_sigma_of(@va)
-      @hohmann.transfer_velocities[1].should be_within_two_sigma_of(@va)
+      @hohmann.delta_velocities[1].should be_within_two_sigma_of(@va)
     end
 
     it 'should calculate burn one delta velocity' do
@@ -64,12 +64,12 @@ describe KerbalDyn::OrbitalManeuver::Hohmann do
 
     it 'should calculate the lead angle for intercept' do
       # Value calculated several times, several different ways to cross-check
-      @hohmann.lead_angle.should be_within_two_sigma_of(1.756)
+      @hohmann.mean_lead_angle.should be_within_two_sigma_of(1.756)
     end
 
     it 'should calculate the lead time for intercept' do
       # Value calculated
-      @hohmann.lead_time.should be_within_two_sigma_of(4175.58)
+      @hohmann.mean_lead_time.should be_within_two_sigma_of(4175.58)
     end
 
     it 'should calculate the realtive anomaly change per complete orbit' do
@@ -123,12 +123,12 @@ describe KerbalDyn::OrbitalManeuver::Hohmann do
 
     it 'should calculate burn one to velocity' do
       @hohmann.transfer_orbit.apoapsis_velocity.should be_within_two_sigma_of(@va)
-      @hohmann.transfer_velocities[0].should be_within_two_sigma_of(@va)
+      @hohmann.delta_velocities[0].should be_within_two_sigma_of(@va)
     end
 
     it 'should calculate burn two to velocity' do
       @hohmann.transfer_orbit.periapsis_velocity.should be_within_two_sigma_of(@vp)
-      @hohmann.transfer_velocities[1].should be_within_two_sigma_of(@vp)
+      @hohmann.delta_velocities[1].should be_within_two_sigma_of(@vp)
     end
 
     it 'should calculate burn one delta velocity' do
@@ -146,12 +146,12 @@ describe KerbalDyn::OrbitalManeuver::Hohmann do
     it 'should calculate the lead angle for intercept' do
       # Value calculated several times, several different ways to cross-check
       # This is a large negative number because the lower orbit gets nearly 3.5 periods in during the transfer, which is nearly 22 radians.
-      @hohmann.lead_angle.should be_within_two_sigma_of(-18.83)
+      @hohmann.mean_lead_angle.should be_within_two_sigma_of(-18.83)
     end
 
     it 'should calculate the lead time for intercept' do
       # The lead angle, -18.828, is so insanely close to three times around the circle, that about 20s is actually the lead time!
-      @hohmann.lead_time.should be_within_two_sigma_of(19.73)
+      @hohmann.mean_lead_time.should be_within_two_sigma_of(19.73)
     end
 
     it 'should calculate the realtive anomaly change per complete orbit' do
@@ -180,7 +180,7 @@ describe KerbalDyn::OrbitalManeuver::Hohmann do
     end
 
     it 'should have zero lead angle' do
-      @hohmann.lead_angle.should be_within(1e-6).of(0.0)
+      @hohmann.mean_lead_angle.should be_within(1e-6).of(0.0)
     end
 
   end
