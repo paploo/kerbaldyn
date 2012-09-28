@@ -33,21 +33,22 @@ describe KerbalDyn::OrbitalManeuver::Hohmann do
 
     it 'should calculate burn one from velocity' do
       @hohmann.initial_orbit.apoapsis_velocity.should be_within_two_sigma_of(@v1)
+      @hohmann.velocities[0][0].should be_within_two_sigma_of(@v1)
     end
-
-    it 'should calculate burn two from velocity' do
-      @hohmann.final_orbit.apoapsis_velocity.should be_within_two_sigma_of(@v2)
-    end
-
 
     it 'should calculate burn one to velocity' do
       @hohmann.transfer_orbit.periapsis_velocity.should be_within_two_sigma_of(@vp)
-      @hohmann.delta_velocities[0].should be_within_two_sigma_of(@vp)
+      @hohmann.velocities[0][1].should be_within_two_sigma_of(@vp)
+    end
+
+    it 'should calculate burn two from velocity' do
+      @hohmann.transfer_orbit.apoapsis_velocity.should be_within_two_sigma_of(@va)
+      @hohmann.velocities[1][0].should be_within_two_sigma_of(@va)
     end
 
     it 'should calculate burn two to velocity' do
-      @hohmann.transfer_orbit.apoapsis_velocity.should be_within_two_sigma_of(@va)
-      @hohmann.delta_velocities[1].should be_within_two_sigma_of(@va)
+      @hohmann.final_orbit.apoapsis_velocity.should be_within_two_sigma_of(@v2)
+      @hohmann.velocities[1][1].should be_within_two_sigma_of(@v2)
     end
 
     it 'should calculate burn one delta velocity' do
@@ -114,21 +115,22 @@ describe KerbalDyn::OrbitalManeuver::Hohmann do
 
     it 'should calculate burn one from velocity' do
       @hohmann.initial_orbit.apoapsis_velocity.should be_within_two_sigma_of(@v1)
+      @hohmann.velocities[0][0].should be_within_two_sigma_of(@v1)
     end
-
-    it 'should calculate burn two from velocity' do
-      @hohmann.final_orbit.apoapsis_velocity.should be_within_two_sigma_of(@v2)
-    end
-
 
     it 'should calculate burn one to velocity' do
       @hohmann.transfer_orbit.apoapsis_velocity.should be_within_two_sigma_of(@va)
-      @hohmann.delta_velocities[0].should be_within_two_sigma_of(@va)
+      @hohmann.velocities[0][1].should be_within_two_sigma_of(@va)
+    end
+
+    it 'should calculate burn two from velocity' do
+      @hohmann.transfer_orbit.periapsis_velocity.should be_within_two_sigma_of(@vp)
+      @hohmann.velocities[1][0].should be_within_two_sigma_of(@vp)
     end
 
     it 'should calculate burn two to velocity' do
-      @hohmann.transfer_orbit.periapsis_velocity.should be_within_two_sigma_of(@vp)
-      @hohmann.delta_velocities[1].should be_within_two_sigma_of(@vp)
+      @hohmann.final_orbit.apoapsis_velocity.should be_within_two_sigma_of(@v2)
+      @hohmann.velocities[1][1].should be_within_two_sigma_of(@v2)
     end
 
     it 'should calculate burn one delta velocity' do
