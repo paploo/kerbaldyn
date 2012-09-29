@@ -54,14 +54,14 @@ module KerbalDyn
         return self.burn_events.map {|be| be.delta_velocity}
       end
 
-      # Returns an array of the times of each maneuver.
+      # Returns an array of the effective impulse times of each maneuver.
       def times
         return self.burn_events.map {|be| be.time}
       end
 
       # Returns an array of the orbital radii for the burn events.
       def orbital_radii
-        return self.burn_events.map {|be| be.orbital_radii}
+        return self.burn_events.map {|be| be.orbital_radius}
       end
 
       # Returns an array of the mean anomaly at each maneuver.

@@ -2,35 +2,119 @@ require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe KerbalDyn::OrbitalManeuver::Hohmann do
 
-  describe "Standard Hohmann" do
+  # I'm purposefully violating a purist OrbitalManeuver::Base Unit Test for the sake of time,
+  # since the necessary tests involve implementing the same two methods that that Hohmann does.
+  describe "Standard Hohmann, including testing OrbitalManeuver::Base methods with a real transfer." do
 
-    it 'should produce the transfer orbit'
+    before(:all) do
+      # Set all the testable data with hard-set values.
+      @initial = {:mean_velocity => 16.0, :semimajor_axis => 16.0}
+      @final = {:mean_velocity => 8.0, :semimajor_axis => 64.0}
+      @transfer = {:periapsis => 16.0, :periapsis_velocity => 20.2385770251, :apoapsis => 64.0, :apoapsis_velocity => 5.05964425627}
+      @time = 12.41823533225
+      @delta_vs = [4.23857702508, 2.94035574373]
+      @delta_v = 7.178932768808223
 
-    it 'should produce the list of orbits'
+      # Build the test transfer object up from basic pieces.
+      # TODO: Stub these classes to make a truly independent class.
+      @planetoid = KerbalDyn::Planetoid.new('Gallifrey', :gravitational_parameter => 2.0**12, :radius => 2.0)
+      @initial_orbit = KerbalDyn::Orbit.new(@planetoid, :radius => @initial[:semimajor_axis])
+      @final_orbit = KerbalDyn::Orbit.new(@planetoid, :radius => @final[:semimajor_axis])
+      @hohmann = KerbalDyn::OrbitalManeuver::Hohmann.new(@initial_orbit, @final_orbit)
+    end
 
-    it 'should produce the list of burn events'
+    it 'should produce the transfer orbit' do
+      transfer_orbit = @hohmann.transfer_orbit
+      @transfer.each {|k,v| transfer_orbit.send(k).should be_within_six_sigma_of(v)}
+    end
 
-    it 'should know if it is moving ot a higher orbit'
+    it 'should produce the list of orbits' do
+      orbits = @hohmann.orbits
 
-    it 'should produce the list of before/after velocities'
+      orbits.length.should == 3
+      orbits[0].should == @hohmann.initial_orbit
+      orbits[1].should == @hohmann.transfer_orbit
+      orbits[2].should == @hohmann.final_orbit
+    end
 
-    it 'should produce the list of impulse burn time stamps'
+    it 'should produce the list of burn events' do
+      burn_events = @hohmann.burn_events
 
-    it 'should produce the list of impulse burn radii'
+      burn_events.length.should == 2
 
-    it 'should produce the list of impulse burn mean anomalies'
+      burn_events.first.tap do |be|
+        be.initial_velocity.should be_within_six_sigma_of( @initial[:mean_velocity] )
+        be.final_velocity.should be_within_six_sigma_of( @transfer[:periapsis_velocity] )
+        be.orbital_radius.should be_within_six_sigma_of( @initial[:semimajor_axis] )
+        be.time.should be_within(1e-9).of(0.0)
+        be.mean_anomaly.should be_within(1e-9).of(0.0)
+      end
 
-    it 'should produce the final delta velocity'
+      burn_events.last.tap do |be|
+        be.initial_velocity.should be_within_six_sigma_of( @transfer[:apoapsis_velocity] )
+        be.final_velocity.should be_within_six_sigma_of( @final[:mean_velocity] )
+        be.orbital_radius.should be_within_six_sigma_of( @final[:semimajor_axis] )
+        be.time.should be_within_six_sigma_of(@time)
+        be.mean_anomaly.should be_within_six_sigma_of(Math::PI)
+      end
+    end
 
-    it 'should produce the delta_t'
+    it 'should know if it is moving ot a higher orbit' do
+      @hohmann.moving_to_higher_orbit?.should be_true
+    end
 
-    it 'should produce the delta anomaly'
+    it 'should produce the list of before/after velocities' do
+      velocities = @hohmann.velocities
+      expected_velocities = [ [@initial[:mean_velocity], @transfer[:periapsis_velocity]], [@transfer[:apoapsis_velocity], @final[:mean_velocity]] ]
 
-    it 'should produce the mean lead angle'
+      [0,1].each do |i|
+        [0,1].each do |j|
+          velocities[i][j].should be_within_six_sigma_of(expected_velocities[i][j])
+        end
+      end
+    end
 
-    it 'should produce the mean lead time'
+    it 'should produce the list of impulse burn time stamps' do
+      @hohmann.times.first.should be_within(1e-9).of(0.0)
+      @hohmann.times.last.should be_within_six_sigma_of(@time)
+    end
 
-    it 'should produce the relative anomaly delta'
+    it 'should produce the list of impulse burn radii' do
+      @hohmann.orbital_radii.zip([@initial[:semimajor_axis], @final[:semimajor_axis]]).each do |actual, expected|
+        actual.should be_within_six_sigma_of(expected)
+      end
+    end
+
+    it 'should produce the list of impulse burn mean anomalies' do
+      @hohmann.mean_anomalies.first.should be_within(1e-9).of(0.0)
+      @hohmann.mean_anomalies.last.should be_within_six_sigma_of(Math::PI)
+    end
+
+    it 'should produce the final delta velocity' do
+      @hohmann.delta_velocity.should >= 0.0
+      @hohmann.delta_velocity.should be_within_six_sigma_of(@delta_v)
+      @hohmann.delta_v.should == @hohmann.delta_velocity
+    end
+
+    it 'should produce the delta_t' do
+      @hohmann.delta_t.should be_within_six_sigma_of(@time)
+    end
+
+    it 'should produce the delta anomaly' do
+      @hohmann.delta_mean_anomaly.should be_within_six_sigma_of(Math::PI)
+    end
+
+    it 'should produce the mean lead angle' do
+      @hohmann.mean_lead_angle.should be_within_six_sigma_of(1.5893132370591518)
+    end
+
+    it 'should produce the mean lead time' do
+      @hohmann.mean_lead_time.should be_within_six_sigma_of(5.364425222994782)
+    end
+
+    it 'should produce the relative anomaly delta' do
+      @hohmann.relative_anomaly_delta.should be_within_six_sigma_of(-5.497787143782138)
+    end
 
   end
 
@@ -43,26 +127,6 @@ describe KerbalDyn::OrbitalManeuver::Hohmann do
     it 'should produce the list of burn events'
 
     it 'should know if it is moving ot a higher orbit'
-
-    it 'should produce the list of before/after velocities'
-
-    it 'should produce the list of impulse burn time stamps'
-
-    it 'should produce the list of impulse burn radii'
-
-    it 'should produce the list of impulse burn mean anomalies'
-
-    it 'should produce the final delta velocity'
-
-    it 'should produce the delta_t'
-
-    it 'should produce the delta anomaly'
-
-    it 'should produce the mean lead angle'
-
-    it 'should produce the mean lead time'
-
-    it 'should produce the relative anomaly delta'
 
   end
 
