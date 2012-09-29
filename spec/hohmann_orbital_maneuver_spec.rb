@@ -74,6 +74,12 @@ describe KerbalDyn::OrbitalManeuver::Hohmann do
       end
     end
 
+    it 'should produce the list of delta velocities' do
+      @hohmann.delta_velocities.zip(@delta_vs).each do |actual, expected|
+        actual.should be_within_six_sigma_of(expected)
+      end
+    end
+
     it 'should produce the list of impulse burn time stamps' do
       @hohmann.times.first.should be_within(1e-9).of(0.0)
       @hohmann.times.last.should be_within_six_sigma_of(@time)
@@ -120,13 +126,74 @@ describe KerbalDyn::OrbitalManeuver::Hohmann do
 
   describe "Descending Hohmann" do
 
-    it 'should produce the transfer orbit'
+    before(:all) do
+      # Set all the testable data with hard-set values.
+      @initial = {:mean_velocity => 8.0, :semimajor_axis => 64.0}
+      @final = {:mean_velocity => 16.0, :semimajor_axis => 16.0}
+      @transfer = {:periapsis => 16.0, :periapsis_velocity => 20.2385770251, :apoapsis => 64.0, :apoapsis_velocity => 5.05964425627}
+      @time = 12.41823533225
+      @delta_vs = [-2.94035574373, -4.23857702508]
+      @delta_v = 7.178932768808223
 
-    it 'should produce the list of orbits'
+      # Build the test transfer object up from basic pieces.
+      # TODO: Stub these classes to make a truly independent class.
+      @planetoid = KerbalDyn::Planetoid.new('Gallifrey', :gravitational_parameter => 2.0**12, :radius => 2.0)
+      @initial_orbit = KerbalDyn::Orbit.new(@planetoid, :radius => @initial[:semimajor_axis])
+      @final_orbit = KerbalDyn::Orbit.new(@planetoid, :radius => @final[:semimajor_axis])
+      @hohmann = KerbalDyn::OrbitalManeuver::Hohmann.new(@initial_orbit, @final_orbit)
+    end
 
-    it 'should produce the list of burn events'
+    it 'should produce the transfer orbit' do
+      transfer_orbit = @hohmann.transfer_orbit
+      @transfer.each {|k,v| transfer_orbit.send(k).should be_within_six_sigma_of(v)}
+    end
 
-    it 'should know if it is moving ot a higher orbit'
+    it 'should produce the list of orbits' do
+      orbits = @hohmann.orbits
+
+      orbits.length.should == 3
+      orbits[0].should == @hohmann.initial_orbit
+      orbits[1].should == @hohmann.transfer_orbit
+      orbits[2].should == @hohmann.final_orbit
+    end
+
+    it 'should produce the list of burn events' do
+      burn_events = @hohmann.burn_events
+
+      burn_events.length.should == 2
+
+      burn_events.first.tap do |be|
+        be.initial_velocity.should be_within_six_sigma_of( @initial[:mean_velocity] )
+        be.final_velocity.should be_within_six_sigma_of( @transfer[:apoapsis_velocity] )
+        be.orbital_radius.should be_within_six_sigma_of( @initial[:semimajor_axis] )
+        be.time.should be_within(1e-9).of(0.0)
+        be.mean_anomaly.should be_within(1e-9).of(0.0)
+      end
+
+      burn_events.last.tap do |be|
+        be.initial_velocity.should be_within_six_sigma_of( @transfer[:periapsis_velocity] )
+        be.final_velocity.should be_within_six_sigma_of( @final[:mean_velocity] )
+        be.orbital_radius.should be_within_six_sigma_of( @final[:semimajor_axis] )
+        be.time.should be_within_six_sigma_of(@time)
+        be.mean_anomaly.should be_within_six_sigma_of(Math::PI)
+      end
+    end
+
+    it 'should know if it is moving ot a higher orbit' do
+      @hohmann.moving_to_higher_orbit?.should be_false
+    end
+
+    it 'should produce the list of delta velocities' do
+      @hohmann.delta_velocities.zip(@delta_vs).each do |actual, expected|
+        actual.should be_within_six_sigma_of(expected)
+      end
+    end
+
+    it 'should produce the final delta velocity' do
+      @hohmann.delta_velocity.should >= 0.0
+      @hohmann.delta_velocity.should be_within_six_sigma_of(@delta_v)
+      @hohmann.delta_v.should == @hohmann.delta_velocity
+    end
 
   end
 
