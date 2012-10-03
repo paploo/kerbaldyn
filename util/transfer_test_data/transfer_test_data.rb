@@ -1,3 +1,8 @@
+#
+# A hack of a script to get some test data for hohmann and bielliptic transfers.
+# This can be turned around
+#
+
 require 'kerbaldyn'
 
 require 'debugger'
@@ -44,7 +49,13 @@ PI2 = 2.0 * Math::PI
 
 PLANET = KerbalDyn::Planetoid.new('Base', :gravitational_parameter => 2.0**12, :radius => 2.0)
 
+puts "PLANET"
+puts ""
 
+puts {:gravitational_parameter => PLANET.gravitational_parameter, :radius => PLANET.radius}.inspect
+
+
+puts ""
 puts "TABLES"
 puts ""
 

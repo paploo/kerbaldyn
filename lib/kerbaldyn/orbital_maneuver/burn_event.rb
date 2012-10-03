@@ -16,7 +16,7 @@ module KerbalDyn
       #
       # The following parameters are optional.
       # [epoch] Used to offset the time.
-      def initialize(options)
+      def initialize(options={})
         process_options(options, :epoch => 0.0)
       end
 

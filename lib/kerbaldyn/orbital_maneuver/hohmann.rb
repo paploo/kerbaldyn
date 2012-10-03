@@ -24,6 +24,7 @@ module KerbalDyn
       def transfer_orbit
         r1 = initial_orbit.periapsis
         r2 = final_orbit.apoapsis
+        # TODO: It should be the Orbit's job to min/max periapsis and apoapsis, and then set angles appropriately.
         return @transfer_orbit ||= Orbit.new(self.initial_orbit.primary_body, :periapsis => [r1,r2].min, :apoapsis => [r1,r2].max)
       end
 

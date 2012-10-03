@@ -12,57 +12,48 @@ module KerbalDyn
       # transfer orbit to the final orbit.  The thrid burn circularizes
       # to the final orbit.
       def initialize(initial_orbit, final_orbit, options={})
-        @transfer_radius = options.fetch(:transfer_radius, final_orbit.semimajor_axis)
+        options = {:transfer_radius => final_orbit.semimajor_axis}.merge(options)
         super(initial_orbit.circularize, final_orbit.circularize, options)
       end
 
-      attr_reader :transfer_radius
+      attr_accessor :transfer_radius
+      private :transfer_radius=
 
-      def transfer_orbits
-        r1 = initial_orbit.semimajor_axis
-        r2 = final_orbit.semimajor_axis
+      def initial_transfer_orbit
+        r1 = self.initial_orbit.periapsis
         rt = self.transfer_radius
+        return Orbit.new(self.initial_orbit.primary_body, :periapsis => [r1,rt].min, :apoapsis => [r1,rt].max)
+      end
+
+      def final_transfer_orbit
+        r2 = self.final_orbit.periapsis
+        rt = self.transfer_radius
+        return Orbit.new(self.initial_orbit.primary_body, :periapsis => [r2,rt].min, :apoapsis => [r2,rt].max)
+      end
+
+      def orbits
+        return [self.initial_orbit, self.initial_transfer_orbit, self.final_transfer_orbit.second, self.final_orbit]
+      end
+
+      def burn_events
+        r1 = self.initial_orbit.periapsis
+        r2 = self.final_orbit.periapsis
+        rt = self.transfer_radius
+
+        ito = self.initial_transfer_orbit
+        v11, v12 = (rt >= r1) ? [ito.periapsis_velocity, ito.apoapsis_velocity] : [ito.apoapsis_velocity, ito.periapsis_velocity]
+
+        fto = self.final_transfer_orbit
+        v21, v22 = (rt < r2) ? [fto.periapsis_velocity, fto.apoapsis_velocity] : [fto.apoapsis_velocity, fto.periapsis_velocity]
+
+        t1 = self.initial_transfer_orbit.period / 2.0
+        t2 = self.final_transfer_orbit.period / 2.0
+
         return [
-          Orbit.new(self.initial_orbit.primary_body, :periapsis => [r1,rt].min, :apoapsis => [r1,rt].max),
-          Orbit.new(self.initial_orbit.primary_body, :periapsis => [r2,rt].min, :apoapsis => [r2,rt].max)
+          BurnEvent.new(:initial_velocity => self.initial_orbit.mean_velocity, :final_velocity => v11, :time => 0.0, :orbital_radius => self.initial_orbit.semimajor_axis, :mean_anomaly => 0.0),
+          BurnEvent.new(:initial_velocity => v12, :final_velocity => v21, :time => t1, :orbital_radius => self.transfer_radius, :mean_anomaly => Math::PI),
+          BurnEvent.new(:initial_velocity => v22, :final_velocity => self.final_orbit.mean_velocity, :time => t1+t2, :mean_anomaly => 2.0 * Math::PI)
         ]
-      end
-
-      # An array of the transfer burn delta-v values.
-      #
-      # The first burn is for leaving your initial circular orbit, and the
-      # second is for entering the new circular orbit.
-      #
-      # Note that positive values are prograde burns, and negative values
-      # are retrograde burns.
-      def delta_velocities
-        return [
-          self.transfer_velocities[0] - self.initial_orbit.mean_velocity,
-          self.transfer_velocities[1] - self.transfer_velocities[0],
-          self.final_orbit.mean_velocity - self.transfer_velocities[1]
-        ]
-      end
-
-      # These are the target velocities you should have at the completion of
-      # each burn.
-      def transfer_velocities
-        return [
-          self.first_transfer_moving_to_higher_orbit? ? self.transfer_orbit.first.periapsis_velocity : self.transfer_orbit.first.apoapsis_velocity,
-          self.second_transfer_moving_to_higher_orbit? ? self.transfer_orbit.last.periapsis_velocity : self.transfer_orbit.last.apoapsis_velocity,
-          self.second_transfer_moving_to_higher_orbit? ? self.transfer_orbit.last.apoapsis_velocity : self.transfer_orbit.last.periapsis_velocity
-        ]
-      end
-
-      def moving_to_higher_orbit?
-        return final_orbit.semimajor_axis > initial_orbit.semimajor_axis
-      end
-
-      def first_transfer_moving_to_higher_orbit?
-        return self.transfer_radius > initial_orbit.semimajor_axis
-      end
-
-      def second_transfer_moving_to_higher_orbit?
-        return self.transfer_radius < final_orbit.semimajor_axis
       end
 
     end
