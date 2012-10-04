@@ -61,7 +61,9 @@ describe KerbalDyn::Part do
         part_json.should == attributes_json
       end
 
-      it 'should export as CSV' # This will need a predefined set of properties to output.
+      it 'should export as CSV' do
+        pending "This will need a predefined set of properties to output."
+      end
 
     end
 
@@ -85,7 +87,11 @@ describe KerbalDyn::Part do
         @part.class.name.should =~ Regexp.new( 'KerbalDyn::Part::' + @part[:module] + "$")
       end
 
-      it 'should default to instantiating as generic'
+      it 'should default to instantiating as generic' do
+        part_dir = File.join(@parts_directory, 'parachuteLarge')
+        part = KerbalDyn::Part::Base.load_part(part_dir)
+        part.class.name.should == 'KerbalDyn::Part::Generic'
+      end
 
       it 'should return nil if no part was found' do
         dir_path = File.join(@parts_directory, 'tardis') # Doesn't exist.
@@ -93,7 +99,13 @@ describe KerbalDyn::Part do
         part.should == nil
       end
 
-      it 'should log parse errors'
+      it 'should log parse errors' do
+        dir_path = File.join(@parts_directory, 'erroredPart')
+        part = KerbalDyn::Part::Base.load_part(dir_path)
+
+        part.errors.should be_kind_of(Array)
+        part.errors.length.should > 0
+      end
 
     end
 

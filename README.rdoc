@@ -8,7 +8,10 @@ A library for Kerbal Space Program (KSP) calculation and simulation tools.
 
 [Planetoid] - Encapsulates parameters relating to suns, planets, and moons, such as Kerbal and Mun.
 [Orbit] - Encapsulates parameters relating to orbits about a body.
-[Maneuver] - Encapsulates parameters for orbit changes.
+[OrbitalManeuver] - Encapsulates parameters for orbit changes.
+
+[Part]
+[Part Library]
 
 = Author
 
@@ -17,12 +20,20 @@ jeff@paploo.net
 
 = TODO
 
+Library:
+* Fill out the README
 * Refactor planetoid and orbit tests to use a JSON data file from a game dump.
-* Add bielliptic transfer and tests.
+* Add Elephant Cache to Orbital Manuever methods so that we do not rebuild and recalculate everything all the time.
+* Finish Part and Part Library.
+
+Binary Utilities:
 * Build a tool for calculating lead angles: kerbaldyn leadangle kerbin@100a mun
 * Build a tool for outputting body information in standard units: kerbaldyn info minmus
 * Build a tool for calculating the delta-v of hohmann vs various bielliptic transfers: kerbaldyn transfer kerbin@900r minmus
 * Build a tool for listing parts of a type with important specs, sorted in useful ways: kerbaldyn partlist --type liquidfuelengine --sort isp
+
+Web:
+* Make the CLI bin tools accessible via a Sinatra based mobile interface so that you can hit a local server from your phone.
 
 Notes:
 * Remember that bielliptic transfer high altitudes are theoretically limited by the SOI.

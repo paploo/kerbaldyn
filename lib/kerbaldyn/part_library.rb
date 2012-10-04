@@ -33,7 +33,7 @@ module KerbalDyn
       return @parts.each(&block)
     end
 
-    # The lenght
+    # The length
     def length
       return @parts.length
     end
@@ -46,6 +46,16 @@ module KerbalDyn
       else
         return @parts.find {|part| part.directory_name == val}
       end
+    end
+
+    # Returns all the parts in the library, in an array.
+    def to_a
+      return @parts.dup
+    end
+
+    # Returns the parts library as JSONified parts.
+    def to_json(*args)
+      return @parts.to_json(*args)
     end
 
   end

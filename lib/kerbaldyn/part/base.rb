@@ -21,6 +21,7 @@ module KerbalDyn
 
         # Initialize the attributes container.
         attributes = {}
+        errors = []
         line_count = 0
 
         # Parse the lines.
@@ -38,12 +39,12 @@ module KerbalDyn
             key,value = line.split('=', 2).map {|s| s.strip}
             attributes[key] = value
           else
-            STDERR.puts "Unhandled line in #{spec_file.to_s}:#{line_count}: #{line.inspect}"
+            errors << {:type => :unknown_line, :message => "Unhandled line in #{spec_file.to_s}:#{line_count}: #{line.inspect}"}
           end
         end
 
         # Now instantiate the right kind of part.
-        return self.module_class(attributes['module']).new(attributes)
+        return self.module_class(attributes['module']).new(attributes).tap {|p| p.send(:errors=, errors)}
       end
 
       # Return the class to instantiate for a given +module+ attribute.
@@ -69,6 +70,16 @@ module KerbalDyn
       # being said, this is provided for special/power use cases.
       attr_reader :attributes
 
+      # Return any errors with this part (usually found during parsing),
+      # or an empty array if there were none.
+      def errors
+        return @errors || []
+      end
+
+      # Private method used to set the errors.
+      attr_writer :errors
+      private :errors=
+
       # Return the raw attribute value by string or symbol.
       #
       # It is generally preferrable to use the accessor method.
@@ -85,8 +96,8 @@ module KerbalDyn
       end
 
       # Returns a JSON encoded form of the to_hash result.
-      def to_json
-        return self.to_hash.to_json
+      def to_json(*args)
+        return self.to_hash.to_json(*args)
       end
 
       def name
