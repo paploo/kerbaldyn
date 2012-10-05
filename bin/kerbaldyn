@@ -1,0 +1,53 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+
+require File.expand_path( File.join( File.dirname(__FILE__), '..', 'lib', 'kerbaldyn' ) )
+
+module KerbalDyn
+  class Application
+
+    def initialize(argv)
+      @command, *@args = argv
+      @ioout = STDOUT
+      @ioerr = STDERR
+    end
+
+    attr_reader :command
+    attr_reader :args
+    attr_reader :error
+
+    attr_reader :ioout
+    attr_reader :ioerr
+
+    def run
+      begin
+        dispatch
+      rescue Exception => e
+        @error = e
+        ioerr.puts "ERROR: #{e.message}"
+      end
+    end
+
+    def dispatch
+      #TODO: Figure out the patterns in argument processing and how to extract that.
+      case command
+      when 'info'
+        planet = args.first.downcase
+        raise ArgumentError, "Unknown planet #{planet}." unless KerbalDyn::Planetoid.planetoid_methods.include?(planet.to_sym)
+        planetoid = KerbalDyn::Planetoid.send(planet)
+        orbit = KerbalDyn::Orbit.send(planet)
+        ioout.puts "PLANETOID"
+        ioout.puts [:name, :gravitational_parameter, :radius, :rotational_period].map {|method| "#{method.to_s.rjust(32)}: #{planetoid.send(method).inspect.rjust(20)}"}.join("\n")
+        ioout.puts "ORBIT"
+        ioout.puts [:apoapsis, :periapsis, :period, :mean_velocity, :kerbal_sphere_of_influence].map {|method| "#{method.to_s.rjust(32)}: #{orbit.send(method).inspect.rjust(20)}"}.join("\n")
+      when 'leadangle'
+      when 'transfer'
+      when 'partlist'
+      end
+    end
+
+  end
+end
+
+KerbalDyn::Application.new(ARGV).run

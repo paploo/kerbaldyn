@@ -19,6 +19,11 @@ module KerbalDyn
       private :make
     end
 
+    # Returns an array of the planetoid methods
+    def self.planetoid_methods
+      return @planet_methods ||= [:kerbol, :moho, :eve, :gilly, :kerbin, :mun, :minmus, :duna, :ike, :jool, :laythe, :vall, :tylo, :bop]
+    end
+
     # :category: Library Methods
     # The Kerbal Sun.
     def self.kerbol
