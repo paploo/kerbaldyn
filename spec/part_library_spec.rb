@@ -21,12 +21,6 @@ describe KerbalDyn::PartLibrary do
     @library.length.should == @parts.length
   end
 
-  it 'should map to a library'
-
-  it 'should select/reject to a library'
-
-  it 'should inject/reduce to a library'
-
   it 'should export as JSON' do
     json = @library.to_json
 
@@ -39,9 +33,20 @@ describe KerbalDyn::PartLibrary do
     pending "Need to stub CSV output on test parts first."
   end
 
-  describe 'parser' do
+  describe 'parts directory parser' do
 
-    it 'should parse a directory of parts into a library'
+    before(:each) do
+      @parts_directory = File.join(File.dirname(__FILE__), 'support', 'parts')
+      @library = KerbalDyn::PartLibrary.load_parts(@parts_directory)
+    end
+
+    it 'should be composed of parts' do
+      @library.reject {|part| part.kind_of?(KerbalDyn::Part::Base)}.should == []
+    end
+
+    it 'should have a length of 7' do
+      @library.length.should == 7
+    end
 
   end
 

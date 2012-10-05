@@ -50,7 +50,7 @@ module KerbalDyn
 
     # Returns all the parts in the library, in an array.
     def to_a
-      return @parts.dup
+      return @parts.to_a.dup
     end
 
     # Returns the parts library as JSONified parts.
