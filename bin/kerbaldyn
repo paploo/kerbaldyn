@@ -26,6 +26,7 @@ module KerbalDyn
       rescue Exception => e
         @error = e
         ioerr.puts "ERROR: #{e.message}"
+        ioerr.puts e.backtrace.join("\n")
       end
     end
 
@@ -40,9 +41,38 @@ module KerbalDyn
         ioout.puts "PLANETOID"
         ioout.puts [:name, :gravitational_parameter, :radius, :rotational_period].map {|method| "#{method.to_s.rjust(32)}: #{planetoid.send(method).inspect.rjust(20)}"}.join("\n")
         ioout.puts "ORBIT"
-        ioout.puts [:apoapsis, :periapsis, :period, :mean_velocity, :kerbal_sphere_of_influence].map {|method| "#{method.to_s.rjust(32)}: #{orbit.send(method).inspect.rjust(20)}"}.join("\n")
+        ioout.puts [:apoapsis, :periapsis, :period, :mean_velocity, :sphere_of_influence].map {|method| "#{method.to_s.rjust(32)}: #{orbit.send(method).inspect.rjust(20)}"}.join("\n")
       when 'leadangle'
+        initial_orbit = KerbalDyn::Orbit.from_string( args[0] )
+        final_orbit = KerbalDyn::Orbit.from_string( args[1] )
+        maneuver = KerbalDyn::OrbitalManeuver::Hohmann.new(initial_orbit, final_orbit)
+        ioout.puts "LEAD ANGLE: #{maneuver.mean_lead_angle * 180.0 / Math::PI} deg"
+        ioout.puts "DELTA V   : #{maneuver.delta_v.round} m/s"
+        ioout.puts "DELTA T   : #{maneuver.delta_t.round} sec"
       when 'transfer'
+        initial_orbit = KerbalDyn::Orbit.from_string( args[0] )
+        final_orbit=  KerbalDyn::Orbit.from_string( args[1] )
+        hohmann = KerbalDyn::OrbitalManeuver::Hohmann.new(initial_orbit, final_orbit)
+        ioout.puts( [:delta_v, :delta_t].map {|parameter| hohmann.send(parameter).round}.inspect )
+
+        min_radius = [initial_orbit.semimajor_axis, final_orbit.semimajor_axis].max
+        max_radius = initial_orbit.primary_body_sphere_of_influence
+        n = 1000
+        biellipticals = (0..n).map do |i|
+          #radius = (i/n.to_f)*(max_radius - min_radius) + min_radius
+          radius = (i/n.to_f)*(19*min_radius) + min_radius
+          bielliptic = KerbalDyn::OrbitalManeuver::Bielliptic.new(initial_orbit, final_orbit, :transfer_radius => radius)
+          #ioout.puts( ([i, radius/min_radius] + [:transfer_radius, :delta_v, :delta_t].map {|parameter| bielliptic.send(parameter).round}).inspect )
+          bielliptic
+        end
+
+        surface_radius = initial_orbit.primary_body.radius
+        min_delta_v = biellipticals.map {|bielliptic| bielliptic.delta_v}.min
+        biellipticals.select do |bielliptic|
+          (bielliptic.delta_v - min_delta_v).abs < 1.0
+        end.each do |bielliptic|
+          ioout.puts( [:transfer_radius, :delta_v, :delta_t].map {|parameter| bielliptic.send(parameter).round}.inspect )
+        end
       when 'partlist'
       end
     end
