@@ -333,7 +333,7 @@ describe KerbalDyn::Orbit do
 
 
         data.each do |property, expected_value|
-          next if [:primary_body, :secondary_body, :name].include?(property)
+          next if [:primary_body, :secondary_body, :name, :kerbal_sphere_of_influence].include?(property)
           it "should have #{property} of #{expected_value}" do
             value = @orbit.send(property)
             case expected_value

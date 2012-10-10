@@ -121,6 +121,32 @@ module KerbalDyn
       return self.new(primary_body, :periapsis => periapsis, :periapsis_velocity => periapsis_escape_velocity)
     end
 
+    # Given a string, create an orbit for it.  The string specification is one of:
+    # [{planetoid}] The orbit for the planetoid around its parent body.
+    # [{planetoid}@{number}{designator}] Builds an orbit around the given planetoid with the given radius
+    #                                    or altitude in meters.  The designator is one of r or a for radius
+    #                                    or altitude.  Defaults to radius.
+    def self.from_string(string)
+      orbit_with_altitude_regex = /^([a-z]+)@([\d]+)([ra]{0,1})$/
+
+      expression = string.to_s.downcase
+      case expression
+      when /^([a-z]+)$/
+        planetoid_method = expression.to_sym
+        raise ArgumentError, "Unknown planetoid: #{string}" unless Planetoid.planetoid_methods.include?(planetoid_method)
+        self.send(planetoid_method)
+      when orbit_with_altitude_regex
+        matched, planetoid_name, distance, distance_designator = orbit_with_altitude_regex.match(expression).to_a
+        planetoid_method = planetoid_name.to_sym
+        raise ArgumentError, "Unknown planetoid: #{planetoid}" unless Planetoid.planetoid_methods.include?(planetoid_method)
+        planetoid = Planetoid.send(planetoid_method)
+        radius = (distance_designator=='a') ? (distance.to_f + planetoid.radius) : distance.to_f
+        self.new(planetoid, :radius => radius)
+      else
+        raise ArgumentError, "Unknown orbit expression: #{string}"
+      end
+    end
+
     # Create a new orbit.
     #
     # The first argument should be the Body (usually a Planetoid) that is being orbited.
@@ -172,26 +198,29 @@ module KerbalDyn
     # Returns the sphere of influence (SOI) for the secondary body in the context
     # of the two-body system.
     #
-    # This is NOT the KSP SOI, for it, use +kerbal_sphere_of_influence+
+    # In 0.17, for Mun, this matches to better than 0.015% error, while the others are *way* off.
     def secondary_body_sphere_of_influence
       return self.semimajor_axis * (self.secondary_body.mass / self.primary_body.mass)**(0.4)
     end
-    alias_method :sphere_of_influence, :secondary_body_sphere_of_influence
+    alias_method :laplace_sphere_of_influence, :secondary_body_sphere_of_influence
 
-    # The Hill Sphere radius.
+    # The Hill Sphere radius.  This comes from the approximation of L1/L2.
     #
     # This is NOT the KSP SOI, for it, use +kerbal_sphere_of_influence+
     def hill_sphere_radius
       return self.periapsis * (self.secondary_body.mass / (3.0*self.primary_body.mass))**(2.0/3.0)
     end
 
-
-    # KSP uses this alternate hill sphere radius I found on Wikipedia.
-    def kerbal_sphere_of_influence
+    # This is yet another sphere of influence definition I came across, from the bottom of
+    # Wikipedia.  This matched some numbers I got from a data dump, but don't match
+    # empirical data from the conic patching in game.
+    def equivalent_gravity_sphere_of_influence
       return self.periapsis * (self.secondary_body.mass / self.primary_body.mass)**(1.0/3.0)
     end
-    alias_method :kerbal_soi, :kerbal_sphere_of_influence
 
+    # Alias to the sphere of influence used in game.
+    alias_method :sphere_of_influence, :secondary_body_sphere_of_influence
+    alias_method :soi, :sphere_of_influence
 
     # Orbit classification, returns one of :subelliptical, :circular, :elliptical,
     # :parabolic, or :hyperbolic.
