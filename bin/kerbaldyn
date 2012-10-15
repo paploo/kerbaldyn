@@ -39,7 +39,7 @@ module KerbalDyn
         planetoid = KerbalDyn::Planetoid.send(planet)
         orbit = KerbalDyn::Orbit.send(planet)
         ioout.puts "PLANETOID"
-        ioout.puts [:name, :gravitational_parameter, :radius, :rotational_period].map {|method| "#{method.to_s.rjust(32)}: #{planetoid.send(method).inspect.rjust(20)}"}.join("\n")
+        ioout.puts [:name, :gravitational_parameter, :radius, :rotational_period, :surface_gravity].map {|method| "#{method.to_s.rjust(32)}: #{planetoid.send(method).inspect.rjust(20)}"}.join("\n")
         ioout.puts "ORBIT"
         ioout.puts [:apoapsis, :periapsis, :period, :mean_velocity, :sphere_of_influence].map {|method| "#{method.to_s.rjust(32)}: #{orbit.send(method).inspect.rjust(20)}"}.join("\n")
       when 'leadangle'
@@ -50,6 +50,7 @@ module KerbalDyn
         ioout.puts "DELTA V   : #{maneuver.delta_v.round} m/s"
         ioout.puts "DELTA T   : #{maneuver.delta_t.round} sec"
       when 'transfer'
+        # It seems as though if r_final / r_initial < 13(ish), then hohmann always wins, and when > 15(ish) bielliptic always wins?
         initial_orbit = KerbalDyn::Orbit.from_string( args[0] )
         final_orbit=  KerbalDyn::Orbit.from_string( args[1] )
         hohmann = KerbalDyn::OrbitalManeuver::Hohmann.new(initial_orbit, final_orbit)
