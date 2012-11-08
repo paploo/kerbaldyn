@@ -10,8 +10,36 @@ A library for Kerbal Space Program (KSP) calculation and simulation tools.
 [Orbit] - Encapsulates parameters relating to orbits about a body.
 [OrbitalManeuver] - Encapsulates parameters for orbit changes.
 
-[Part]
-[Part Library]
+[Part] - Parses part information into something meaningful.
+[Part Library] - Allows organization of collections of parts.
+
+= Examples
+
+Calculate the speed and period of an orbit 5000 m above Mun:
+  mun = KerbalDyn::Planetoid.mun
+  orbit = KerbalDyn::Orbit.new(mun, :radius => (mun.radius + 5000))
+  orbit.periapsis_velocity
+  orbit.period
+This should produce a speed of 563.7 m/s and a period of 2285 seconds (38.1 minutes)
+
+To get information about a Hohmann transfer from the above 5000 m orbit to a
+25000 m orbit, you could take the following additional steps:
+  destination_orbit = KerbalDyn::Orbit.new(mun, :radius => (mun.radius + 25000))
+  transfer = KerbalDyn::OrbitalManeuver::Hohmann.new(orbit, destination_orbit)
+  transfer.delta_t
+  transfer.velocities
+  transfer.delta_v
+This instructs us that a prograde burn from the starting speed of 563.7 m/s to
+576.65 m/s will put us on an intercept orbit whose apoapsis is at 25000 m; furthermore,
+1227 seconds later (20.5 minutes) we will reach apoapsis and should do another
+burn from the apoapsis velocity of 525.4 m/s up to 538 m/s to circularize the
+orbit.
+
+In the above calculation, if there was a Command Module in a circular orbit at
+25000 m, and we were in a LEM at 5000 m, we can calculate the phase angle that
+the Command Module should be ahead of us when we do our first burn as:
+  transfer.mean_lead_angle
+which gives 0.2071 radians, or 11.87 degrees.
 
 = Author
 
@@ -21,7 +49,6 @@ jeff@paploo.net
 = TODO
 
 Library:
-* Fill out the README
 * Refactor planetoid and orbit tests to use a JSON data file from a game dump.
 * Add Elephant Cache to Orbital Manuever methods so that we do not rebuild and recalculate everything all the time.
 * Finish Part and Part Library.
@@ -38,6 +65,12 @@ Web:
 Notes:
 * Remember that bielliptic transfer high altitudes are theoretically limited by the SOI.
 * Can specify orbits by planet@400a or planet@400r for 400km alt or 400km radius respectively.
+
+= Version History
+[0.8.0 - 2012-Nov-02] Additions and bugfixes.
+                      * (FEATURE) Part and PartLibrary completed just in time to realise it won't work with 0.18.
+                      * (FIX) The SOI calculation now uses the empirically tested version from in the game.
+[0.7.0 - 2012-Oct-02] Initial Public Release.
 
 = License
 
