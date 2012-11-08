@@ -67,7 +67,8 @@ Notes:
 * Can specify orbits by planet@400a or planet@400r for 400km alt or 400km radius respectively.
 
 = Version History
-[0.8.0 - 2012-Nov-02] Additions and bugfixes.
+[0.8.1 - 2012-Nov-07] Fixed homepage link in gemspec.
+[0.8.0 - 2012-Nov-07] Additions and bugfixes.
                       * (FEATURE) Part and PartLibrary completed just in time to realise it won't work with 0.18.
                       * (FIX) The SOI calculation now uses the empirically tested version from in the game.
 [0.7.0 - 2012-Oct-02] Initial Public Release.

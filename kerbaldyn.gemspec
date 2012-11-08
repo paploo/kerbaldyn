@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
 
   s.authors = ['Jeff Reinecke']
   s.email = 'jeff@paploo.net'
-  s.homepage = 'http://www.github.com/paploo/kerbal-dyn'
+  s.homepage = 'http://www.github.com/paploo/kerbaldyn'
   s.summary = 'A library for Kerbal Space Program (KSP) calculation and simulation tools.'
   s.description = 'A library for Kerbal Space Program (KSP) calculation and simulation tools.'
   s.licenses = ['BSD']
