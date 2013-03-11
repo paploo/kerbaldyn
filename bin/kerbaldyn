@@ -46,16 +46,24 @@ module KerbalDyn
         initial_orbit = KerbalDyn::Orbit.from_string( args[0] )
         final_orbit = KerbalDyn::Orbit.from_string( args[1] )
         maneuver = KerbalDyn::OrbitalManeuver::Hohmann.new(initial_orbit, final_orbit)
-        ioout.puts "LEAD ANGLE: #{maneuver.mean_lead_angle * 180.0 / Math::PI} deg"
-        ioout.puts "DELTA V   : #{maneuver.delta_v.round} m/s"
+        ioout.puts "LEAD ANGLE: #{'%0.4f' % (maneuver.mean_lead_angle * 180.0 / Math::PI)} deg"
+        ioout.puts "DELTA V   : #{'%0.1f' % maneuver.delta_v} m/s"
         ioout.puts "DELTA T   : #{maneuver.delta_t.round} sec"
+        formatted_velocities = maneuver.velocities.map do |init,fin|
+          "#{'%0.1f' % init} --> #{'%0.1f' % fin.round}"
+        end.join(';  ')
+        ioout.puts "VELOCITIES: #{formatted_velocities}"
       when 'transfer'
         # It seems as though if r_final / r_initial < 13(ish), then hohmann always wins, and when > 15(ish) bielliptic always wins?
         initial_orbit = KerbalDyn::Orbit.from_string( args[0] )
         final_orbit=  KerbalDyn::Orbit.from_string( args[1] )
-        hohmann = KerbalDyn::OrbitalManeuver::Hohmann.new(initial_orbit, final_orbit)
-        ioout.puts( [:delta_v, :delta_t].map {|parameter| hohmann.send(parameter).round}.inspect )
 
+        puts "HOHMANN:"
+        hohmann = KerbalDyn::OrbitalManeuver::Hohmann.new(initial_orbit, final_orbit)
+        ioout.puts( [:delta_v, :delta_t].each_with_object({}) {|parameter, map| map[parameter] = hohmann.send(parameter).round}.inspect )
+
+        puts ""
+        puts "BIELLIPTIC:"
         min_radius = [initial_orbit.semimajor_axis, final_orbit.semimajor_axis].max
         max_radius = initial_orbit.primary_body_sphere_of_influence
         n = 1000
@@ -71,10 +79,13 @@ module KerbalDyn
         min_delta_v = biellipticals.map {|bielliptic| bielliptic.delta_v}.min
         biellipticals.select do |bielliptic|
           (bielliptic.delta_v - min_delta_v).abs < 1.0
-        end.each do |bielliptic|
-          ioout.puts( [:transfer_radius, :delta_v, :delta_t].map {|parameter| bielliptic.send(parameter).round}.inspect )
+        end.min_by do |bielliptic|
+          bielliptic.delta_v
+        end.tap do |bielliptic|
+          ioout.puts( [:delta_v, :delta_t, :transfer_radius].each_with_object({}) {|parameter,map| map[parameter] = bielliptic.send(parameter).round}.inspect )
         end
       when 'partlist'
+          ioout.puts( "parlist not yet implemented." )
       end
     end
 
