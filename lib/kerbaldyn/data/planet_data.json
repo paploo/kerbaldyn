@@ -245,5 +245,43 @@
       "argument_of_periapsis": 0.4363323129985824,
       "epoch": 0.0
     }
+  },
+  "pol": {
+    "planetoid": {
+      "name": "Pol",
+      "gravitational_parameter": 721702080.0,
+      "radius": 44000.0,
+      "rotational_period": 901902.62
+    },
+    "orbit": {
+      "primary_body": "jool",
+      "secondary_body": "bop",
+      "semimajor_axis": 179890000.0,
+      "eccentricity": 0.17,
+      "mean_anomaly": 0.0846,
+      "inclination": 0.0742,
+      "longitude_of_ascending_node": null,
+      "argument_of_periapsis": null,
+      "epoch": 0.0
+    }
+  },
+  "eeloo": {
+    "planetoid": {
+      "name": "Eeloo",
+      "gravitational_parameter": 74410815000.0,
+      "radius": 210000.0,
+      "rotational_period": 19460.0
+    },
+    "orbit": {
+      "primary_body": "kerbol",
+      "secondary_body": "jool",
+      "semimajor_axis": 90118820000.0,
+      "eccentricity": 0.26,
+      "mean_anomaly": 0.079,
+      "inclination": 0.107,
+      "longitude_of_ascending_node": null,
+      "argument_of_periapsis": null,
+      "epoch": 0.0
+    }
   }
 }

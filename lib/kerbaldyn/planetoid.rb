@@ -21,7 +21,7 @@ module KerbalDyn
 
     # Returns an array of the planetoid methods
     def self.planetoid_methods
-      return @planet_methods ||= [:kerbol, :moho, :eve, :gilly, :kerbin, :mun, :minmus, :duna, :ike, :jool, :laythe, :vall, :tylo, :bop]
+      return @planet_methods ||= [:kerbol, :moho, :eve, :gilly, :kerbin, :mun, :minmus, :duna, :ike, :jool, :laythe, :vall, :tylo, :bop, :pol, :eeloo]
     end
 
     # :category: Library Methods
@@ -110,6 +110,18 @@ module KerbalDyn
     # The captured asteroid around Jool.
     def self.bop
       return @bop ||= make(__method__)
+    end
+
+    # :category: Library Methods
+    # The captured asteroid around Jool.
+    def self.pol
+      return @pol ||= make(__method__)
+    end
+
+    # :category: Library Methods
+    # An excentrically orbiting small planetoid.
+    def self.eeloo
+      return @eeloo ||= make(__method__)
     end
 
     def initialize(name, options={})

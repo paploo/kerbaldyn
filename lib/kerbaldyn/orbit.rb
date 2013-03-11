@@ -96,6 +96,16 @@ module KerbalDyn
       return @bop ||= make(__method__)
     end
 
+    # :category: Library Methods
+    def self.pol
+      return @pol ||= make(__method__)
+    end
+
+    # :category: Library Methods
+    def self.eeloo
+      return @eeloo ||= make(__method__)
+    end
+
     # Convenience method for creating a circular orbit about the given body.
     # This is redundant to calling new with the option of :radius.
     def self.circular_orbit(primary_body, radius)
